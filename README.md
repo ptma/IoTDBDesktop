@@ -15,6 +15,3 @@ IoTDBDesktop 是 Apache IoTDB 的桌面客户端，基于 Swing 构建。
 - 设备数据管理
 - 查询工具，  SQL 语法高亮和关键字、函数自动完成 
 - 集成官方数据导入导出工具(暂不支持load-tsfile)
-
-## 对应 Apache IoTDB 版本
-
