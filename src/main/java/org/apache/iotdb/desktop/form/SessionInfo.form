@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.apache.iotdb.desktop.form.SessionInfo">
+  <grid id="27dc6" binding="rootPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="639" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="empty">
+      <size top="0" left="0" bottom="0" right="0"/>
+    </border>
+    <children>
+      <tabbedpane id="91fa1" binding="tabbedPanel">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <scrollpane id="e503b">
+            <constraints>
+              <tabbedpane title="Basic"/>
+            </constraints>
+            <properties/>
+            <border type="empty"/>
+            <children>
+              <component id="44a44" class="org.jdesktop.swingx.JXTable" binding="basicInfoTable">
+                <constraints/>
+                <properties/>
+                <clientProperties>
+                  <terminateEditOnFocusLost class="java.lang.Boolean" value="true"/>
+                </clientProperties>
+              </component>
+            </children>
+          </scrollpane>
+          <scrollpane id="45feb">
+            <constraints>
+              <tabbedpane title="Storage Group"/>
+            </constraints>
+            <properties/>
+            <border type="empty"/>
+            <children>
+              <component id="9224f" class="org.apache.iotdb.desktop.component.QueryResultTable" binding="storageGroupTable" custom-create="true">
+                <constraints/>
+                <properties/>
+                <clientProperties>
+                  <terminateEditOnFocusLost class="java.lang.Boolean" value="true"/>
+                </clientProperties>
+              </component>
+            </children>
+          </scrollpane>
+          <scrollpane id="fc860">
+            <constraints>
+              <tabbedpane title="Cluster Parameters"/>
+            </constraints>
+            <properties/>
+            <border type="empty"/>
+            <children>
+              <component id="d46ab" class="org.apache.iotdb.desktop.component.QueryResultTable" binding="variablesTable" custom-create="true">
+                <constraints/>
+                <properties/>
+                <clientProperties>
+                  <terminateEditOnFocusLost class="java.lang.Boolean" value="true"/>
+                </clientProperties>
+              </component>
+            </children>
+          </scrollpane>
+          <scrollpane id="f173a">
+            <constraints>
+              <tabbedpane title="Cluster Nodes"/>
+            </constraints>
+            <properties/>
+            <border type="empty"/>
+            <children>
+              <component id="44fc1" class="org.apache.iotdb.desktop.component.QueryResultTable" binding="clusterNodesTable" custom-create="true">
+                <constraints/>
+                <properties/>
+                <clientProperties>
+                  <terminateEditOnFocusLost class="java.lang.Boolean" value="true"/>
+                </clientProperties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </tabbedpane>
+    </children>
+  </grid>
+</form>

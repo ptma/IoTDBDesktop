@@ -1,0 +1,985 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE api SYSTEM "CompletionXml.dtd">
+<api language="IoTDB">
+
+    <environment paramStartChar="(" paramEndChar=")" paramSeparator=", " terminal=";"/>
+
+    <completionTypes>
+        <functionCompletionType type="org.apache.iotdb.desktop.syntax.CustomFunctionCompletion"/>
+    </completionTypes>
+
+    <keywords>
+
+        <keyword name="root" type="constant"/>
+        <keyword name="time" type="constant"/>
+        <keyword name="timestamp" type="constant"/>
+        <keyword name="add" type="constant"/>
+        <keyword name="after" type="constant"/>
+        <keyword name="alias" type="constant"/>
+        <keyword name="align" type="constant"/>
+        <keyword name="aligned" type="constant"/>
+        <keyword name="all" type="constant"/>
+        <keyword name="alter" type="constant"/>
+        <keyword name="analyze" type="constant"/>
+        <keyword name="and" type="constant"/>
+        <keyword name="any" type="constant"/>
+        <keyword name="append" type="constant"/>
+        <keyword name="apply" type="constant"/>
+        <keyword name="as" type="constant"/>
+        <keyword name="asc" type="constant"/>
+        <keyword name="attributes" type="constant"/>
+        <keyword name="before" type="constant"/>
+        <keyword name="begin" type="constant"/>
+        <keyword name="between" type="constant"/>
+        <keyword name="blocked" type="constant"/>
+        <keyword name="boundary" type="constant"/>
+        <keyword name="by" type="constant"/>
+        <keyword name="cache" type="constant"/>
+        <keyword name="child" type="constant"/>
+        <keyword name="clear" type="constant"/>
+        <keyword name="cluster" type="constant"/>
+        <keyword name="concat" type="constant"/>
+        <keyword name="confignodes" type="constant"/>
+        <keyword name="configuration" type="constant"/>
+        <keyword name="continuous" type="constant"/>
+        <keyword name="count" type="constant"/>
+        <keyword name="contain" type="constant"/>
+        <keyword name="contains" type="constant"/>
+        <keyword name="cq" type="constant"/>
+        <keyword name="cqs" type="constant"/>
+        <keyword name="create" type="constant"/>
+        <keyword name="data" type="constant"/>
+        <keyword name="database" type="constant"/>
+        <keyword name="databases" type="constant"/>
+        <keyword name="datanodes" type="constant"/>
+        <keyword name="deactivate" type="constant"/>
+        <keyword name="debug" type="constant"/>
+        <keyword name="delete" type="constant"/>
+        <keyword name="desc" type="constant"/>
+        <keyword name="describe" type="constant"/>
+        <keyword name="device" type="constant"/>
+        <keyword name="deviceid" type="constant"/>
+        <keyword name="devices" type="constant"/>
+        <keyword name="disable" type="constant"/>
+        <keyword name="discard" type="constant"/>
+        <keyword name="drop" type="constant"/>
+        <keyword name="end" type="constant"/>
+        <keyword name="endtime" type="constant"/>
+        <keyword name="every" type="constant"/>
+        <keyword name="explain" type="constant"/>
+        <keyword name="fill" type="constant"/>
+        <keyword name="file" type="constant"/>
+        <keyword name="flush" type="constant"/>
+        <keyword name="for" type="constant"/>
+        <keyword name="from" type="constant"/>
+        <keyword name="full" type="constant"/>
+        <keyword name="function" type="constant"/>
+        <keyword name="functions" type="constant"/>
+        <keyword name="global" type="constant"/>
+        <keyword name="grant" type="constant"/>
+        <keyword name="group" type="constant"/>
+        <keyword name="having" type="constant"/>
+        <keyword name="head" type="constant"/>
+        <keyword name="in" type="constant"/>
+        <keyword name="index" type="constant"/>
+        <keyword name="info" type="constant"/>
+        <keyword name="insert" type="constant"/>
+        <keyword name="into" type="constant"/>
+        <keyword name="kill" type="constant"/>
+        <keyword name="label" type="constant"/>
+        <keyword name="last" type="constant"/>
+        <keyword name="latest" type="constant"/>
+        <keyword name="level" type="constant"/>
+        <keyword name="like" type="constant"/>
+        <keyword name="limit" type="constant"/>
+        <keyword name="linear" type="constant"/>
+        <keyword name="link" type="constant"/>
+        <keyword name="list" type="constant"/>
+        <keyword name="load" type="constant"/>
+        <keyword name="local" type="constant"/>
+        <keyword name="lock" type="constant"/>
+        <keyword name="merge" type="constant"/>
+        <keyword name="metadata" type="constant"/>
+        <keyword name="modify" type="constant"/>
+        <keyword name="nodes" type="constant"/>
+        <keyword name="none" type="constant"/>
+        <keyword name="not" type="constant"/>
+        <keyword name="now" type="constant"/>
+        <keyword name="null" type="constant"/>
+        <keyword name="of" type="constant"/>
+        <keyword name="off" type="constant"/>
+        <keyword name="offset" type="constant"/>
+        <keyword name="on" type="constant"/>
+        <keyword name="or" type="constant"/>
+        <keyword name="order" type="constant"/>
+        <keyword name="onsuccess" type="constant"/>
+        <keyword name="partition" type="constant"/>
+        <keyword name="password" type="constant"/>
+        <keyword name="paths" type="constant"/>
+        <keyword name="pipe" type="constant"/>
+        <keyword name="pipes" type="constant"/>
+        <keyword name="pipesink" type="constant"/>
+        <keyword name="pipesinks" type="constant"/>
+        <keyword name="pipesinktype" type="constant"/>
+        <keyword name="policy" type="constant"/>
+        <keyword name="previous" type="constant"/>
+        <keyword name="previousuntillast" type="constant"/>
+        <keyword name="privileges" type="constant"/>
+        <keyword name="processlist" type="constant"/>
+        <keyword name="property" type="constant"/>
+        <keyword name="prune" type="constant"/>
+        <keyword name="queries" type="constant"/>
+        <keyword name="query" type="constant"/>
+        <keyword name="range" type="constant"/>
+        <keyword name="readonly" type="constant"/>
+        <keyword name="read" type="constant"/>
+        <keyword name="regexp" type="constant"/>
+        <keyword name="regionid" type="constant"/>
+        <keyword name="regions" type="constant"/>
+        <keyword name="remove" type="constant"/>
+        <keyword name="rename" type="constant"/>
+        <keyword name="resample" type="constant"/>
+        <keyword name="resource" type="constant"/>
+        <keyword name="revoke" type="constant"/>
+        <keyword name="role" type="constant"/>
+        <keyword name="running" type="constant"/>
+        <keyword name="schema" type="constant"/>
+        <keyword name="select" type="constant"/>
+        <keyword name="seriesslotid" type="constant"/>
+        <keyword name="set" type="constant"/>
+        <keyword name="settle" type="constant"/>
+        <keyword name="sglevel" type="constant"/>
+        <keyword name="show" type="constant"/>
+        <keyword name="slimit" type="constant"/>
+        <keyword name="soffset" type="constant"/>
+        <keyword name="storage" type="constant"/>
+        <keyword name="start" type="constant"/>
+        <keyword name="starttime" type="constant"/>
+        <keyword name="stateless" type="constant"/>
+        <keyword name="stateful" type="constant"/>
+        <keyword name="stop" type="constant"/>
+        <keyword name="system" type="constant"/>
+        <keyword name="tail" type="constant"/>
+        <keyword name="tags" type="constant"/>
+        <keyword name="task" type="constant"/>
+        <keyword name="template" type="constant"/>
+        <keyword name="timeout" type="constant"/>
+        <keyword name="timeseries" type="constant"/>
+        <keyword name="timeslotid" type="constant"/>
+        <keyword name="to" type="constant"/>
+        <keyword name="tolerance" type="constant"/>
+        <keyword name="top" type="constant"/>
+        <keyword name="tracing" type="constant"/>
+        <keyword name="trigger" type="constant"/>
+        <keyword name="triggers" type="constant"/>
+        <keyword name="ttl" type="constant"/>
+        <keyword name="unlink" type="constant"/>
+        <keyword name="unload" type="constant"/>
+        <keyword name="unset" type="constant"/>
+        <keyword name="update" type="constant"/>
+        <keyword name="upsert" type="constant"/>
+        <keyword name="uri" type="constant"/>
+        <keyword name="user" type="constant"/>
+        <keyword name="using" type="constant"/>
+        <keyword name="values" type="constant"/>
+        <keyword name="verbose" type="constant"/>
+        <keyword name="verify" type="constant"/>
+        <keyword name="version" type="constant"/>
+        <keyword name="view" type="constant"/>
+        <keyword name="watermark" type="constant"/>
+        <keyword name="where" type="constant"/>
+        <keyword name="with" type="constant"/>
+        <keyword name="without" type="constant"/>
+        <keyword name="writable" type="constant"/>
+
+        <!-- Aggregate Functions -->
+        <keyword name="sum" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Summation.</desc>
+        </keyword>
+
+        <keyword name="count" type="function" returnType="INT">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>Counts the number of data points.</desc>
+        </keyword>
+
+        <keyword name="avg" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Average.</desc>
+        </keyword>
+
+        <keyword name="stddev" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Alias for STDDEV_SAMP. Return the sample standard deviation.</desc>
+        </keyword>
+
+        <keyword name="stddev_pop" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Return the population standard deviation.</desc>
+        </keyword>
+
+        <keyword name="stddev_samp" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Return the sample standard deviation.</desc>
+        </keyword>
+
+        <keyword name="variance" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Alias for VAR_SAMP. Return the sample variance.</desc>
+        </keyword>
+
+        <keyword name="var_pop" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Return the population variance.</desc>
+        </keyword>
+
+        <keyword name="var_samp" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Return the sample variance.</desc>
+        </keyword>
+
+        <keyword name="extreme" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>Finds the value with the largest absolute value. Returns a positive value if the maximum absolute
+                value of positive and negative values is equal.
+            </desc>
+            <returnValDesc>Consistent with the input data type</returnValDesc>
+        </keyword>
+
+        <keyword name="max_value" type="function"
+                 returnType="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE" name="column"/>
+            </params>
+            <desc>Find the maximum value.</desc>
+            <returnValDesc>Consistent with the input data type</returnValDesc>
+        </keyword>
+
+        <keyword name="min_value" type="function"
+                 returnType="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE" name="column"/>
+            </params>
+            <desc>Find the minimum value.</desc>
+            <returnValDesc>Consistent with the input data type</returnValDesc>
+        </keyword>
+
+        <keyword name="first_value" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>Find the value with the smallest timestamp.</desc>
+            <returnValDesc>Consistent with the input data type</returnValDesc>
+        </keyword>
+
+        <keyword name="last_value" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>Find the value with the largest timestamp.</desc>
+            <returnValDesc>Consistent with the input data type</returnValDesc>
+        </keyword>
+
+        <keyword name="max_time" type="function" returnType="TIMESTAMP">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>Find the maximum timestamp.</desc>
+        </keyword>
+
+        <keyword name="min_time" type="function" returnType="TIMESTAMP">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>Find the minimum timestamp.</desc>
+        </keyword>
+
+        <keyword name="count_if" type="function" returnType="INT64">
+            <params>
+                <param type="BOOLEAN" name="expression">
+                    <desc><![CDATA[For example: root.db.d1.s1 = 0 & root.db.d1.s2 = 0]]></desc>
+                </param>
+                <param type="BOOLEAN | INT64" name="keepThreshold">
+                    <desc>
+                        <![CDATA[Format: [keep >=/>/=/!=/</<=]threshold. The specified threshold or threshold condition, it is equivalent to keep >= threshold if threshold is used alone, type of threshold is INT64]]></desc>
+                </param>
+                <param type="BOOLEAN" name="attributes">
+                    <desc>Optional, default value is true；If the value is true, null values are ignored, it means that
+                        if there is a null value in the middle, the value is ignored without interrupting the
+                        continuity. If the value is true, null values are not ignored, it means that if there are null
+                        values in the middle, continuity will be broken
+                    </desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                Find the number of data points that continuously meet a given condition and the number of data points that meet the condition (represented by keep) meet the specified threshold. <br>
+                For example: <br>
+                    count_if(root.*.d2.s1 = 0 & root.*.d2.s2 = 0, 3)<br>
+                    count_if(root.db.d1.s1 = 0 & root.db.d1.s2 = 0, keep >= 3, "ignoreNull"="true")
+            ]]></desc>
+        </keyword>
+
+        <keyword name="time_duration" type="function" returnType="INT64">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[Find the difference between the timestamp of the largest non-null value and the timestamp of the smallest non-null value in a column. for example: select time_duration(s1) from root.db.d1  where time < 10 order by time asc]]></desc>
+        </keyword>
+
+        <keyword name="count_time" type="function" returnType="INT64">
+            <params>
+                <param type="" name="*"/>
+            </params>
+            <desc><![CDATA[
+                Count timestamps. <br>
+                For exsample:<br>
+                    select count_time(*) from root.db.**<br>
+                <b>Note:</b><br>
+                    1. The parameter in count_time can only be *.<br>
+                    2. Count_time aggregation cannot be used with other aggregation functions.<br>
+                    3. Count_time aggregation used with having statement is not supported, and count_time aggregation can not appear in the having statement.<br>
+                    4. Count_time does not support use with group by level, group by tag.
+            ]]></desc>
+        </keyword>
+
+        <keyword name="mode" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[Find the mode. <br><b>Note:<b><br>1. Having too many different values in the input series risks a memory exception; <br>2. If all the elements have the same number of occurrences, that is no Mode, return the value with earliest time; <br>3. If there are many Modes, return the Mode with earliest time. <br><b>For example:</b> select time_duration(s1) from root.db.d1  where time < 10 order by time asc]]></desc>
+            <returnValDesc>Consistent with the input data type</returnValDesc>
+        </keyword>
+
+        <keyword name="max_by" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="x">
+                    <desc>The first input x can be of any type</desc>
+                </param>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE" name="y">
+                    <desc>must be of type INT32, INT64, FLOAT, DOUBLE, STRING, TIMESTAMP or DATE.</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                MAX_BY(x, y) returns the value of x corresponding to the maximum value of the input y.<br>
+                MAX_BY(time, x) returns the timestamp when x is at its maximum value.<br>
+            ]]></desc>
+            <returnValDesc>Consistent with the data type of the first input x.</returnValDesc>
+        </keyword>
+
+        <keyword name="min_by" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="x">
+                    <desc>The first input x can be of any type</desc>
+                </param>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE" name="y">
+                    <desc>must be of type INT32, INT64, FLOAT, DOUBLE, STRING, TIMESTAMP or DATE.</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[MIN_BY(x, y) returns the value of x corresponding to the minimum value of the input y. MIN_BY(time, x) returns the timestamp when x is at its minimum value.]]></desc>
+            <returnValDesc>Consistent with the data type of the first input x.</returnValDesc>
+        </keyword>
+
+
+        <!-- Arithmetic Functions -->
+        <keyword name="sin" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.sin(double)</desc>
+        </keyword>
+        <keyword name="cos" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.cos(double)</desc>
+        </keyword>
+        <keyword name="tan" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.tan(double)</desc>
+        </keyword>
+        <keyword name="asin" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.asin(double)</desc>
+        </keyword>
+        <keyword name="acos" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.acos(double)</desc>
+        </keyword>
+        <keyword name="atan" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.atan(double)</desc>
+        </keyword>
+        <keyword name="sinh" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.sinh(double)</desc>
+        </keyword>
+        <keyword name="cosh" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.cosh(double)</desc>
+        </keyword>
+        <keyword name="tanh" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.tanh(double)</desc>
+        </keyword>
+        <keyword name="degrees" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.toDegrees(double)</desc>
+        </keyword>
+        <keyword name="radians" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.toRadians(double)</desc>
+        </keyword>
+        <keyword name="abs" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.abs(int) | Math.abs(long) | Math.abs(float) | Math.abs(double)</desc>
+            <returnValDesc>Same type as the input series</returnValDesc>
+        </keyword>
+        <keyword name="sign" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.signum(double)</desc>
+        </keyword>
+        <keyword name="ceil" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.ceil(double)</desc>
+        </keyword>
+        <keyword name="floor" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.floor(double)</desc>
+        </keyword>
+        <keyword name="round" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+                <param type="INT32" name="places">
+                    <desc>Round the significant number, positive number is the significant number after the decimal
+                        point, negative number is the significant number of whole number
+                    </desc>
+                </param>
+            </params>
+            <desc>Math.rint(Math.pow(10,places))|Math.pow(10,places)
+            </desc>
+        </keyword>
+        <keyword name="exp" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.exp(double)</desc>
+        </keyword>
+        <keyword name="ln" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.log(double)</desc>
+        </keyword>
+        <keyword name="log10" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.log10(double)</desc>
+        </keyword>
+        <keyword name="sqrt" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>Math.sqrt(double)</desc>
+        </keyword>
+
+
+        <!-- Comparison Functions -->
+        <keyword name="on_off" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="value"/>
+                <param type="DOUBLE" name="threshold">
+                    <desc>a double type variate</desc>
+                </param>
+            </params>
+            <desc><![CDATA[Return value >= threshold.]]></desc>
+        </keyword>
+        <keyword name="in_range" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="value"/>
+                <param type="DOUBLE" name="lower">
+                </param>
+                <param type="DOUBLE" name="upper">
+                </param>
+            </params>
+            <desc><![CDATA[Return value >= lower && value <= upper.]]></desc>
+        </keyword>
+
+
+        <!-- String Processing Functions -->
+        <keyword name="string_contains" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="s">
+                    <desc>String to search for</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+            Checks whether the substring s exists in the string.<br>
+            For example:<br>
+            select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
+            ]]></desc>
+        </keyword>
+
+        <keyword name="string_matches" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="regex">
+                    <desc>Java standard library-style regular expressions.</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                Judges whether a string can be matched by the regular expression regex.<br>
+                For example:<br>
+                    select s1, string_matches(s1, 'regex'='[^\\s]+37229') from root.sg1.d4
+            ]]></desc>
+        </keyword>
+
+        <keyword name="length" type="function" returnType="INT32">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc><![CDATA[
+                Get the length of input series.<br>
+                For example:<br>
+                    select s1, length(s1) from root.sg1.d1
+            ]]></desc>
+        </keyword>
+
+        <keyword name="locate" type="function" returnType="INT32">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="target">
+                    <desc>The substring to be located.</desc>
+                </param>
+                <param type="BOOLEAN" name="reverse">
+                    <desc>Indicates whether reverse locate is required. The default value is false, means left-to-right
+                        locate.
+                    </desc>
+                </param>
+            </params>
+            <desc>Get the position of the first occurrence of substring target in input series. Returns -1 if there are
+                no target in input.
+            </desc>
+        </keyword>
+
+        <keyword name="startswith" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="target">
+                    <desc>The prefix to be checked.</desc>
+                </param>
+            </params>
+            <desc>Check whether input series starts with the specified prefix target.</desc>
+        </keyword>
+
+        <keyword name="endswith" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="target">
+                    <desc>The suffix to be checked.</desc>
+                </param>
+            </params>
+            <desc>Check whether input series ends with the specified suffix target.</desc>
+        </keyword>
+
+        <keyword name="concat" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="targets">
+                    <desc>A series of K-V, key needs to start with target and be not duplicated, value is the string you
+                        want to concat.
+                    </desc>
+                </param>
+                <param type="BOOLEAN" name="series_behind">
+                    <desc>Indicates whether series behind targets. The default value is false.</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[Concatenate input string and target string.<br><b>For exsample:</b>select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB", "series_behind"="true") from root.testStringFunctions.d1 align by device]]></desc>
+        </keyword>
+
+        <keyword name="substring" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="INT32" name="from">
+                    <desc>Indicates the start position of substring.</desc>
+                </param>
+                <param type="INT32" name="for">
+                    <desc>Indicates how many characters to stop after of substring.</desc>
+                </param>
+            </params>
+            <desc>Extracts a substring of a string, starting with the first specified character and stopping after the
+                specified number of characters.The index start at 1.
+            </desc>
+        </keyword>
+
+        <keyword name="replace" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="target">
+                    <desc>The target substring to be replaced.</desc>
+                </param>
+                <param type="TEXT | STRING" name="replaceWith">
+                    <desc>parameter: The substring to replace with.</desc>
+                </param>
+            </params>
+            <desc>Replace a substring in the input sequence with the target substring.</desc>
+        </keyword>
+
+        <keyword name="upper" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>Get the string of input series with all characters changed to uppercase.</desc>
+        </keyword>
+
+        <keyword name="lower" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>Get the string of input series with all characters changed to lowercase.</desc>
+        </keyword>
+
+        <keyword name="trim" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>Get the string whose value is same to input series, with all leading and trailing space removed.
+            </desc>
+        </keyword>
+
+        <keyword name="strcmp" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>Get the compare result of two input series. Returns 0 if series value are the same, a negative integer
+                if value of series1 is smaller than series2,
+                a positive integer if value of series1 is more than series2.
+            </desc>
+        </keyword>
+
+
+        <!-- Data Type Conversion Function -->
+        <keyword name="cast" type="function" returnType="ANY">
+            <params>
+                <param type="TEXT" name="as">
+                    <desc>Output data type, INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                Convert the data to the type specified by the type parameter.<br>
+                For exsample:<br>
+                    SELECT cast(s1 as INT32) from root.sg
+            ]]></desc>
+            <returnValDesc>determined by type</returnValDesc>
+        </keyword>
+
+
+        <!-- Constant Timeseries Generating Functions -->
+        <keyword name="const" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="column">
+                    <desc>The value of the output data point</desc>
+                </param>
+                <param type="DataType" name="type">
+                    <desc>The type of the output data point, it can only be INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN /
+                        TEXT
+                    </desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                Output the user-specified constant timeseries according to the attributes value and type.<br>
+                For exsample:<br>
+                    select s1, s2, const(s1, 'value'='1024', 'type'='INT64') from root.sg1.d1;
+            ]]></desc>
+            <returnValDesc>Determined by the required attribute type</returnValDesc>
+        </keyword>
+        <keyword name="pi" type="function" returnType="DOUBLE">
+            <desc><![CDATA[
+                Data point value: a double value of π, the ratio of the circumference of a circle to its diameter,
+                which is equals to Math.PI in the Java Standard Library.<br>
+                For exsample:<br>
+                    select s1, s2, pi(s2) from root.sg1.d1;
+            ]]></desc>
+        </keyword>
+        <keyword name="e" type="function" returnType="DOUBLE">
+            <desc><![CDATA[
+                Data point value: a double value of e, the base of the natural logarithms, which is equals to Math.E
+                in the Java Standard Library.<br>
+                For exsample:<br>
+                    select s1, s2, e(s1, s2) from root.sg1.d1;
+            ]]></desc>
+        </keyword>
+
+
+        <!-- Selector Functions -->
+        <keyword name="top_k" type="function" returnType="ANY">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | TEXT | STRING | DATE | TIEMSTAMP" name="column"/>
+                <param type="INT32" name="k">
+                    <desc>The maximum number of selected data points, must be greater than 0 and less than or equal to
+                        1000
+                    </desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                Returns k data points with the largest values in a time series.<br>
+                For exsample: <br>
+                    select s1, top_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
+            ]]></desc>
+            <returnValDesc>Same type as the input series</returnValDesc>
+        </keyword>
+        <keyword name="bottom_k" type="function" returnType="ANY">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | TEXT | STRING | DATE | TIEMSTAMP" name="column"/>
+                <param type="INT32" name="k">
+                    <desc>the maximum number of selected data points, must be greater than 0 and less than or equal to
+                        1000
+                    </desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                Returns k data points with the smallest values in a time series.<br>
+                For exsample: <br>
+                    select s1, bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
+            ]]></desc>
+            <returnValDesc>Same type as the input series</returnValDesc>
+        </keyword>
+
+
+        <!-- Continuous Interval Functions -->
+        <keyword name="zero_duration" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN" name="column"/>
+                <param type="INT64" name="min">
+                    <desc>Optional with default value 0L</desc>
+                </param>
+                <param type="INT64" name="max">
+                    <desc>Optional with default value Long.MAX_VALUE</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[Return intervals' start times and duration times in which the value is always 0(false), and the duration time t satisfy t >= min && t <= max. The unit of t is ms]]></desc>
+        </keyword>
+        <keyword name="non_zero_duration" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN" name="column"/>
+                <param type="INT64" name="min">
+                    <desc>Optional with default value 0L</desc>
+                </param>
+                <param type="INT64" name="max">
+                    <desc>Optional with default value Long.MAX_VALUE</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[Return intervals' start times and duration times in which the value is always not 0, and the duration time t satisfy t >= min && t <= max. The unit of t is ms]]></desc>
+        </keyword>
+        <keyword name="zero_count" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN" name="column"/>
+                <param type="INT64" name="min">
+                    <desc>Optional with default value 1L</desc>
+                </param>
+                <param type="INT64" name="max">
+                    <desc>Optional with default value Long.MAX_VALUE</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[Return intervals' start times and the number of data points in the interval in which the value is always 0(false). Data points number n satisfy n >= min && n <= max]]></desc>
+        </keyword>
+        <keyword name="non_zero_count" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN" name="column"/>
+                <param type="INT64" name="min">
+                    <desc>Optional with default value 1L</desc>
+                </param>
+                <param type="INT64" name="max">
+                    <desc>Optional with default value Long.MAX_VALUE</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[Return intervals' start times and the number of data points in the interval in which the value is always not 0(false). Data points number n satisfy n >= min && n <= max]]></desc>
+        </keyword>
+
+
+        <!-- Variation Trend Calculation Functions -->
+        <keyword name="time_difference" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN | TEXT" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[Calculates the difference between the time stamp of a data point and the time stamp of the previous data point. There is no corresponding output for the first data point.]]></desc>
+        </keyword>
+        <keyword name="difference" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point.]]></desc>
+            <returnValDesc>Same type as the input series.</returnValDesc>
+        </keyword>
+        <keyword name="non_negative_difference" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[Calculates the absolute value of the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point.]]></desc>
+            <returnValDesc>Same type as the input series.</returnValDesc>
+        </keyword>
+        <keyword name="derivative" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[Calculates the rate of change of a data point compared to the previous data point, the result is equals to DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point.]]></desc>
+        </keyword>
+        <keyword name="non_negative_derivative" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[Calculates the absolute value of the rate of change of a data point compared to the previous data point, the result is equals to NON_NEGATIVE_DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point.]]></desc>
+        </keyword>
+        <keyword name="diff" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="BOOLEAN" name="ignoreNull">
+                    <desc>Optional，default is true. If is true, the previous data point is ignored when it is null and
+                        continues to find the first non-null value forwardly. If the value is false, previous data point
+                        is not ignored when it is null, the result is also null because null is used for subtraction
+                    </desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point, so output is null]]></desc>
+        </keyword>
+
+
+        <!-- Sample Functions -->
+        <keyword name="equal_size_bucket_random_sample" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="FLOAT" name="proportion">
+                    <desc>The value range is (0, 1], the default is 0.1</desc>
+                </param>
+            </params>
+            <desc><![CDATA[Returns a random sample of equal buckets that matches the sampling ratio]]></desc>
+        </keyword>
+        <keyword name="equal_size_bucket_agg_sample" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="FLOAT" name="proportion">
+                    <desc>The value range is (0, 1], the default is 0.1</desc>
+                </param>
+                <param type="TEXT" name="type">
+                    <desc>The value types are avg, max, min, sum, extreme, variance, the default is avg</desc>
+                </param>
+            </params>
+            <desc><![CDATA[Returns equal bucket aggregation samples that match the sampling ratio]]></desc>
+        </keyword>
+        <keyword name="equal_size_bucket_m4_sample" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="FLOAT" name="proportion">
+                    <desc>The value range is (0, 1], the default is 0.1</desc>
+                </param>
+            </params>
+            <desc><![CDATA[Returns equal bucket M4 samples that match the sampling ratio]]></desc>
+        </keyword>
+        <keyword name="equal_size_bucket_outlier_sample" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="FLOAT" name="proportion">
+                    <desc>The value range of proportion is (0, 1], the default is 0.1</desc>
+                </param>
+                <param type="TEXT" name="type">
+                    <desc>The value of type is avg or stendis or cos or prenextdis, the default is avg</desc>
+                </param>
+                <param type="INT32" name="number">
+                    <desc>The value of number should be greater than 0, the default is 3</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[Returns outlier samples in equal buckets that match the sampling ratio and the number of samples in the bucket]]></desc>
+        </keyword>
+        <keyword name="m4" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="TEXT" name="attributes">
+                    <desc>
+                        包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性windowSize和slidingStep。滑动时间窗口使用属性timeInterval、slidingStep、displayWindowBegin和displayWindowEnd。
+                    </desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[
+                Returns the first, last, bottom, top points in each sliding window. M4 sorts and deduplicates the aggregated points within the window before outputting them.<br>
+                <b>For example:</b><br>
+                1. select m4(s1) from root.db.d1<br>
+                2. select m4(s1,'timeInterval'='25','slidingStep'='25','displayWindowBegin'='0','displayWindowEnd'='100') * from root.vehicle.d1
+                ]]></desc>
+        </keyword>
+
+
+        <!-- Change Points Function -->
+        <keyword name="change_points" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[Remove consecutive identical values from an input sequence.<br><b>For exsample:</b> select change_points(s1), diff(s2) from root.db.d1]]></desc>
+            <returnValDesc>Same type as the input series</returnValDesc>
+        </keyword>
+    </keywords>
+
+</api>

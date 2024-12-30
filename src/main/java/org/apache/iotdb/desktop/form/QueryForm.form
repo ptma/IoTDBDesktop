@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.apache.iotdb.desktop.form.QueryForm">
+  <grid id="27dc6" binding="rootPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="559"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <splitpane id="f7508" binding="mainSplitPanel">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <dividerLocation value="300"/>
+          <orientation value="0"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="ff42" binding="editorPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <toolbar id="574f3" binding="editorToolbar">
+                <constraints border-constraint="North"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="9d422" class="javax.swing.JButton" binding="executeButton">
+                    <constraints/>
+                    <properties>
+                      <text value="Execute"/>
+                    </properties>
+                  </component>
+                  <component id="91e07" class="javax.swing.JToolBar$Separator">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                  <component id="2bd1d" class="javax.swing.JButton" binding="openButton" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="Open"/>
+                    </properties>
+                  </component>
+                  <component id="75ce5" class="javax.swing.JButton" binding="saveButton" default-binding="true">
+                    <constraints/>
+                    <properties>
+                      <text value="Save"/>
+                    </properties>
+                  </component>
+                </children>
+              </toolbar>
+            </children>
+          </grid>
+          <tabbedpane id="9dd04" binding="tabbedPanel">
+            <constraints>
+              <splitpane position="right"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </tabbedpane>
+        </children>
+      </splitpane>
+    </children>
+  </grid>
+</form>

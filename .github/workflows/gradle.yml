@@ -1,0 +1,114 @@
+name: Java CI with Gradle
+
+on:
+    push:
+        tags:
+            - 'V*'
+
+permissions:
+    contents: read
+
+jobs:
+    build-on-linux:
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: set up JDK 17
+                uses: actions/setup-java@v3
+                with:
+                    java-version: '17'
+                    distribution: 'temurin'
+                    cache: gradle
+            -   name: Grant execute permission for gradlew
+                run: chmod +x gradlew
+            -   name: Build with Gradle
+                run: ./gradlew packageForLinux
+            -   name: Upload binaries to release
+                uses: svenstaro/upload-release-action@v2
+                with:
+                    repo_token: ${{ secrets.REPO_TOKEN }}
+                    file: ./build/IoTDBDesktop*
+                    tag: ${{ github.ref }}
+                    release_name: ${{ github.ref }}
+                    overwrite: true
+                    file_glob: true
+                    body: ""
+
+    build-on-mac:
+        runs-on: macos-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: set up JDK 17
+                uses: actions/setup-java@v3
+                with:
+                    java-version: '17'
+                    distribution: 'temurin'
+                    cache: gradle
+            -   name: Grant execute permission for gradlew
+                run: chmod +x gradlew
+            -   name: Build with Gradle
+                run: ./gradlew packageForMac
+            -   name: Upload binaries to release
+                uses: svenstaro/upload-release-action@v2
+                with:
+                    repo_token: ${{ secrets.REPO_TOKEN }}
+                    file: ./build/*.dmg
+                    tag: ${{ github.ref }}
+                    release_name: ${{ github.ref }}
+                    overwrite: true
+                    file_glob: true
+                    body: ""
+
+    build-on-mac-m1:
+        runs-on: macos-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: set up JDK 17
+                uses: actions/setup-java@v3
+                with:
+                    java-version: '17'
+                    distribution: 'temurin'
+                    cache: gradle
+            -   name: Grant execute permission for gradlew
+                run: chmod +x gradlew
+            -   name: Build with Gradle
+                run: ./gradlew packageForMac_M1
+            -   name: JSON to variables
+                uses: antifree/json-to-variables@v1.0.1
+                with:
+                    filename: './src/main/resources/version.json'
+                    prefix: 'conf'
+            -   name: Upload binaries to release
+                uses: svenstaro/upload-release-action@v2
+                with:
+                    repo_token: ${{ secrets.REPO_TOKEN }}
+                    file: ./build/IoTDBDesktop_${{ env.conf_version }}.dmg
+                    asset_name: IoTDBDesktop_${{ env.conf_version }}_M1.dmg
+                    tag: ${{ github.ref }}
+                    release_name: ${{ github.ref }}
+                    overwrite: true
+                    file_glob: false
+                    body: ""
+
+    build-on-windows:
+        runs-on: windows-latest
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: set up JDK 17
+                uses: actions/setup-java@v3
+                with:
+                    java-version: '17'
+                    distribution: 'temurin'
+                    cache: gradle
+            -   name: Build with Gradle
+                run: ./gradlew packageForWindows
+            -   name: Upload binaries to release
+                uses: svenstaro/upload-release-action@v2
+                with:
+                    repo_token: ${{ secrets.REPO_TOKEN }}
+                    file: ./build/*.zip
+                    tag: ${{ github.ref }}
+                    release_name: ${{ github.ref }}
+                    overwrite: true
+                    file_glob: true
+                    body: ""

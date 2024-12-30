@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.apache.iotdb.desktop.form.DatabaseInfo">
+  <grid id="27dc6" binding="rootPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="empty">
+      <size top="0" left="0" bottom="0" right="0"/>
+    </border>
+    <children>
+      <scrollpane id="fea8e" binding="deviceScrollPanel">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="empty"/>
+        <children>
+          <component id="a73e1" class="org.apache.iotdb.desktop.component.QueryResultTable" binding="deviceTable" custom-create="true">
+            <constraints/>
+            <properties/>
+            <clientProperties>
+              <terminateEditOnFocusLost class="java.lang.Boolean" value="true"/>
+            </clientProperties>
+          </component>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+</form>

@@ -1,0 +1,189 @@
+package org.apache.iotdb.desktop.form;
+
+import cn.hutool.core.util.StrUtil;
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
+import org.apache.iotdb.desktop.IotdbDesktopApp;
+import org.apache.iotdb.desktop.component.PropertyTableModel;
+import org.apache.iotdb.desktop.exception.VerificationException;
+import org.apache.iotdb.desktop.frame.MainFrame;
+import org.apache.iotdb.desktop.util.LangUtil;
+import org.apache.iotdb.desktop.util.Utils;
+import org.jdesktop.swingx.JXTable;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.function.Consumer;
+
+public class MapValueForm extends JDialog {
+    private JPanel contentPane;
+    private JButton buttonOK;
+    private JButton buttonCancel;
+    private JButton buttonAdd;
+    private JButton buttonRemove;
+    private JXTable mapTable;
+    private PropertyTableModel mapTableModel;
+
+    private Consumer<String> modifiedConsumer;
+
+    public static void open(String title, String content, Consumer<String> modifiedConsumer) {
+        MapValueForm dialog = new MapValueForm(IotdbDesktopApp.frame, title, content, modifiedConsumer);
+        dialog.setMinimumSize(new Dimension(400, 300));
+        dialog.setResizable(false);
+        dialog.setLocationRelativeTo(IotdbDesktopApp.frame);
+        dialog.setVisible(true);
+    }
+
+    public MapValueForm(MainFrame owner, String title, String content, Consumer<String> modifiedConsumer) {
+        super(owner);
+        $$$setupUI$$$();
+        setContentPane(contentPane);
+        setModal(true);
+        getRootPane().setDefaultButton(buttonOK);
+        setTitle(title);
+        this.modifiedConsumer = modifiedConsumer;
+
+        buttonOK.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onOK();
+            }
+        });
+
+        buttonCancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                onCancel();
+            }
+        });
+
+        contentPane.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        mapTableModel = new PropertyTableModel(true);
+        mapTableModel.setProperties(Utils.stringToMap(content));
+        mapTable.setModel(mapTableModel);
+        mapTable.setRowSelectionAllowed(true);
+        mapTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        mapTable.setEditable(true);
+        mapTable.setSortable(false);
+        mapTable.setRowHeight(24);
+        mapTable.setShowHorizontalLines(true);
+        mapTable.setShowVerticalLines(true);
+        mapTable.setDefaultEditor(String.class, new DefaultCellEditor(new JTextField()));
+
+        buttonAdd.addActionListener(e -> {
+            int lastRow = mapTable.convertRowIndexToView(mapTableModel.addProperty("", ""));
+            mapTable.requestFocusInWindow();
+            mapTable.setRowSelectionInterval(lastRow, lastRow);
+            mapTable.editCellAt(lastRow, 0);
+        });
+        buttonRemove.addActionListener(e -> {
+            int[] selRows = mapTable.getSelectedRows();
+            if (selRows.length > 0) {
+                for (int i = selRows.length - 1; i >= 0; i--) {
+                    int modelRowIndex = mapTable.convertRowIndexToModel(selRows[i]);
+                    mapTableModel.removeRow(modelRowIndex);
+                }
+            }
+        });
+
+        LangUtil.buttonText(buttonAdd, "&Add");
+        LangUtil.buttonText(buttonRemove, "&Remove");
+
+        LangUtil.buttonText(buttonOK, "&Ok");
+        LangUtil.buttonText(buttonCancel, "&Cancel");
+    }
+
+    private void verifyFields() throws VerificationException {
+        boolean hasBlankCell = mapTableModel.getProperties()
+            .stream()
+            .anyMatch(property -> StrUtil.isBlank(property.getName()) || StrUtil.isBlank(property.getValue()));
+        if (hasBlankCell) {
+            throw new VerificationException(LangUtil.getString("CellValueIsEmpty"));
+        }
+    }
+
+    private void onOK() {
+        try {
+            verifyFields();
+        } catch (VerificationException e) {
+            Utils.Toast.warn(e.getMessage());
+            return;
+        }
+        if (modifiedConsumer != null) {
+            modifiedConsumer.accept(Utils.mapToString(mapTableModel.getPropertiesAsMap()));
+        }
+        dispose();
+    }
+
+    private void onCancel() {
+        dispose();
+    }
+
+    /**
+     * Method generated by IntelliJ IDEA GUI Designer
+     * >>> IMPORTANT!! <<<
+     * DO NOT edit this method OR call it in your code!
+     *
+     * @noinspection ALL
+     */
+    private void $$$setupUI$$$() {
+        contentPane = new JPanel();
+        contentPane.setLayout(new GridLayoutManager(2, 1, new Insets(10, 10, 10, 10), -1, -1));
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
+        contentPane.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        panel1.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1, true, false));
+        panel1.add(panel2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        buttonOK = new JButton();
+        buttonOK.setText("OK");
+        panel2.add(buttonOK, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buttonCancel = new JButton();
+        buttonCancel.setText("Cancel");
+        panel2.add(buttonCancel, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new BorderLayout(0, 0));
+        contentPane.add(panel3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        final JPanel panel4 = new JPanel();
+        panel4.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.add(panel4, BorderLayout.EAST);
+        panel4.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        buttonAdd = new JButton();
+        buttonAdd.setText("Add");
+        panel4.add(buttonAdd, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        panel4.add(spacer2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        buttonRemove = new JButton();
+        buttonRemove.setText("Remove");
+        panel4.add(buttonRemove, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        panel3.add(scrollPane1, BorderLayout.CENTER);
+        mapTable = new JXTable();
+        mapTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        scrollPane1.setViewportView(mapTable);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return contentPane;
+    }
+
+}

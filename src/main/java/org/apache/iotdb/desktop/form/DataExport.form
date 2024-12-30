@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.apache.iotdb.desktop.form.DataExport">
+  <grid id="27dc6" binding="rootPanel" layout-manager="FormLayout">
+    <rowspec value="center:d:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:100px:noGrow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):grow"/>
+    <rowspec value="top:4dlu:noGrow"/>
+    <rowspec value="center:max(d;4px):noGrow"/>
+    <colspec value="fill:d:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:p:noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:max(p;130px):noGrow"/>
+    <colspec value="left:4dlu:noGrow"/>
+    <colspec value="fill:p:noGrow"/>
+    <colspec value="left:5dlu:noGrow"/>
+    <colspec value="fill:max(d;4px):grow"/>
+    <constraints>
+      <xy x="20" y="20" width="746" height="499"/>
+    </constraints>
+    <properties/>
+    <border type="empty">
+      <size top="10" left="10" bottom="10" right="10"/>
+    </border>
+    <children>
+      <component id="f819" class="javax.swing.JLabel" binding="fileFormatLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="11"/>
+          <text value="File Format"/>
+        </properties>
+      </component>
+      <component id="12d39" class="javax.swing.JLabel" binding="targetDirectoryLabel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="11"/>
+          <text value="Target Directory"/>
+        </properties>
+      </component>
+      <component id="56a2e" class="javax.swing.JTextField" binding="dumpDirectoryField">
+        <constraints>
+          <grid row="2" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="8d66b" class="javax.swing.JLabel" binding="timeoutLabel">
+        <constraints>
+          <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="11"/>
+          <text value="Timeout"/>
+        </properties>
+      </component>
+      <component id="ff7e7" class="javax.swing.JSpinner" binding="timeoutField">
+        <constraints>
+          <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="a87cc" class="javax.swing.JLabel" binding="sqlLabel">
+        <constraints>
+          <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="11"/>
+          <text value="SQL"/>
+          <verticalAlignment value="0"/>
+          <verticalTextPosition value="0"/>
+        </properties>
+      </component>
+      <component id="bdba1" class="javax.swing.JLabel" binding="outputLabel">
+        <constraints>
+          <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="11"/>
+          <text value="Output"/>
+        </properties>
+      </component>
+      <scrollpane id="cbe42">
+        <constraints>
+          <grid row="18" column="2" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false" defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="a061b" class="javax.swing.JTextArea" binding="outputArea">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <scrollpane id="963d8" class="org.apache.iotdb.desktop.component.TextEditor" binding="sqlEditor">
+        <constraints>
+          <grid row="16" column="2" row-span="1" col-span="7" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </scrollpane>
+      <component id="a173a" class="javax.swing.JLabel" binding="dumpFilenameLabel">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="11"/>
+          <text value="File Name"/>
+        </properties>
+      </component>
+      <component id="66110" class="javax.swing.JTextField" binding="dumpFilenameField">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <grid id="14a3f" layout-manager="FormLayout">
+        <rowspec value="center:d:grow"/>
+        <colspec value="fill:d:noGrow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:max(d;4px):noGrow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:max(d;4px):noGrow"/>
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-vert="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="591e3" class="javax.swing.JRadioButton" binding="csvRadio">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <selected value="true"/>
+              <text value="CSV"/>
+            </properties>
+          </component>
+          <component id="1ec04" class="javax.swing.JRadioButton" binding="sqlRadio">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <selected value="false"/>
+              <text value="SQL"/>
+            </properties>
+          </component>
+          <component id="e514b" class="javax.swing.JRadioButton" binding="tsFileRadio">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="TsFile"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="a31d4" class="javax.swing.JButton" binding="executeButton">
+        <constraints>
+          <grid row="20" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Execute"/>
+        </properties>
+      </component>
+      <component id="77c9d" class="javax.swing.JCheckBox" binding="alignedCheckBox" default-binding="true">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <text value="Aligned"/>
+        </properties>
+      </component>
+      <component id="15111" class="javax.swing.JCheckBox" binding="dataTypeInHeaderCheckBox">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <selected value="true"/>
+          <text value="DataType in CSV Header"/>
+        </properties>
+      </component>
+      <component id="e69f8" class="javax.swing.JLabel" binding="timeFormatLabel">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="11"/>
+          <text value="Time Format"/>
+        </properties>
+      </component>
+      <component id="62df5" class="javax.swing.JComboBox" binding="timeFormatField">
+        <constraints>
+          <grid row="6" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <model>
+            <item value="yyyy-MM-dd HH:mm:ss.SSS"/>
+            <item value="yyyy-MM-dd HH:mm:ss"/>
+            <item value="yyyy-MM-dd HH:mm:ss.SSSZZ"/>
+            <item value="yyyy-MM-dd HH:mm:ss.SSSz"/>
+            <item value="yyyy-MM-dd HH:mm:ssZZ"/>
+            <item value="yyyy-MM-dd HH:mm:ssz"/>
+            <item value="yyyy/MM/dd HH:mm:ss.SSS"/>
+            <item value="yyyy/MM/dd HH:mm:ss"/>
+            <item value="yyyy/MM/dd HH:mm:ss.SSSZZ"/>
+            <item value="yyyy/MM/dd HH:mm:ss.SSSz"/>
+            <item value="yyyy/MM/dd HH:mm:ssZZ"/>
+            <item value="yyyy/MM/dd HH:mm:ssz"/>
+            <item value="timestamp"/>
+            <item value="default"/>
+          </model>
+        </properties>
+      </component>
+      <component id="f40" class="javax.swing.JLabel" binding="maxRowsLabel">
+        <constraints>
+          <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <forms/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="11"/>
+          <text value="Max Rows"/>
+        </properties>
+      </component>
+      <component id="48963" class="javax.swing.JSpinner" binding="maxRowsField">
+        <constraints>
+          <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <forms defaultalign-horz="false"/>
+        </constraints>
+        <properties/>
+      </component>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="formatGroup">
+      <member id="591e3"/>
+      <member id="1ec04"/>
+      <member id="e514b"/>
+    </group>
+  </buttonGroups>
+</form>

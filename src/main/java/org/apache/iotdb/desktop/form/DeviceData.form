@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.apache.iotdb.desktop.form.DeviceData">
+  <grid id="27dc6" binding="rootPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="931" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="8fbc7" binding="topPanel" layout-manager="FormLayout">
+        <rowspec value="center:d:noGrow"/>
+        <colspec value="fill:p:noGrow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:p:noGrow"/>
+        <colspec value="left:4dlu:noGrow"/>
+        <colspec value="fill:max(d;4px):grow"/>
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none">
+          <size top="0" left="5" bottom="0" right="0"/>
+        </border>
+        <children>
+          <toolbar id="1f8bf" binding="toolbar">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="50c03" class="javax.swing.JButton" binding="nextPageButton">
+                <constraints/>
+                <properties>
+                  <text value="Next Page"/>
+                </properties>
+              </component>
+              <component id="55455" class="javax.swing.JButton" binding="showAllButton">
+                <constraints/>
+                <properties>
+                  <text value="Show All"/>
+                </properties>
+              </component>
+              <component id="bb993" class="javax.swing.JToolBar$Separator">
+                <constraints/>
+                <properties/>
+              </component>
+            </children>
+          </toolbar>
+          <component id="372b9" class="javax.swing.JLabel" binding="pagingLabel">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <forms/>
+            </constraints>
+            <properties>
+              <text value="Paging"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <scrollpane id="5ca8e" binding="tableScrollPanel">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="empty"/>
+        <children>
+          <component id="e0f82" class="org.apache.iotdb.desktop.component.QueryResultTable" binding="dataTable" custom-create="true">
+            <constraints/>
+            <properties/>
+            <clientProperties>
+              <terminateEditOnFocusLost class="java.lang.Boolean" value="true"/>
+            </clientProperties>
+          </component>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="sortingGroup">
+      <member id="1159c"/>
+      <member id="c6555"/>
+      <member id="29b57"/>
+    </group>
+  </buttonGroups>
+</form>

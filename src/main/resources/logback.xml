@@ -1,0 +1,17 @@
+<configuration>
+
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %logger - %msg%n"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="io.netty.util" level="ERROR"/>
+    <logger name="com.jayway.jsonpath" level="ERROR"/>
+
+    <root level="ALL">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

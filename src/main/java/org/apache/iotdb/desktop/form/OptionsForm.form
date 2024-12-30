@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.apache.iotdb.desktop.form.OptionsForm">
+  <grid id="cbd77" binding="contentPane" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
+    <constraints>
+      <xy x="48" y="54" width="660" height="448"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="94766" binding="bottomPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <hspacer id="98af6">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <grid id="9538f" binding="buttonPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="e7465" class="javax.swing.JButton" binding="buttonOK">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="OK"/>
+                </properties>
+              </component>
+              <component id="5723f" class="javax.swing.JButton" binding="buttonCancel">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Cancel"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="e3588" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none">
+          <size top="10" left="10" bottom="10" right="10"/>
+        </border>
+        <children>
+          <tabbedpane id="fe42" binding="tabbedPane">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <grid id="a92ff" layout-manager="FormLayout">
+                <rowspec value="center:d:noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <colspec value="fill:max(p;60dlu):noGrow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:p:grow"/>
+                <constraints>
+                  <tabbedpane title="User Interface"/>
+                </constraints>
+                <properties/>
+                <border type="empty">
+                  <size top="10" left="10" bottom="10" right="10"/>
+                </border>
+                <children>
+                  <component id="3ea31" class="javax.swing.JLabel" binding="themeLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="Theme"/>
+                    </properties>
+                  </component>
+                  <component id="de62c" class="javax.swing.JComboBox" binding="themeComboBox">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="456b9" class="javax.swing.JLabel" binding="languageLabel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="Language"/>
+                    </properties>
+                  </component>
+                  <component id="f284c" class="javax.swing.JComboBox" binding="languageComboBox">
+                    <constraints>
+                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                </children>
+              </grid>
+              <grid id="19f2d" layout-manager="FormLayout">
+                <rowspec value="center:d:noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <colspec value="fill:max(p;60dlu):noGrow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:max(d;4px):noGrow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:234px:grow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:max(d;4px):noGrow"/>
+                <constraints>
+                  <tabbedpane title="SQL Editor"/>
+                </constraints>
+                <properties/>
+                <border type="empty">
+                  <size top="10" left="10" bottom="10" right="10"/>
+                </border>
+                <children>
+                  <component id="e7fd4" class="javax.swing.JLabel" binding="fontLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="Font"/>
+                    </properties>
+                  </component>
+                  <component id="1a5af" class="javax.swing.JComboBox" binding="fontComboBox">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="6310d" class="javax.swing.JLabel" binding="fontSizeLabel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="Font Size"/>
+                    </properties>
+                  </component>
+                  <component id="bf6a6" class="javax.swing.JSpinner" binding="fontSizeField">
+                    <constraints>
+                      <grid row="2" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="586e2" class="javax.swing.JSpinner" binding="autoCompletionDelayField">
+                    <constraints>
+                      <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="7763d" class="javax.swing.JLabel" binding="autoCompletionLabel">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="Auto Completion"/>
+                    </properties>
+                  </component>
+                  <component id="25387" class="javax.swing.JLabel" binding="delayLabel">
+                    <constraints>
+                      <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="10"/>
+                      <text value="Delay"/>
+                    </properties>
+                  </component>
+                  <component id="1abe4" class="javax.swing.JCheckBox" binding="autoCompletionChkBox">
+                    <constraints>
+                      <grid row="4" column="2" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Auto Completion"/>
+                    </properties>
+                  </component>
+                  <component id="4b784" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="ms"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <grid id="cd708" layout-manager="FormLayout">
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:d:noGrow"/>
+                <colspec value="fill:max(p;60dlu):noGrow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:p:noGrow"/>
+                <colspec value="left:p:noGrow"/>
+                <colspec value="fill:p:noGrow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:p:noGrow"/>
+                <colspec value="left:4dlu:noGrow"/>
+                <colspec value="fill:p:grow"/>
+                <constraints>
+                  <tabbedpane title="Other"/>
+                </constraints>
+                <properties/>
+                <border type="empty">
+                  <size top="10" left="10" bottom="10" right="10"/>
+                </border>
+                <children>
+                  <component id="2ee25" class="javax.swing.JLabel" binding="timeFormatLabel">
+                    <constraints>
+                      <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="Time Format"/>
+                    </properties>
+                  </component>
+                  <component id="ae01" class="javax.swing.JComboBox" binding="timeFormatField">
+                    <constraints>
+                      <grid row="14" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <model>
+                        <item value="yyyy-MM-dd HH:mm:ss.SSS"/>
+                        <item value="yyyy-MM-dd HH:mm:ss"/>
+                        <item value="yyyy-MM-dd HH:mm:ss.SSSZZ"/>
+                        <item value="yyyy-MM-dd HH:mm:ss.SSSz"/>
+                        <item value="yyyy-MM-dd HH:mm:ssZZ"/>
+                        <item value="yyyy-MM-dd HH:mm:ssz"/>
+                        <item value="yyyy/MM/dd HH:mm:ss.SSS"/>
+                        <item value="yyyy/MM/dd HH:mm:ss"/>
+                        <item value="yyyy/MM/dd HH:mm:ss.SSSZZ"/>
+                        <item value="yyyy/MM/dd HH:mm:ss.SSSz"/>
+                        <item value="yyyy/MM/dd HH:mm:ssZZ"/>
+                        <item value="yyyy/MM/dd HH:mm:ssz"/>
+                        <item value="timestamp"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <component id="c4d0" class="javax.swing.JCheckBox" binding="autoLoadDeviceNodesCheckBox">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Auto Load Device Nodes"/>
+                    </properties>
+                  </component>
+                  <component id="3ebc4" class="javax.swing.JLabel" binding="sessionTreeLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="Session Tree"/>
+                    </properties>
+                  </component>
+                  <component id="9db03" class="javax.swing.JLabel" binding="sqlLogLabel">
+                    <constraints>
+                      <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="SQL Log"/>
+                    </properties>
+                  </component>
+                  <component id="18ac7" class="javax.swing.JCheckBox" binding="logInternalSQLCheckBox">
+                    <constraints>
+                      <grid row="10" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Log Internal SQL"/>
+                    </properties>
+                  </component>
+                  <component id="aa931" class="javax.swing.JCheckBox" binding="addTimestampToLogsCheckBox">
+                    <constraints>
+                      <grid row="12" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Add Timestamp to All Log Messages"/>
+                    </properties>
+                  </component>
+                  <component id="d6f29" class="javax.swing.JCheckBox" binding="dblClickOpenDeviceDataCheckBox">
+                    <constraints>
+                      <grid row="2" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Double Click The Device Node To Open The Data Editor"/>
+                    </properties>
+                  </component>
+                  <component id="d04be" class="javax.swing.JRadioButton" binding="ascRadioButton" default-binding="true">
+                    <constraints>
+                      <grid row="6" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Asc"/>
+                    </properties>
+                  </component>
+                  <component id="f4172" class="javax.swing.JRadioButton" binding="descRadioButton" default-binding="true">
+                    <constraints>
+                      <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Desc"/>
+                    </properties>
+                  </component>
+                  <component id="a8dd3" class="javax.swing.JSpinner" binding="pageSizeField">
+                    <constraints>
+                      <grid row="8" column="6" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <forms defaultalign-horz="false"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="c18da" class="javax.swing.JLabel" binding="rowsPerPageLabel">
+                    <constraints>
+                      <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Rows Per Page"/>
+                    </properties>
+                  </component>
+                  <component id="eb907" class="javax.swing.JLabel" binding="orderByTimeLabel">
+                    <constraints>
+                      <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Order by Time"/>
+                    </properties>
+                  </component>
+                  <component id="ee369" class="javax.swing.JCheckBox" binding="alwaysAlignByDeviceCheckBox" default-binding="true">
+                    <constraints>
+                      <grid row="4" column="4" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Always Align By Device"/>
+                    </properties>
+                  </component>
+                  <component id="b93ae" class="javax.swing.JLabel" binding="deviceDataLabel">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <horizontalAlignment value="11"/>
+                      <text value="Device Data"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </tabbedpane>
+        </children>
+      </grid>
+    </children>
+  </grid>
+  <buttonGroups>
+    <group name="sortingGroup">
+      <member id="f4172"/>
+      <member id="d04be"/>
+    </group>
+  </buttonGroups>
+</form>

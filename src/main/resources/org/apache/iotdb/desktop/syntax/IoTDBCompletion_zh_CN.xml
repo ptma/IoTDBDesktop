@@ -1,0 +1,981 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE api SYSTEM "CompletionXml.dtd">
+<api language="IoTDB">
+
+    <environment paramStartChar="(" paramEndChar=")" paramSeparator=", " terminal=";"/>
+
+    <completionTypes>
+        <functionCompletionType type="org.apache.iotdb.desktop.syntax.CustomFunctionCompletion"/>
+    </completionTypes>
+
+    <keywords>
+
+        <keyword name="root" type="constant"/>
+        <keyword name="time" type="constant"/>
+        <keyword name="timestamp" type="constant"/>
+        <keyword name="add" type="constant"/>
+        <keyword name="after" type="constant"/>
+        <keyword name="alias" type="constant"/>
+        <keyword name="align" type="constant"/>
+        <keyword name="aligned" type="constant"/>
+        <keyword name="all" type="constant"/>
+        <keyword name="alter" type="constant"/>
+        <keyword name="analyze" type="constant"/>
+        <keyword name="and" type="constant"/>
+        <keyword name="any" type="constant"/>
+        <keyword name="append" type="constant"/>
+        <keyword name="apply" type="constant"/>
+        <keyword name="as" type="constant"/>
+        <keyword name="asc" type="constant"/>
+        <keyword name="attributes" type="constant"/>
+        <keyword name="before" type="constant"/>
+        <keyword name="begin" type="constant"/>
+        <keyword name="between" type="constant"/>
+        <keyword name="blocked" type="constant"/>
+        <keyword name="boundary" type="constant"/>
+        <keyword name="by" type="constant"/>
+        <keyword name="cache" type="constant"/>
+        <keyword name="child" type="constant"/>
+        <keyword name="clear" type="constant"/>
+        <keyword name="cluster" type="constant"/>
+        <keyword name="concat" type="constant"/>
+        <keyword name="confignodes" type="constant"/>
+        <keyword name="configuration" type="constant"/>
+        <keyword name="continuous" type="constant"/>
+        <keyword name="count" type="constant"/>
+        <keyword name="contain" type="constant"/>
+        <keyword name="contains" type="constant"/>
+        <keyword name="cq" type="constant"/>
+        <keyword name="cqs" type="constant"/>
+        <keyword name="create" type="constant"/>
+        <keyword name="data" type="constant"/>
+        <keyword name="database" type="constant"/>
+        <keyword name="databases" type="constant"/>
+        <keyword name="datanodes" type="constant"/>
+        <keyword name="deactivate" type="constant"/>
+        <keyword name="debug" type="constant"/>
+        <keyword name="delete" type="constant"/>
+        <keyword name="desc" type="constant"/>
+        <keyword name="describe" type="constant"/>
+        <keyword name="device" type="constant"/>
+        <keyword name="deviceid" type="constant"/>
+        <keyword name="devices" type="constant"/>
+        <keyword name="disable" type="constant"/>
+        <keyword name="discard" type="constant"/>
+        <keyword name="drop" type="constant"/>
+        <keyword name="end" type="constant"/>
+        <keyword name="endtime" type="constant"/>
+        <keyword name="every" type="constant"/>
+        <keyword name="explain" type="constant"/>
+        <keyword name="fill" type="constant"/>
+        <keyword name="file" type="constant"/>
+        <keyword name="flush" type="constant"/>
+        <keyword name="for" type="constant"/>
+        <keyword name="from" type="constant"/>
+        <keyword name="full" type="constant"/>
+        <keyword name="function" type="constant"/>
+        <keyword name="functions" type="constant"/>
+        <keyword name="global" type="constant"/>
+        <keyword name="grant" type="constant"/>
+        <keyword name="group" type="constant"/>
+        <keyword name="having" type="constant"/>
+        <keyword name="head" type="constant"/>
+        <keyword name="in" type="constant"/>
+        <keyword name="index" type="constant"/>
+        <keyword name="info" type="constant"/>
+        <keyword name="insert" type="constant"/>
+        <keyword name="into" type="constant"/>
+        <keyword name="kill" type="constant"/>
+        <keyword name="label" type="constant"/>
+        <keyword name="last" type="constant"/>
+        <keyword name="latest" type="constant"/>
+        <keyword name="level" type="constant"/>
+        <keyword name="like" type="constant"/>
+        <keyword name="limit" type="constant"/>
+        <keyword name="linear" type="constant"/>
+        <keyword name="link" type="constant"/>
+        <keyword name="list" type="constant"/>
+        <keyword name="load" type="constant"/>
+        <keyword name="local" type="constant"/>
+        <keyword name="lock" type="constant"/>
+        <keyword name="merge" type="constant"/>
+        <keyword name="metadata" type="constant"/>
+        <keyword name="modify" type="constant"/>
+        <keyword name="nodes" type="constant"/>
+        <keyword name="none" type="constant"/>
+        <keyword name="not" type="constant"/>
+        <keyword name="now" type="constant"/>
+        <keyword name="null" type="constant"/>
+        <keyword name="of" type="constant"/>
+        <keyword name="off" type="constant"/>
+        <keyword name="offset" type="constant"/>
+        <keyword name="on" type="constant"/>
+        <keyword name="or" type="constant"/>
+        <keyword name="order" type="constant"/>
+        <keyword name="onsuccess" type="constant"/>
+        <keyword name="partition" type="constant"/>
+        <keyword name="password" type="constant"/>
+        <keyword name="paths" type="constant"/>
+        <keyword name="pipe" type="constant"/>
+        <keyword name="pipes" type="constant"/>
+        <keyword name="pipesink" type="constant"/>
+        <keyword name="pipesinks" type="constant"/>
+        <keyword name="pipesinktype" type="constant"/>
+        <keyword name="policy" type="constant"/>
+        <keyword name="previous" type="constant"/>
+        <keyword name="previousuntillast" type="constant"/>
+        <keyword name="privileges" type="constant"/>
+        <keyword name="processlist" type="constant"/>
+        <keyword name="property" type="constant"/>
+        <keyword name="prune" type="constant"/>
+        <keyword name="queries" type="constant"/>
+        <keyword name="query" type="constant"/>
+        <keyword name="range" type="constant"/>
+        <keyword name="readonly" type="constant"/>
+        <keyword name="read" type="constant"/>
+        <keyword name="regexp" type="constant"/>
+        <keyword name="regionid" type="constant"/>
+        <keyword name="regions" type="constant"/>
+        <keyword name="remove" type="constant"/>
+        <keyword name="rename" type="constant"/>
+        <keyword name="resample" type="constant"/>
+        <keyword name="resource" type="constant"/>
+        <keyword name="revoke" type="constant"/>
+        <keyword name="role" type="constant"/>
+        <keyword name="running" type="constant"/>
+        <keyword name="schema" type="constant"/>
+        <keyword name="select" type="constant"/>
+        <keyword name="seriesslotid" type="constant"/>
+        <keyword name="set" type="constant"/>
+        <keyword name="settle" type="constant"/>
+        <keyword name="sglevel" type="constant"/>
+        <keyword name="show" type="constant"/>
+        <keyword name="slimit" type="constant"/>
+        <keyword name="soffset" type="constant"/>
+        <keyword name="storage" type="constant"/>
+        <keyword name="start" type="constant"/>
+        <keyword name="starttime" type="constant"/>
+        <keyword name="stateless" type="constant"/>
+        <keyword name="stateful" type="constant"/>
+        <keyword name="stop" type="constant"/>
+        <keyword name="system" type="constant"/>
+        <keyword name="tail" type="constant"/>
+        <keyword name="tags" type="constant"/>
+        <keyword name="task" type="constant"/>
+        <keyword name="template" type="constant"/>
+        <keyword name="timeout" type="constant"/>
+        <keyword name="timeseries" type="constant"/>
+        <keyword name="timeslotid" type="constant"/>
+        <keyword name="to" type="constant"/>
+        <keyword name="tolerance" type="constant"/>
+        <keyword name="top" type="constant"/>
+        <keyword name="tracing" type="constant"/>
+        <keyword name="trigger" type="constant"/>
+        <keyword name="triggers" type="constant"/>
+        <keyword name="ttl" type="constant"/>
+        <keyword name="unlink" type="constant"/>
+        <keyword name="unload" type="constant"/>
+        <keyword name="unset" type="constant"/>
+        <keyword name="update" type="constant"/>
+        <keyword name="upsert" type="constant"/>
+        <keyword name="uri" type="constant"/>
+        <keyword name="user" type="constant"/>
+        <keyword name="using" type="constant"/>
+        <keyword name="values" type="constant"/>
+        <keyword name="verbose" type="constant"/>
+        <keyword name="verify" type="constant"/>
+        <keyword name="version" type="constant"/>
+        <keyword name="view" type="constant"/>
+        <keyword name="watermark" type="constant"/>
+        <keyword name="where" type="constant"/>
+        <keyword name="with" type="constant"/>
+        <keyword name="without" type="constant"/>
+        <keyword name="writable" type="constant"/>
+
+        <!-- 聚合函数 -->
+        <keyword name="sum" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>求和</desc>
+        </keyword>
+
+        <keyword name="count" type="function" returnType="INT">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>计算数据点数</desc>
+        </keyword>
+
+        <keyword name="avg" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>求平均值</desc>
+        </keyword>
+
+        <keyword name="stddev" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>STDDEV_SAMP 的别名，求样本标准差。</desc>
+        </keyword>
+
+        <keyword name="stddev_pop" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>求总体标准差。</desc>
+        </keyword>
+
+        <keyword name="stddev_samp" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>求样本标准差。</desc>
+        </keyword>
+
+        <keyword name="variance" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>VAR_SAMP 的别名，求样本方差。</desc>
+        </keyword>
+
+        <keyword name="var_pop" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>求总体方差。</desc>
+        </keyword>
+
+        <keyword name="var_samp" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>求样本方差。</desc>
+        </keyword>
+
+        <keyword name="extreme" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。</desc>
+            <returnValDesc>输出类型与输入类型一致</returnValDesc>
+        </keyword>
+
+        <keyword name="max_value" type="function"
+                 returnType="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE" name="column"/>
+            </params>
+            <desc>求最大值。</desc>
+            <returnValDesc>输出类型与输入类型一致</returnValDesc>
+        </keyword>
+
+        <keyword name="min_value" type="function"
+                 returnType="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE" name="column"/>
+            </params>
+            <desc>求最小值。</desc>
+            <returnValDesc>输出类型与输入类型一致</returnValDesc>
+        </keyword>
+
+        <keyword name="first_value" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>求时间戳最小的值。</desc>
+            <returnValDesc>输出类型与输入类型一致</returnValDesc>
+        </keyword>
+
+        <keyword name="last_value" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>求时间戳最小的值。</desc>
+            <returnValDesc>输出类型与输入类型一致</returnValDesc>
+        </keyword>
+
+        <keyword name="max_time" type="function" returnType="TIMESTAMP">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>求最大时间戳。</desc>
+        </keyword>
+
+        <keyword name="min_time" type="function" returnType="TIMESTAMP">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc>求最大时间戳。</desc>
+        </keyword>
+
+        <keyword name="count_if" type="function" returnType="INT64">
+            <params>
+                <param type="BOOLEAN" name="expression">
+                    <desc><![CDATA[布尔表达式, 例如: root.db.d1.s1 = 0 & root.db.d1.s2 = 0]]></desc>
+                </param>
+                <param type="BOOLEAN | INT64" name="keepThreshold">
+                    <desc>
+                        <![CDATA[格式: [keep >=/>/=/!=/</<=]threshold. 指定阈值或阈值条件, 如果单独使用阈值，则相当于 keep>=threshold, threshold 的类型为 INT64]]></desc>
+                </param>
+                <param type="BOOLEAN" name="attributes">
+                    <desc>可选, 默认为 true；如果值为 true, null 值将被忽略, 这意味着，如果中间有一个 null
+                        值，则在不中断连续性的情况下忽略该值。如果值为 false，则不忽略空值，这意味着如果中间有 null
+                        值，则连续性将中断
+                    </desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                查找连续满足给定条件的数据点的数量，以及满足条件（由keepThreshold表示）的数据点数量满足指定阈值。 <br>
+                例如:<br>
+                    count_if(root.*.d2.s1 = 0 & root.*.d2.s2 = 0, 3)<br>
+                    count_if(root.db.d1.s1 = 0 & root.db.d1.s2 = 0, keep >= 3, "ignoreNull"="true")
+            ]]></desc>
+        </keyword>
+
+        <keyword name="time_duration" type="function" returnType="INT64">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc><![CDATA[
+                在列中查找最大非空值的时间戳和最小非空值时间戳之间的时间差。 <br>
+                例如:<br>
+                    select time_duration(s1) from root.db.d1  where time < 10 order by time asc
+            ]]></desc>
+        </keyword>
+
+        <keyword name="count_time" type="function" returnType="INT64">
+            <params>
+                <param type="" name="*"/>
+            </params>
+            <desc><![CDATA[
+                时间戳数量 <br>
+                例如:<br>
+                    select count_time(*) from root.db.**<br>
+                <b>注：</b><br>
+                    1. count_time里的表达式只能为*。<br>
+                    2. count_time不能和其他的聚合函数一起使用。<br>
+                    3. having语句里不支持使用count_time, 使用count_time聚合函数时不支持使用having语句。<br>
+                    4. count_time不支持与group by level, group by tag一起使用。
+            ]]></desc>
+        </keyword>
+
+        <keyword name="mode" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="column"/>
+            </params>
+            <desc><![CDATA[
+                查找模式。<br>
+                <b>注：</b><br>
+                1.在输入序列中具有太多不同的值有可能导致内存异常；<br>
+                2.如果所有元素具有相同的出现次数，即没有Mode，则返回具有最早时间的值；<br>
+                3.如果有许多模式，则返回时间最早的模式。<br>
+                <b>例如:</b><br>
+                    select time_duration(s1) from root.db.d1 where time < 10 order by time asc
+            ]]></desc>
+            <returnValDesc>输出类型与输入类型一致</returnValDesc>
+        </keyword>
+
+        <keyword name="max_by" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="x"/>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE" name="y"/>
+            </params>
+            <desc><![CDATA[
+                MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。<br>
+                MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。<br>
+                <ul>
+                    <li>max_by 必须有两个输入参数 x 和 y。</li>
+                    <li>第一个输入可以为 time 关键字, max_by(time, x) 返回 x 取最大值时对应的时间戳。</li>
+                    <li>如果 y 最大时对应的时间戳下 x 为 null，则返回 null。</li>
+                    <li>如果 y 可以在多个时间戳下取得最大值，取最大值中最小时间戳对应的 x 值。</li>
+                    <li>与 IoTDB max_value 保持一致，仅支持 INT32、INT64、FLOAT、DOUBLE 作为 y 的输入，支持所有六种类型作为 x 的输入。</li>
+                    <li>x, y 的输入均不允许为具体数值。</li>
+                </ul>
+            ]]></desc>
+            <returnValDesc>与第一个输入 x 的数据类型一致</returnValDesc>
+        </keyword>
+
+        <keyword name="min_by" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="x"/>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | STRING | TIMESTAMP | DATE" name="y"/>
+            </params>
+            <desc><![CDATA[
+                MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。<br>
+                MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。<br>
+                <ul>
+                    <li>min_by 必须有两个输入参数 x 和 y。</li>
+                    <li>第一个输入可以为 time 关键字, min_by(time, x) 返回 x 取最小值时对应的时间戳。</li>
+                    <li>如果 y 最大时对应的时间戳下 x 为 null，则返回 null。</li>
+                    <li>如果 y 可以在多个时间戳下取得最小值，取最小值中最小时间戳对应的 x 值。</li>
+                    <li>与 IoTDB min_value 保持一致，仅支持 INT32、INT64、FLOAT、DOUBLE 作为 y 的输入，支持所有六种类型作为 x 的输入。</li>
+                    <li>x, y 的输入均不允许为具体数值。</li>
+                </ul>
+            ]]></desc>
+            <returnValDesc>与第一个输入 x 的数据类型一致</returnValDesc>
+        </keyword>
+
+
+        <!-- 数学函数 -->
+        <keyword name="sin" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.sin(double)</desc>
+        </keyword>
+        <keyword name="cos" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.cos(double)</desc>
+        </keyword>
+        <keyword name="tan" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.tan(double)</desc>
+        </keyword>
+        <keyword name="asin" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.asin(double)</desc>
+        </keyword>
+        <keyword name="acos" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.acos(double)</desc>
+        </keyword>
+        <keyword name="atan" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.atan(double)</desc>
+        </keyword>
+        <keyword name="sinh" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.sinh(double)</desc>
+        </keyword>
+        <keyword name="cosh" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.cosh(double)</desc>
+        </keyword>
+        <keyword name="tanh" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.tanh(double)</desc>
+        </keyword>
+        <keyword name="degrees" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.toDegrees(double)</desc>
+        </keyword>
+        <keyword name="radians" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.toRadians(double)</desc>
+        </keyword>
+        <keyword name="abs" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.abs(int) | Math.abs(long) |Math.abs(float) |Math.abs(double)</desc>
+            <returnValDesc>与输入序列的实际类型一致</returnValDesc>
+        </keyword>
+        <keyword name="sign" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.signum(double)</desc>
+        </keyword>
+        <keyword name="ceil" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.ceil(double)</desc>
+        </keyword>
+        <keyword name="floor" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.floor(double)</desc>
+        </keyword>
+        <keyword name="round" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+                <param type="INT32" name="places">
+                    <desc>四舍五入有效位数，正数为小数点后面的有效位数，负数为整数位的有效位数</desc>
+                </param>
+            </params>
+            <desc>对应 Java 中的 Math.rint(Math.pow(10,places))|Math.pow(10,places)
+            </desc>
+        </keyword>
+        <keyword name="exp" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.exp(double)</desc>
+        </keyword>
+        <keyword name="ln" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.log(double)</desc>
+        </keyword>
+        <keyword name="log10" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.log10(double)</desc>
+        </keyword>
+        <keyword name="sqrt" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="x"/>
+            </params>
+            <desc>对应 Java 中的 Math.sqrt(double)</desc>
+        </keyword>
+
+
+        <!-- 比较函数 -->
+        <keyword name="on_off" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="value"/>
+                <param type="DOUBLE" name="threshold">
+                    <desc>判断阈值</desc>
+                </param>
+            </params>
+            <desc>求开关状态，返回 value >= threshold 的 bool 值</desc>
+        </keyword>
+        <keyword name="in_range" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="value"/>
+                <param type="DOUBLE" name="lower">
+                    <desc>下限</desc>
+                </param>
+                <param type="DOUBLE" name="upper">
+                    <desc>上限</desc>
+                </param>
+            </params>
+            <desc><![CDATA[求是否在指定的范围内，返回 value >= lower && value <= upper 的 bool 值]]></desc>
+        </keyword>
+
+
+        <!-- 字符串函数 -->
+        <keyword name="string_contains" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="s">
+                    <desc>待搜寻的字符串</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+            判断字符串中是否存在s<br>
+            例如:<br>
+                select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
+            ]]></desc>
+        </keyword>
+
+        <keyword name="string_matches" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="regex">
+                    <desc>Java 标准库风格的正则表达式</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+            判断字符串是否能够被正则表达式regex匹配。<br>
+            例如:<br>
+                select s1, string_matches(s1, 'regex'='[^\\s]+37229') from root.sg1.d4;
+            ]]></desc>
+        </keyword>
+
+        <keyword name="length" type="function" returnType="INT32">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>返回字符串的长度</desc>
+        </keyword>
+
+        <keyword name="locate" type="function" returnType="INT32">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="target">
+                    <desc>需要被定位的子串</desc>
+                </param>
+                <param type="BOOLEAN" name="reverse">
+                    <desc>指定是否需要倒序定位，默认值为false, 即从左至右定位</desc>
+                </param>
+            </params>
+            <desc>获取target子串第一次出现在输入序列的位置，如果输入序列中不包含target则返回 -1</desc>
+        </keyword>
+
+        <keyword name="startswith" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="target">
+                    <desc>需要匹配的前缀</desc>
+                </param>
+            </params>
+            <desc>判断字符串是否有指定前缀</desc>
+        </keyword>
+
+        <keyword name="endswith" type="function" returnType="BOOLEAN">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="target">
+                    <desc>需要匹配的后缀</desc>
+                </param>
+            </params>
+            <desc>判断字符串是否有指定后缀</desc>
+        </keyword>
+
+        <keyword name="concat" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="targets">
+                    <desc>一系列 K-V, key需要以target为前缀且不重复, value是待拼接的字符串。</desc>
+                </param>
+                <param type="BOOLEAN" name="series_behind">
+                    <desc>指定拼接时时间序列是否在后面，默认为false。</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                拼接字符串和target字串。<br>
+                例如: <br>
+                    select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB", "series_behind"="true") from root.testStringFunctions.d1 align by device
+            ]]></desc>
+        </keyword>
+
+        <keyword name="substring" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="INT32" name="from">
+                    <desc>指定子串开始下标</desc>
+                </param>
+                <param type="INT32" name="for">
+                    <desc>指定的字符个数之后停止</desc>
+                </param>
+            </params>
+            <desc>提取字符串的子字符串，从指定的第一个字符开始，并在指定的字符数之后停止。下标从1开始。from 和 for的范围是
+                INT32 类型取值范围。
+            </desc>
+        </keyword>
+
+        <keyword name="replace" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+                <param type="TEXT | STRING" name="target">
+                    <desc>需要替换的目标子串</desc>
+                </param>
+                <param type="TEXT | STRING" name="replaceWith">
+                    <desc>要替换成的子串</desc>
+                </param>
+            </params>
+            <desc>将输入序列中的子串替换成目标子串</desc>
+        </keyword>
+
+        <keyword name="upper" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>将字符串转化为大写</desc>
+        </keyword>
+
+        <keyword name="lower" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>将字符串转化为小写</desc>
+        </keyword>
+
+        <keyword name="trim" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>移除字符串前后的空格</desc>
+        </keyword>
+
+        <keyword name="strcmp" type="function" returnType="TEXT">
+            <params>
+                <param type="TEXT | STRING" name="text"/>
+            </params>
+            <desc>用于比较两个输入序列，如果值相同返回 0 ,
+                序列1的值小于序列2的值返回一个负数，序列1的值大于序列2的值返回一个正数
+            </desc>
+        </keyword>
+
+
+        <!-- 数据类型转换函数 -->
+        <keyword name="cast" type="function" returnType="ANY">
+            <params>
+                <param type="TEXT" name="as">
+                    <desc>输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                将数据转换为 type 参数指定的类型。<br>
+                例如:<br>
+                    SELECT cast(s1 as INT32) from root.sg
+            ]]></desc>
+            <returnValDesc>由输入属性参数 type 决定</returnValDesc>
+        </keyword>
+
+
+        <!-- 常序列生成函数 -->
+        <keyword name="const" type="function" returnType="ANY">
+            <params>
+                <param type="ANY" name="column"/>
+                <param type="DataType" name="type">
+                    <desc>输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                根据输入属性 value 和 type 输出用户指定的常序列。<br>
+                例如:<br>
+                    select s1, s2, const(s1, 'value'='1024', 'type'='INT64') from root.sg1.d1;
+            ]]></desc>
+            <returnValDesc>由输入属性参数 type 决定</returnValDesc>
+        </keyword>
+        <keyword name="pi" type="function" returnType="DOUBLE">
+            <desc><![CDATA[
+                常序列的值：π 的 double 值，圆的周长与其直径的比值，即圆周率，等于 Java标准库 中的Math.PI。<br>
+                例如:<br>
+                    select s1, s2, pi(s2) from root.sg1.d1;
+            ]]></desc>
+        </keyword>
+        <keyword name="e" type="function" returnType="DOUBLE">
+            <desc><![CDATA[
+                常序列的值：e 的 double 值，自然对数的底，它等于 Java 标准库 中的 Math.E。<br>
+                例如:<br>
+                    select s1, s2, e(s1, s2) from root.sg1.d1;
+            ]]></desc>
+        </keyword>
+
+
+        <!-- 选择函数 -->
+        <keyword name="top_k" type="function" returnType="ANY">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | TEXT | STRING | DATE | TIEMSTAMP" name="column"/>
+                <param type="INT32" name="k">
+                    <desc>最多选择的数据点数，必须大于 0 小于等于 1000</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                返回某时间序列中值最大的k个数据点。若多于k个数据点的值并列最大，则返回时间戳最小的数据点。<br>
+                例如: <br>
+                    select s1, top_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
+            ]]></desc>
+            <returnValDesc>与输入序列的实际类型一致</returnValDesc>
+        </keyword>
+        <keyword name="bottom_k" type="function" returnType="ANY">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | TEXT | STRING | DATE | TIEMSTAMP" name="column"/>
+                <param type="INT32" name="k">
+                    <desc>最多选择的数据点数，必须大于 0 小于等于 1000</desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                返回某时间序列中值最小的k个数据点。若多于k个数据点的值并列最小，则返回时间戳最小的数据点。<br>
+                例如: <br>
+                    select s1, bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
+            ]]></desc>
+            <returnValDesc>与输入序列的实际类型一致</returnValDesc>
+        </keyword>
+
+
+        <!-- 区间查询函数 -->
+        <keyword name="zero_duration" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN" name="column"/>
+                <param type="INT64" name="min">
+                    <desc>可选，默认值0</desc>
+                </param>
+                <param type="INT64" name="max">
+                    <desc>可选，默认值Long.MAX_VALUE</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[返回时间序列连续为0(false)的开始时间与持续时间，持续时间t(单位ms)满足t >= min && t <= max]]></desc>
+        </keyword>
+        <keyword name="non_zero_duration" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN" name="column"/>
+                <param type="INT64" name="min">
+                    <desc>可选，默认值0</desc>
+                </param>
+                <param type="INT64" name="max">
+                    <desc>可选，默认值Long.MAX_VALUE</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[返回时间序列连续不为0(false)的开始时间与持续时间，持续时间t(单位ms)满足t >= min && t <= max]]></desc>
+        </keyword>
+        <keyword name="zero_count" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN" name="column"/>
+                <param type="INT64" name="min">
+                    <desc>可选，默认值1</desc>
+                </param>
+                <param type="INT64" name="max">
+                    <desc>可选，默认值Long.MAX_VALUE</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足n >= min && n <= max]]></desc>
+        </keyword>
+        <keyword name="non_zero_count" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN" name="column"/>
+                <param type="INT64" name="min">
+                    <desc>可选，默认值1</desc>
+                </param>
+                <param type="INT64" name="max">
+                    <desc>可选，默认值Long.MAX_VALUE</desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足n >= min && n <= max]]></desc>
+        </keyword>
+
+
+        <!-- 趋势计算函数 -->
+        <keyword name="time_difference" type="function" returnType="INT64">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE | BOOLEAN | TEXT" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[统计序列中某数据点的时间戳与前一数据点时间戳的差。范围内第一个数据点没有对应的结果输出。]]></desc>
+        </keyword>
+        <keyword name="difference" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc><![CDATA[统计序列中某数据点的值与前一数据点的值的差。范围内第一个数据点没有对应的结果输出。]]></desc>
+            <returnValDesc>与输入序列的实际类型一致</returnValDesc>
+        </keyword>
+        <keyword name="non_negative_difference" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[统计序列中某数据点的值与前一数据点的值的差的绝对值。范围内第一个数据点没有对应的结果输出。]]></desc>
+            <returnValDesc>与输入序列的实际类型一致</returnValDesc>
+        </keyword>
+        <keyword name="derivative" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[统计序列中某数据点相对于前一数据点的变化率，数量上等同于 DIFFERENCE / TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。]]></desc>
+        </keyword>
+        <keyword name="non_negative_derivative" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc>
+                <![CDATA[统计序列中某数据点相对于前一数据点的变化率的绝对值，数量上等同于 NON_NEGATIVE_DIFFERENCE / TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。]]></desc>
+        </keyword>
+        <keyword name="diff" type="function" returnType="DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="BOOLEAN" name="ignoreNull">
+                    <desc>
+                        可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null
+                    </desc>
+                </param>
+            </params>
+            <desc>
+                <![CDATA[统计序列中某数据点相对于前一数据点的变化率的绝对值，数量上等同于 NON_NEGATIVE_DIFFERENCE / TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。]]></desc>
+        </keyword>
+
+
+        <!-- 采样函数 -->
+        <keyword name="equal_size_bucket_random_sample" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="FLOAT" name="proportion">
+                    <desc>降采样比例 proportion，取值范围为(0, 1]，默认为0.1</desc>
+                </param>
+            </params>
+            <desc><![CDATA[返回符合采样比例的等分桶随机采样]]></desc>
+        </keyword>
+        <keyword name="equal_size_bucket_agg_sample" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="FLOAT" name="proportion">
+                    <desc>取值范围为(0, 1]，默认为0.1</desc>
+                </param>
+                <param type="TEXT" name="type">
+                    <desc>取值类型有avg, max, min, sum, extreme, variance, 默认为avg</desc>
+                </param>
+            </params>
+            <desc><![CDATA[返回符合采样比例的等分桶聚合采样]]></desc>
+        </keyword>
+        <keyword name="equal_size_bucket_m4_sample" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="FLOAT" name="proportion">
+                    <desc>取值范围为 (0, 1]，默认为 0.1</desc>
+                </param>
+            </params>
+            <desc><![CDATA[返回符合采样比例的等分桶M4采样]]></desc>
+        </keyword>
+        <keyword name="equal_size_bucket_outlier_sample" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="FLOAT" name="proportion">
+                    <desc>取值范围为 (0, 1]，默认为 0.1</desc>
+                </param>
+                <param type="TEXT" name="type">
+                    <desc>取值为 avg 或 stendis 或 cos 或 prenextdis，默认为 avg</desc>
+                </param>
+                <param type="INT32" name="number">
+                    <desc>取值应大于 0，默认 3</desc>
+                </param>
+            </params>
+            <desc><![CDATA[返回符合采样比例和桶内采样个数的等分桶离群值采样]]></desc>
+        </keyword>
+        <keyword name="m4" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+                <param type="TEXT" name="attributes">
+                    <desc>
+                        包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性windowSize和slidingStep。滑动时间窗口使用属性timeInterval、slidingStep、displayWindowBegin和displayWindowEnd。
+                    </desc>
+                </param>
+            </params>
+            <desc><![CDATA[
+                返回每个窗口内的第一个点（first）、最后一个点（last）、最小值点（bottom）、最大值点（top）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。<br>
+                例如:<br>
+                1. select m4(s1) from root.db.d1<br>
+                2. select m4(s1,'timeInterval'='25','slidingStep'='25','displayWindowBegin'='0','displayWindowEnd'='100') * from root.vehicle.d1
+            ]]></desc>
+        </keyword>
+
+
+        <!-- 时间序列处理函数 -->
+        <keyword name="change_points" type="function" returnType="INT32 | INT64 | FLOAT | DOUBLE">
+            <params>
+                <param type="INT32 | INT64 | FLOAT | DOUBLE" name="column"/>
+            </params>
+            <desc><![CDATA[
+            去除输入序列中的连续相同值。<br>
+            例如:<br>
+                select change_points(s1), diff(s2) from root.db.d1
+            ]]></desc>
+        </keyword>
+    </keywords>
+
+</api>
