@@ -69,7 +69,7 @@ public class AboutForm extends JDialog {
             // ignore
         }
         nameLabel.putClientProperty("FlatLaf.styleClass", "h3");
-        String githubLink = "https://github.com/ptma/iotdb-desktop";
+        String githubLink = "https://github.com/ptma/IoTDBDesktop";
         githubLinkLabel.setText("<html><a href=\"#\">" + githubLink + "</a></html>");
         githubLinkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         githubLinkLabel.addMouseListener(new MouseAdapter() {
@@ -82,7 +82,7 @@ public class AboutForm extends JDialog {
                 }
             }
         });
-        String giteeLink = "https://gitee.com/ptma/iotdb-desktop";
+        String giteeLink = "https://gitee.com/ptma/IoTDBDesktop";
         giteeLinkLabel.setText("<html><a href=\"#\">" + giteeLink + "</a></html>");
         giteeLinkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         giteeLinkLabel.addMouseListener(new MouseAdapter() {
