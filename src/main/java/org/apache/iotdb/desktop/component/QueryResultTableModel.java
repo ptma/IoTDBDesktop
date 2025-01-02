@@ -159,6 +159,22 @@ public class QueryResultTableModel extends AbstractTableModel {
         }
     }
 
+    public int getColumnIndex(String columnName) {
+        if (result != null) {
+            if (result.hasException()) {
+                return 0;
+            } else {
+                if ("#".equals(columnName)) {
+                    return 0;
+                } else {
+                    return result.getColumnIndex(columnName) + 1;
+                }
+            }
+        } else {
+            return 0;
+        }
+    }
+
     @Override
     public String getColumnName(int column) {
         if (result != null) {
