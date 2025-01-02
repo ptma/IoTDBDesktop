@@ -4,6 +4,7 @@
 ![Apache 2.0](https://img.shields.io/badge/Apache-2.0-blue.svg)
 ![](https://img.shields.io/badge/platform-win%20%7C%20macos%20%7C%20linux-yellow.svg)
 ![Release](https://img.shields.io/badge/Release-0.0.1-blue.svg)
+![](https://img.shields.io/github/downloads/ptma/IoTDBDesktop/total.svg)
 
 IoTDBDesktop 是 Apache IoTDB 的桌面客户端，基于 Swing 构建。
 
