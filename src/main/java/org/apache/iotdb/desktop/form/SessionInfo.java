@@ -125,6 +125,7 @@ public class SessionInfo extends TabPanel {
             protected void done() {
                 try {
                     variablesTableModel.setResult(get());
+                    variablesTable.setSortOrder(1, SortOrder.ASCENDING);
                     Utils.autoResizeTableColumns(variablesTable, 0);
                 } catch (Exception ex) {
                     Utils.Message.error(ex.getMessage(), ex);
@@ -148,6 +149,7 @@ public class SessionInfo extends TabPanel {
             protected void done() {
                 try {
                     storageGroupTableModel.setResult(get());
+                    storageGroupTable.setSortOrder(1, SortOrder.ASCENDING);
                     Utils.autoResizeTableColumns(storageGroupTable, 0);
                 } catch (Exception ex) {
                     Utils.Message.error(ex.getMessage(), ex);

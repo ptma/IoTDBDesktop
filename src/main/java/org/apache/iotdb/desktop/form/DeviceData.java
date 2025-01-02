@@ -159,6 +159,10 @@ public class DeviceData extends TabPanel {
                     }
                     dataModel.appendResult(get());
                     updatePagingInfo();
+                    if (sortOrder != null) {
+                        int col = dataTable.convertColumnIndexToView(dataModel.getColumnIndex(sortColumn));
+                        dataTable.setSortOrder(col, "desc".equals(sortOrder)? SortOrder.DESCENDING : SortOrder.ASCENDING);
+                    }
                     Utils.autoResizeTableColumns(dataTable, 400);
                 } catch (Exception ex) {
                     Utils.Message.error(ex.getMessage(), ex);

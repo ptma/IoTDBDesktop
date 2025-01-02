@@ -50,6 +50,11 @@ public class QueryResult {
         return this;
     }
 
+    public int getColumnIndex(String columnName) {
+        return columns.indexOf(Optional.ofNullable(localeColumnNames.get(columnName))
+            .orElse(columnName));
+    }
+
     public QueryResult error(Exception exception) {
         this.endTime = System.currentTimeMillis();
         this.columns = List.of("Error");
@@ -82,31 +87,35 @@ public class QueryResult {
             for (int i = 0; i < this.columns.size(); i++) {
                 TSDataType dataType = TSDataType.valueOf(this.getColumnTypes().get(i));
                 String columnName = this.columns.get(i);
-                switch (dataType) {
-                    case BOOLEAN:
-                        data.put(columnName, iterator.getBoolean(columnName));
-                        break;
-                    case INT32:
-                    case DATE:
-                        data.put(columnName, iterator.getInt(columnName));
-                        break;
-                    case INT64:
-                    case TIMESTAMP:
-                        data.put(columnName, iterator.getLong(columnName));
-                        break;
-                    case FLOAT:
-                        data.put(columnName, iterator.getFloat(columnName));
-                        break;
-                    case DOUBLE:
-                        data.put(columnName, iterator.getDouble(columnName));
-                        break;
-                    case TEXT:
-                    case BLOB:
-                    case STRING:
-                        data.put(columnName, iterator.getString(columnName));
-                        break;
-                    default:
-                        data.put(columnName, iterator.getObject(columnName));
+                if (!"Time".equalsIgnoreCase(columnName) && iterator.isNull(columnName)) {
+                    data.put(columnName, null);
+                } else {
+                    switch (dataType) {
+                        case BOOLEAN:
+                            data.put(columnName, iterator.getBoolean(columnName));
+                            break;
+                        case INT32:
+                        case DATE:
+                            data.put(columnName, iterator.getInt(columnName));
+                            break;
+                        case INT64:
+                        case TIMESTAMP:
+                            data.put(columnName, iterator.getLong(columnName));
+                            break;
+                        case FLOAT:
+                            data.put(columnName, iterator.getFloat(columnName));
+                            break;
+                        case DOUBLE:
+                            data.put(columnName, iterator.getDouble(columnName));
+                            break;
+                        case TEXT:
+                        case BLOB:
+                        case STRING:
+                            data.put(columnName, iterator.getString(columnName));
+                            break;
+                        default:
+                            data.put(columnName, iterator.getObject(columnName));
+                    }
                 }
             }
             this.datas.add(data);
