@@ -87,7 +87,7 @@ public class QueryResult {
             for (int i = 0; i < this.columns.size(); i++) {
                 TSDataType dataType = TSDataType.valueOf(this.getColumnTypes().get(i));
                 String columnName = this.columns.get(i);
-                if (iterator.isNull(columnName)) {
+                if (!"Time".equalsIgnoreCase(columnName) && iterator.isNull(columnName)) {
                     data.put(columnName, null);
                 } else {
                     switch (dataType) {
