@@ -1,8 +1,13 @@
 package org.apache.iotdb.desktop.form;
 
-import org.apache.iotdb.desktop.component.*;
+import cn.hutool.core.util.NumberUtil;
+import org.apache.iotdb.desktop.component.QueryResultTable;
+import org.apache.iotdb.desktop.component.QueryResultTableModel;
+import org.apache.iotdb.desktop.component.TabPanel;
 import org.apache.iotdb.desktop.config.Configuration;
-import org.apache.iotdb.desktop.model.*;
+import org.apache.iotdb.desktop.model.Database;
+import org.apache.iotdb.desktop.model.QueryResult;
+import org.apache.iotdb.desktop.model.Session;
 import org.apache.iotdb.desktop.util.Utils;
 
 import javax.swing.*;
@@ -10,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.time.Duration;
 
 public class DatabaseInfo extends TabPanel {
     private JPanel rootPanel;
@@ -48,6 +54,7 @@ public class DatabaseInfo extends TabPanel {
             protected void done() {
                 try {
                     deviceTableModel.setResult(get());
+                    deviceTable.setSortOrder(1, SortOrder.ASCENDING);
                     Utils.autoResizeTableColumns(deviceTable, 0);
                 } catch (Exception ex) {
                     Utils.Message.error(ex.getMessage(), ex);
@@ -63,6 +70,10 @@ public class DatabaseInfo extends TabPanel {
                 result.getColumnTypes().add("INT32");
                 result.getDatas().forEach(row -> {
                     try {
+                        String ttlValue = (String) row.getOrDefault("TTL(ms)", "");
+                        if (NumberUtil.isNumber(ttlValue)) {
+                            row.put("TTL(ms)", Utils.durationToString(Duration.ofMillis(Long.parseLong(ttlValue))) + " (" + ttlValue + ")");
+                        }
                         int count = database.getSession().countOne("count timeseries " + row.get("Device") + ".**");
                         row.put("MetricCount", count);
                     } catch (Exception e) {
