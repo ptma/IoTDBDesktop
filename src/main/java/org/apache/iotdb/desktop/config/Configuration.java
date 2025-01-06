@@ -49,8 +49,9 @@ public final class Configuration implements Serializable {
             options.setLogInternalSql(getBoolean(ConfKeys.LOG_INTERNAL_SQL, false));
             options.setLogTimestamp(getBoolean(ConfKeys.LOG_TIMESTAMP, false));
             options.setTimeFormat(getString(ConfKeys.TIME_FORMAT, "yyyy-MM-dd HH:mm:ss.SSS"));
-            
+
             options.setDblclickOpenEditor(getBoolean(ConfKeys.DBLCLICK_OPEN_EDITOR, false));
+            options.setFlattenDeviceNodes(getBoolean(ConfKeys.FLATTEN_DEVICE_NODES, true));
             options.setEditorSortOrder(getString(ConfKeys.EDITOR_SORT_ORDER, "desc"));
             options.setEditorPageSize(getInt(ConfKeys.EDITOR_PAGE_SIZE, 500));
             options.setEditorAligned(getBoolean(ConfKeys.EDITOR_ALIGNED, true));
@@ -71,10 +72,11 @@ public final class Configuration implements Serializable {
         Configuration.instance().setString(ConfKeys.TIME_FORMAT, options().getTimeFormat());
 
         Configuration.instance().setBoolean(ConfKeys.DBLCLICK_OPEN_EDITOR, options.isDblclickOpenEditor());
+        Configuration.instance().setBoolean(ConfKeys.FLATTEN_DEVICE_NODES, options.isFlattenDeviceNodes());
         Configuration.instance().setString(ConfKeys.EDITOR_SORT_ORDER, options.getEditorSortOrder());
         Configuration.instance().setInt(ConfKeys.EDITOR_PAGE_SIZE, options.getEditorPageSize());
         Configuration.instance().setBoolean(ConfKeys.EDITOR_ALIGNED, options.isEditorAligned());
-        
+
         AppEvents.instance().applyEvent(l -> l.optionsChanged(options()));
     }
 
