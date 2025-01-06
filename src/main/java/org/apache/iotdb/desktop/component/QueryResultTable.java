@@ -65,7 +65,9 @@ public class QueryResultTable extends JXTable {
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.setIntercellSpacing(new Dimension(1, 1));
         this.setDefaultEditor(String.class, new DetailedTextCellEditor(new JTextField()));
-        this.setDefaultEditor(Boolean.class, new DefaultCellEditor(new JCheckBox()));
+        JCheckBox editorCheckbox = new JCheckBox();
+        editorCheckbox.setHorizontalAlignment(JLabel.CENTER);
+        this.setDefaultEditor(Boolean.class, new DefaultCellEditor(editorCheckbox));
         this.setSortOrderCycle(SortOrder.DESCENDING, SortOrder.ASCENDING, SortOrder.UNSORTED);
         this.setColumnModel(new QueryResultColumnModel(this));
         tableModel.addTableModelListener(e -> {
