@@ -65,10 +65,11 @@ public class OptionsForm extends JDialog {
     private JLabel rowsPerPageLabel;
     private JLabel orderByTimeLabel;
     private JCheckBox alwaysAlignByDeviceCheckBox;
+    private JCheckBox flattenDeviceNodesCheckBox;
 
     public static void open() {
         JDialog dialog = new OptionsForm(IotdbDesktopApp.frame);
-        dialog.setMinimumSize(new Dimension(350, 380));
+        dialog.setMinimumSize(new Dimension(350, 400));
         dialog.setResizable(false);
         dialog.pack();
         dialog.setLocationRelativeTo(IotdbDesktopApp.frame);
@@ -116,6 +117,7 @@ public class OptionsForm extends JDialog {
         tabbedPane.setTitleAt(2, LangUtil.getString("Other"));
         sessionTreeLabel.setText(LangUtil.getString("SessionTree"));
         autoLoadDeviceNodesCheckBox.setText(LangUtil.getString("AutoLoadDeviceNodes"));
+        flattenDeviceNodesCheckBox.setText(LangUtil.getString("FlattenDeviceNodes"));
         sqlLogLabel.setText(LangUtil.getString("SQLLog"));
         logInternalSQLCheckBox.setText(LangUtil.getString("LogInternalSQL"));
         addTimestampToLogsCheckBox.setText(LangUtil.getString("AddTimestampToLogs"));
@@ -200,6 +202,10 @@ public class OptionsForm extends JDialog {
         dblClickOpenDeviceDataCheckBox.setSelected(dblclickOpenEditor);
         dblClickOpenDeviceDataCheckBox.addActionListener(e -> optionsChanged = true);
 
+        boolean flattenDeviceNodes = Configuration.instance().options().isFlattenDeviceNodes();
+        flattenDeviceNodesCheckBox.setSelected(flattenDeviceNodes);
+        flattenDeviceNodesCheckBox.addActionListener(e -> optionsChanged = true);
+
         int editorPageSize = Configuration.instance().options().getEditorPageSize();
         pageSizeField.setModel(new SpinnerNumberModel(editorPageSize, 100, 10000, 1));
         pageSizeField.setEditor(new JSpinner.NumberEditor(pageSizeField, "####"));
@@ -249,6 +255,7 @@ public class OptionsForm extends JDialog {
             Configuration.instance().options().setTimeFormat((String) timeFormatField.getSelectedItem());
 
             Configuration.instance().options().setDblclickOpenEditor(dblClickOpenDeviceDataCheckBox.isSelected());
+            Configuration.instance().options().setFlattenDeviceNodes(flattenDeviceNodesCheckBox.isSelected());
             Configuration.instance().options().setEditorPageSize((int) pageSizeField.getValue());
             Configuration.instance().options().setEditorSortOrder(descRadioButton.isSelected() ? "desc" : "asc");
             Configuration.instance().options().setEditorAligned(alwaysAlignByDeviceCheckBox.isSelected());

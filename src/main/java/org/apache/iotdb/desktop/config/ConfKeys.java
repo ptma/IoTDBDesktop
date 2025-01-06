@@ -14,6 +14,7 @@ public final class ConfKeys {
     public static final String TIME_FORMAT = "timeFormat";
 
     public static final String DBLCLICK_OPEN_EDITOR = "dblclickOpenEditor";
+    public static final String FLATTEN_DEVICE_NODES = "flattenDeviceNodes";
     public static final String EDITOR_SORT_ORDER = "editorSortOrder";
     public static final String EDITOR_PAGE_SIZE = "editorPageSize";
     public static final String EDITOR_ALIGNED = "editorAligned";

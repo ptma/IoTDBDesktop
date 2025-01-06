@@ -17,8 +17,9 @@ public class Options {
     private boolean autoLoadDeviceNodes;
     private boolean logInternalSql;
     private boolean logTimestamp;
-    
+
     private boolean dblclickOpenEditor;
+    private boolean flattenDeviceNodes;
     private String editorSortOrder;
     private int editorPageSize;
     private boolean editorAligned;

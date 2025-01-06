@@ -8,10 +8,7 @@ import org.apache.iotdb.desktop.config.SessionProps;
 import org.apache.iotdb.desktop.event.AppEventListenerAdapter;
 import org.apache.iotdb.desktop.event.AppEvents;
 import org.apache.iotdb.desktop.form.*;
-import org.apache.iotdb.desktop.model.Database;
-import org.apache.iotdb.desktop.model.Device;
-import org.apache.iotdb.desktop.model.Session;
-import org.apache.iotdb.desktop.model.Sessionable;
+import org.apache.iotdb.desktop.model.*;
 import org.apache.iotdb.desktop.util.Icons;
 import org.apache.iotdb.desktop.util.LangUtil;
 import org.apache.iotdb.desktop.util.Utils;
@@ -24,6 +21,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.concurrent.Callable;
 
 public class SessionTree extends JXTree {
@@ -48,6 +46,7 @@ public class SessionTree extends JXTree {
 
     private JMenuItem menuRemoveSession;
     private JMenuItem menuRemoveDatabase;
+    private JMenuItem menuRemovePath;
     private JMenuItem menuRemoveDevice;
 
     private JMenuItem menuDetail;
@@ -138,6 +137,9 @@ public class SessionTree extends JXTree {
         menuRemoveDatabase = Utils.UI.createMenuItem(LangUtil.getString("RemoveDatabase"), (e) -> removeSelectedObject());
         menuRemoveDatabase.setIcon(Icons.DELETE);
         popupMenu.add(menuRemoveDatabase);
+        menuRemovePath = Utils.UI.createMenuItem(LangUtil.getString("RemovePath"), (e) -> removeSelectedObject());
+        menuRemovePath.setIcon(Icons.DELETE);
+        popupMenu.add(menuRemovePath);
         menuRemoveDevice = Utils.UI.createMenuItem(LangUtil.getString("RemoveDevice"), (e) -> removeSelectedObject());
         menuRemoveDevice.setIcon(Icons.DELETE);
         popupMenu.add(menuRemoveDevice);
@@ -156,6 +158,7 @@ public class SessionTree extends JXTree {
         boolean onSession = node.getUserObject() instanceof Session;
         boolean sessionOpend = node.getUserObject() instanceof Session session && session.isOpened();
         boolean onDatabase = node.getUserObject() instanceof Database;
+        boolean onPathGroup = node.getUserObject() instanceof PathGroup;
         boolean onDevice = node.getUserObject() instanceof Device;
 
         menuCloseSession.setVisible(onSession && sessionOpend);
@@ -164,7 +167,7 @@ public class SessionTree extends JXTree {
         menuDeviceData.setVisible(onDevice);
         topMenuSeparator.setVisible(onSession);
 
-        menuNewQuery.setEnabled((onSession && sessionOpend) || onDatabase || onDevice);
+        menuNewQuery.setEnabled((onSession && sessionOpend) || onDatabase || onPathGroup || onDevice);
         menuNewDatabase.setVisible(onSession);
         menuNewDatabase.setEnabled(sessionOpend);
         menuNewDevice.setVisible(onDatabase);
@@ -174,6 +177,7 @@ public class SessionTree extends JXTree {
         menuRemoveSession.setVisible(onSession);
         menuRemoveSession.setEnabled(!sessionOpend);
         menuRemoveDatabase.setVisible(onDatabase);
+        menuRemovePath.setVisible(onPathGroup);
         menuRemoveDevice.setVisible(onDevice);
 
         menuDetail.setEnabled((onSession && sessionOpend) || onDatabase || onDevice);
@@ -412,9 +416,40 @@ public class SessionTree extends JXTree {
             treeModel.reload(databaseNode);
             Set<Device> devices = database.getSession().loadDevices(database.getName());
             for (Device device : devices) {
-                DefaultMutableTreeNode deviceTreeNode = new DefaultMutableTreeNode(device);
-                deviceTreeNode.setAllowsChildren(false);
-                treeModel.insertNodeInto(deviceTreeNode, databaseNode, databaseNode.getChildCount());
+                if (Configuration.instance().options().isFlattenDeviceNodes() || !device.getName().contains(".")) {
+                    DefaultMutableTreeNode deviceTreeNode = new DefaultMutableTreeNode(device);
+                    deviceTreeNode.setAllowsChildren(false);
+                    treeModel.insertNodeInto(deviceTreeNode, databaseNode, databaseNode.getChildCount());
+                } else {
+                    String deviceName = device.getName();
+                    StringJoiner paths = new StringJoiner(".");
+                    DefaultMutableTreeNode parentNode = databaseNode;
+                    DefaultMutableTreeNode groupNode;
+                    while (deviceName.contains(".")) {
+                        paths.add(deviceName.substring(0, deviceName.indexOf(".")));
+                        deviceName = deviceName.substring(deviceName.indexOf(".") + 1);
+                        // TODO: 是否已存在节点
+                        boolean pathExist = false;
+                        for (int i = 0; i < parentNode.getChildCount(); i++) {
+                            DefaultMutableTreeNode node = (DefaultMutableTreeNode) parentNode.getChildAt(i);
+                            if (node.getUserObject() instanceof PathGroup path && path.getName().equals(paths.toString())) {
+                                parentNode = node;
+                                pathExist = true;
+                                break;
+                            }
+                        }
+                        if (!pathExist) {
+                            PathGroup pathGroup = new PathGroup(database.getName(), paths.toString(), database.getSession());
+                            groupNode = new DefaultMutableTreeNode(pathGroup);
+                            groupNode.setAllowsChildren(true);
+                            treeModel.insertNodeInto(groupNode, parentNode, parentNode.getChildCount());
+                            parentNode = groupNode;
+                        }
+                    }
+                    DefaultMutableTreeNode deviceTreeNode = new DefaultMutableTreeNode(device);
+                    deviceTreeNode.setAllowsChildren(false);
+                    treeModel.insertNodeInto(deviceTreeNode, parentNode, parentNode.getChildCount());
+                }
             }
             database.setDevicesLoaded(true);
             if (expand) {
@@ -460,6 +495,24 @@ public class SessionTree extends JXTree {
                     }
                     if (Utils.Message.confirm(confirmMessage) == JOptionPane.YES_OPTION) {
                         database.getSession().removeDatabase(database.getName());
+                        treeModel.removeNodeFromParent(selectedNode);
+                    }
+                } catch (Exception e) {
+                    Utils.Message.error(e.getMessage(), e);
+                }
+            } else if (selectedNode.getUserObject() instanceof PathGroup pathGroup) {
+                try {
+                    int deviceCount = pathGroup.getSession().countDevices(pathGroup.getPath());
+                    String confirmMessage;
+                    if (deviceCount > 1) {
+                        confirmMessage = String.format(LangUtil.getString("RemovePathConfirmWithMultiDevice"), deviceCount, pathGroup.getPath());
+                    } else if (deviceCount == 1) {
+                        confirmMessage = String.format(LangUtil.getString("RemovePathConfirmWithSingleDevice"), pathGroup.getPath());
+                    } else {
+                        confirmMessage = String.format(LangUtil.getString("RemovePathConfirm"), pathGroup.getPath());
+                    }
+                    if (Utils.Message.confirm(confirmMessage) == JOptionPane.YES_OPTION) {
+                        pathGroup.getSession().removeDevice(pathGroup.getPath());
                         treeModel.removeNodeFromParent(selectedNode);
                     }
                 } catch (Exception e) {
