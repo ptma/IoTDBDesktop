@@ -230,7 +230,7 @@ public class QueryResultTableModel extends AbstractTableModel {
     public boolean isCellEditable(int row, int column) {
         if (column != 0 && result != null && !result.hasException()) {
             String colName = result.getColumns().get(column - 1);
-            return !colName.equalsIgnoreCase("Time");
+            return !colName.equalsIgnoreCase("Time") && !colName.equalsIgnoreCase("Device");
         } else {
             return false;
         }
