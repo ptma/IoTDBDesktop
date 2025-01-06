@@ -1,5 +1,6 @@
 package org.apache.iotdb.desktop.form;
 
+import cn.hutool.core.util.StrUtil;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import org.apache.iotdb.desktop.component.QueryResultTable;
@@ -161,7 +162,7 @@ public class DeviceData extends TabPanel {
                     updatePagingInfo();
                     if (sortOrder != null) {
                         int col = dataTable.convertColumnIndexToView(dataModel.getColumnIndex(sortColumn));
-                        dataTable.setSortOrder(col, "desc".equals(sortOrder)? SortOrder.DESCENDING : SortOrder.ASCENDING);
+                        dataTable.setSortOrder(col, "desc".equals(sortOrder) ? SortOrder.DESCENDING : SortOrder.ASCENDING);
                     }
                     Utils.autoResizeTableColumns(dataTable, 400);
                 } catch (Exception ex) {
@@ -214,12 +215,12 @@ public class DeviceData extends TabPanel {
             protected Exception doInBackground() {
                 try {
                     StringBuilder insertSql = new StringBuilder();
+                    String devicePath = device.getDatabase() + "." + device.getName();
+                    String metricName = StrUtil.startWith(column, devicePath + ".") ? StrUtil.removePrefix(column, devicePath + ".") : column;
                     insertSql.append("insert into ")
-                        .append(device.getDatabase())
-                        .append(".")
-                        .append(device.getName())
+                        .append(devicePath)
                         .append("(timestamp, ")
-                        .append(column)
+                        .append(metricName)
                         .append(") values(")
                         .append(timestamp)
                         .append(", ");
@@ -228,7 +229,7 @@ public class DeviceData extends TabPanel {
                     } else if (TSDataType.TEXT.equals(dataType) || TSDataType.STRING.equals(dataType)) {
                         insertSql.append("'").append(value.toString()).append("'");
                     } else {
-                        insertSql.append(value.toString());
+                        insertSql.append(value);
                     }
                     insertSql.append(")");
                     device.getSession().execute(insertSql.toString());
