@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
-public class Database implements Sessionable {
+public class Database implements Groupable {
 
     private final String name;
 
@@ -15,6 +15,11 @@ public class Database implements Sessionable {
 
     private final Session session;
 
+    @Override
+    public String getPath() {
+        return name;
+    }
+    
     @Override
     public String getKey() {
         return String.format("%s-%s", session.getId(), name);

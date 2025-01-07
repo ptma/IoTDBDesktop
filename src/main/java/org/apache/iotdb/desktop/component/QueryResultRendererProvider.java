@@ -1,6 +1,6 @@
 package org.apache.iotdb.desktop.component;
 
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.NumberUtil;
 import com.formdev.flatlaf.FlatLaf;
 import org.apache.iotdb.desktop.util.Utils;
 import org.apache.tsfile.enums.TSDataType;
@@ -11,13 +11,14 @@ import org.jdesktop.swingx.renderer.JRendererLabel;
 import org.jdesktop.swingx.renderer.StringValue;
 
 import javax.swing.*;
+import java.time.Duration;
 
 /**
  * @author ptma
  */
 public class QueryResultRendererProvider extends ComponentProvider<JLabel> {
 
-    private QueryResultTableModel tableModel;
+    private final QueryResultTableModel tableModel;
 
     public QueryResultRendererProvider(QueryResultTableModel tableModel) {
         this(tableModel, null);
@@ -87,7 +88,17 @@ public class QueryResultRendererProvider extends ComponentProvider<JLabel> {
                 }
             }
         }
-        rendererComponent.setText(context.getValue() == null ? "<NULL>" : getString(context.getValue()));
+        String columnName = tableModel.getColumnName(context.getColumn());
+        if ("TTL(ms)".equalsIgnoreCase(columnName)) {
+            String ttlValue = getString(context.getValue());
+            if (NumberUtil.isNumber(ttlValue)) {
+                rendererComponent.setText(Utils.durationToString(Duration.ofMillis(Long.parseLong(ttlValue))));
+            } else {
+                rendererComponent.setText(ttlValue);
+            }
+        } else {
+            rendererComponent.setText(context.getValue() == null ? "<NULL>" : getString(context.getValue()));
+        }
     }
 
 }

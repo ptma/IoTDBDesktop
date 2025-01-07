@@ -11,7 +11,7 @@ import org.apache.iotdb.desktop.component.MapCellEditor;
 import org.apache.iotdb.desktop.component.MetricsTableModel;
 import org.apache.iotdb.desktop.component.MetricsTableRendererProvider;
 import org.apache.iotdb.desktop.exception.VerificationException;
-import org.apache.iotdb.desktop.model.Database;
+import org.apache.iotdb.desktop.model.Groupable;
 import org.apache.iotdb.desktop.model.Metric;
 import org.apache.iotdb.desktop.util.Icons;
 import org.apache.iotdb.desktop.util.LangUtil;
@@ -54,13 +54,13 @@ public class CreateDeviceForm extends JDialog {
     private JLabel labelAlign;
     private JLabel labelName;
 
-    private Database database;
+    private Groupable groupable;
     private Runnable afterCreated;
 
     private MetricsTableModel metricsTableModel;
 
-    public static void open(Database database, Runnable afterCreated) {
-        JDialog dialog = new CreateDeviceForm(IotdbDesktopApp.frame, database, afterCreated);
+    public static void open(Groupable groupable, Runnable afterCreated) {
+        JDialog dialog = new CreateDeviceForm(IotdbDesktopApp.frame, groupable, afterCreated);
         dialog.setMinimumSize(new Dimension(800, 400));
         dialog.setPreferredSize(new Dimension(800, 500));
         dialog.setResizable(false);
@@ -69,9 +69,9 @@ public class CreateDeviceForm extends JDialog {
         dialog.setVisible(true);
     }
 
-    public CreateDeviceForm(Frame owner, Database database, Runnable afterCreated) {
+    public CreateDeviceForm(Frame owner, Groupable groupable, Runnable afterCreated) {
         super(owner);
-        this.database = database;
+        this.groupable = groupable;
         this.afterCreated = afterCreated;
         $$$setupUI$$$();
         setContentPane(contentPane);
@@ -112,7 +112,7 @@ public class CreateDeviceForm extends JDialog {
         buttonOK.setEnabled(false);
         radioYes.setSelected(true);
         JTextField prefixField = new JTextField();
-        prefixField.setText(database.getName() + ".");
+        prefixField.setText(groupable.getPath() + ".");
         prefixField.setEnabled(false);
         prefixField.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
         nameField.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_COMPONENT, prefixField);
@@ -223,7 +223,7 @@ public class CreateDeviceForm extends JDialog {
             Utils.Toast.warn(e.getMessage());
             return;
         }
-        final String devicePath = database.getName() + "." + nameField.getText();
+        final String devicePath = groupable.getPath() + "." + nameField.getText();
         SwingWorker<Throwable, Integer> worker = new SwingWorker<>() {
             @Override
             protected void done() {
@@ -273,7 +273,7 @@ public class CreateDeviceForm extends JDialog {
                                 .append("encoding=").append(metric.getEncoding()).append(",")
                                 .append("compression=").append(metric.getCompression());
                         }
-                        database.getSession().execute(createSql.toString());
+                        groupable.getSession().execute(createSql.toString());
 
                         if (metric.isAliasModified() || metric.isTagsModified() || metric.isAttributesModified()) {
                             StringBuilder upsetSql = new StringBuilder("alter timeseries ");
@@ -292,7 +292,7 @@ public class CreateDeviceForm extends JDialog {
                             if (!upsetAttrs.isEmpty()) {
                                 upsetSql.append(" attributes(").append(Utils.mapToString(upsetAttrs)).append(")");
                             }
-                            database.getSession().execute(upsetSql.toString());
+                            groupable.getSession().execute(upsetSql.toString());
                         }
                     }
                     return null;

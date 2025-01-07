@@ -163,18 +163,44 @@ public class Session implements Sessionable {
         execute("delete timeseries " + devicePath + (devicePath.endsWith(".**") ? "" : ".**"));
     }
 
+    public void ttlToDatabase(String database, String ttl) throws IoTDBConnectionException, StatementExecutionException {
+        if (ttl != null) {
+            execute(String.format("set ttl to %s %s", database, ttl));
+        } else {
+            execute(String.format("unset ttl from %s", database));
+        }
+    }
+    
     public void ttlToPath(String path, String ttl) throws IoTDBConnectionException, StatementExecutionException {
         if (ttl != null) {
-            execute(String.format("set ttl to %s %s", path, ttl));
+            execute(String.format("set ttl to %s %s", path.endsWith(".**") ? path : path + ".**", ttl));
         } else {
-            execute(String.format("unset ttl from %s", path));
+            execute(String.format("unset ttl from %s", path.endsWith(".**") ? path : path + ".**"));
         }
     }
 
+    public String queryDatabaseTtl(String database) throws IoTDBConnectionException, StatementExecutionException {
+        SessionDataSet dataSet = null;
+        try {
+            String sql = String.format("show ttl on %s", database);
+            if (Configuration.instance().options().isLogInternalSql()) {
+                AppEvents.instance().applyEvent(l -> l.appendSqlLog(sql));
+            }
+            dataSet = iotdbSession.executeQueryStatement(sql);
+            if (dataSet.iterator().next()) {
+                return dataSet.iterator().getString("TTL(ms)");
+            } else {
+                return "0";
+            }
+        } finally {
+            closeDataSet(dataSet);
+        }
+    }
+    
     public String queryTtl(String path) throws IoTDBConnectionException, StatementExecutionException {
         SessionDataSet dataSet = null;
         try {
-            String sql = String.format("show ttl on %s", path);
+            String sql = String.format("show ttl on %s", path.endsWith(".**") ? path : path + ".**");
             if (Configuration.instance().options().isLogInternalSql()) {
                 AppEvents.instance().applyEvent(l -> l.appendSqlLog(sql));
             }

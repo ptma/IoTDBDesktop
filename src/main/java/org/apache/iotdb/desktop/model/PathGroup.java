@@ -5,16 +5,17 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class PathGroup implements Sessionable {
+public class PathGroup implements Groupable {
 
-    private final String database;
+    private final String parent;
 
     private final String name;
 
     private final Session session;
 
+    @Override
     public String getPath() {
-        return String.format("%s.%s", database, name);
+        return String.format("%s.%s", parent, name);
     }
 
     @Override
