@@ -77,10 +77,12 @@ public class QueryForm extends TabPanel {
 
         appEventListener = new AppEventListenerAdapter() {
             @Override
-            public void optionsChanged(Options options) {
-                sqlEditor.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, false, false, false));
-                editorPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), false, false, true, false));
-                tabbedPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, false, false, false));
+            public void optionsChanged(Options options, Options oldOptions) {
+                if (!options.getTheme().equals(oldOptions.getTheme())) {
+                    sqlEditor.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, false, false, false));
+                    editorPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), false, false, true, false));
+                    tabbedPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, false, false, false));
+                }
             }
         };
 

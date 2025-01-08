@@ -131,8 +131,10 @@ public class DeviceData extends TabPanel {
 
         appEventListener = new AppEventListenerAdapter() {
             @Override
-            public void optionsChanged(Options options) {
-                topPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), false, false, true, false));
+            public void optionsChanged(Options options, Options oldOptions) {
+                if (!options.getTheme().equals(oldOptions.getTheme())) {
+                    topPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), false, false, true, false));
+                }
             }
         };
         AppEvents.instance().addEventListener(appEventListener);

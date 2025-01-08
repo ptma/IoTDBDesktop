@@ -97,8 +97,13 @@ public class SessionTree extends JXTree {
         AppEvents.instance().addEventListener(new AppEventListenerAdapter() {
 
             @Override
-            public void optionsChanged(Options options) {
-                SwingUtilities.updateComponentTreeUI(popupMenu);
+            public void optionsChanged(Options options, Options oldOptions) {
+                if (!options.getTheme().equals(oldOptions.getTheme())) {
+                    SwingUtilities.updateComponentTreeUI(popupMenu);
+                }
+                if (options.isFlattenDeviceNodes() != oldOptions.isFlattenDeviceNodes()) {
+                    refactorTreeNodes();
+                }
             }
 
         });
@@ -556,4 +561,20 @@ public class SessionTree extends JXTree {
             expandPath(new TreePath(treeModel.getPathToRoot(node)));
         });
     }
+
+    private void refactorTreeNodes() {
+        for (int i = 0; i < rootNode.getChildCount(); i++) {
+            DefaultMutableTreeNode sessionNode = (DefaultMutableTreeNode) rootNode.getChildAt(i);
+            if (sessionNode.getUserObject() instanceof Session session && session.isOpened()) {
+                for (int j = 0; j < sessionNode.getChildCount(); j++) {
+                    DefaultMutableTreeNode databaseNode = (DefaultMutableTreeNode) sessionNode.getChildAt(j);
+                    if (databaseNode.getUserObject() instanceof Database database && database.isDevicesLoaded()) {
+                        boolean expanded = this.isExpanded(new TreePath(treeModel.getPathToRoot(databaseNode)));
+                        loadDevices(databaseNode, database, expanded, true);
+                    }
+                }
+            }
+        }
+    }
+
 }

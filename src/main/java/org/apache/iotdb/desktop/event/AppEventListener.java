@@ -11,7 +11,7 @@ import javax.swing.tree.TreePath;
 
 public interface AppEventListener {
 
-    void optionsChanged(Options options);
+    void optionsChanged(Options options, Options oldOptions);
 
     void appendSqlLog(String sql, boolean isComment);
 

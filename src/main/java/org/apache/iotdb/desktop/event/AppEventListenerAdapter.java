@@ -12,7 +12,7 @@ import javax.swing.tree.TreePath;
 public class AppEventListenerAdapter implements AppEventListener {
 
     @Override
-    public void optionsChanged(Options options) {
+    public void optionsChanged(Options options, Options oldOptions) {
 
     }
 

@@ -156,8 +156,10 @@ public class QueryResultTable extends JXTable {
 
         appEventListener = new AppEventListenerAdapter() {
             @Override
-            public void optionsChanged(Options options) {
-                SwingUtilities.updateComponentTreeUI(popupMenu);
+            public void optionsChanged(Options options, Options oldOptions) {
+                if (!options.getTheme().equals(oldOptions.getTheme())) {
+                    SwingUtilities.updateComponentTreeUI(popupMenu);
+                }
             }
         };
         AppEvents.instance().addEventListener(appEventListener);

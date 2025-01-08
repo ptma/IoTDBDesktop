@@ -197,9 +197,11 @@ public class MainWindowForm {
         AppEvents.instance().addEventListener(new AppEventListenerAdapter() {
 
             @Override
-            public void optionsChanged(Options options) {
-                treeScrollPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, true, true, true));
-                formTabPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, true, true, true));
+            public void optionsChanged(Options options, Options oldOptions) {
+                if (!options.getTheme().equals(oldOptions.getTheme())) {
+                    treeScrollPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, true, true, true));
+                    formTabPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, true, true, true));
+                }
             }
 
             @Override
