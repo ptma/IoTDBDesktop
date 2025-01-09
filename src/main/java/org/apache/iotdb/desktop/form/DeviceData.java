@@ -75,6 +75,7 @@ public class DeviceData extends TabPanel {
     }
 
     private void initComponents() {
+        nextPageButton.setEnabled(false);
         nextPageButton.setIcon(Icons.ARROW_FORWARD);
         showAllButton.setIcon(Icons.ARROW_LAST);
         topPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), false, false, true, false));
@@ -86,6 +87,7 @@ public class DeviceData extends TabPanel {
             }
         });
 
+        showAllButton.setEnabled(false);
         showAllButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 offset = 0;
@@ -174,6 +176,8 @@ public class DeviceData extends TabPanel {
 
             @Override
             protected QueryResult doInBackground() throws Exception {
+                pagingLabel.setText(LangUtil.getString("Loading"));
+                
                 total = device.getSession().countRows(device, true);
 
                 StringBuilder sql = new StringBuilder();
