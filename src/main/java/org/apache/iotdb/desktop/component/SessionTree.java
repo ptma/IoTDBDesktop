@@ -1,7 +1,9 @@
 package org.apache.iotdb.desktop.component;
 
+import cn.hutool.core.stream.StreamUtil;
 import com.formdev.flatlaf.extras.components.FlatPopupMenu;
 import lombok.Getter;
+import org.apache.iotdb.commons.exception.IllegalPathException;
 import org.apache.iotdb.commons.utils.PathUtils;
 import org.apache.iotdb.desktop.config.Configuration;
 import org.apache.iotdb.desktop.config.Options;
@@ -14,6 +16,8 @@ import org.apache.iotdb.desktop.util.Icons;
 import org.apache.iotdb.desktop.util.LangUtil;
 import org.apache.iotdb.desktop.util.Utils;
 import org.jdesktop.swingx.JXTree;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -21,13 +25,13 @@ import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 public class SessionTree extends JXTree {
 
+    private static final Logger log = LoggerFactory.getLogger(SessionTree.class);
     @Getter
     private final DefaultMutableTreeNode rootNode;
     private final DefaultTreeModel treeModel;
@@ -422,40 +426,7 @@ public class SessionTree extends JXTree {
             groupableNode.removeAllChildren();
             treeModel.reload(groupableNode);
             Set<Device> devices = groupable.getSession().loadDevices(groupable.getPath());
-            for (Device device : devices) {
-                if (Configuration.instance().options().isFlattenDeviceNodes() || !device.getName().contains(".")) {
-                    DefaultMutableTreeNode deviceTreeNode = new DefaultMutableTreeNode(device);
-                    deviceTreeNode.setAllowsChildren(false);
-                    treeModel.insertNodeInto(deviceTreeNode, groupableNode, groupableNode.getChildCount());
-                } else {
-                    String[] splitPaths = PathUtils.splitPathToDetachedNodes(device.getName());
-                    StringJoiner leadingPaths = new StringJoiner(".");
-                    DefaultMutableTreeNode parentNode = groupableNode;
-                    DefaultMutableTreeNode groupNode;
-                    for (int i = 0; i < splitPaths.length - 1; i++) {
-                        leadingPaths.add(splitPaths[i]);
-                        boolean pathExist = false;
-                        for (int j = 0; j < parentNode.getChildCount(); j++) {
-                            DefaultMutableTreeNode node = (DefaultMutableTreeNode) parentNode.getChildAt(j);
-                            if (node.getUserObject() instanceof PathGroup path && path.getName().equals(leadingPaths.toString())) {
-                                parentNode = node;
-                                pathExist = true;
-                                break;
-                            }
-                        }
-                        if (!pathExist) {
-                            PathGroup pathGroup = new PathGroup(groupable.getPath(), leadingPaths.toString(), groupable.getSession());
-                            groupNode = new DefaultMutableTreeNode(pathGroup);
-                            groupNode.setAllowsChildren(true);
-                            treeModel.insertNodeInto(groupNode, parentNode, parentNode.getChildCount());
-                            parentNode = groupNode;
-                        }
-                    }
-                    DefaultMutableTreeNode deviceTreeNode = new DefaultMutableTreeNode(device);
-                    deviceTreeNode.setAllowsChildren(false);
-                    treeModel.insertNodeInto(deviceTreeNode, parentNode, parentNode.getChildCount());
-                }
-            }
+            appendDeviceNodes(devices, groupableNode, groupable);
             if (groupable instanceof Database database) {
                 database.setDevicesLoaded(true);
             }
@@ -548,7 +519,7 @@ public class SessionTree extends JXTree {
     }
 
     public void closeOpendSessions() {
-        for (int i=0; i<rootNode.getChildCount();i++) {
+        for (int i = 0; i < rootNode.getChildCount(); i++) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) rootNode.getChildAt(i);
             if (node.getUserObject() instanceof Session session && session.isOpened()) {
                 session.close();
@@ -562,6 +533,43 @@ public class SessionTree extends JXTree {
         });
     }
 
+    private void appendDeviceNodes(Collection<Device> devices, DefaultMutableTreeNode groupableNode, Groupable groupable) throws IllegalPathException {
+        for (Device device : devices) {
+            if (Configuration.instance().options().isFlattenDeviceNodes() || !device.getName().contains(".")) {
+                DefaultMutableTreeNode deviceTreeNode = new DefaultMutableTreeNode(device);
+                deviceTreeNode.setAllowsChildren(false);
+                treeModel.insertNodeInto(deviceTreeNode, groupableNode, groupableNode.getChildCount());
+            } else {
+                String[] splitPaths = PathUtils.splitPathToDetachedNodes(device.getName());
+                StringJoiner leadingPaths = new StringJoiner(".");
+                DefaultMutableTreeNode parentNode = groupableNode;
+                DefaultMutableTreeNode groupNode;
+                for (int i = 0; i < splitPaths.length - 1; i++) {
+                    leadingPaths.add(splitPaths[i]);
+                    boolean pathExist = false;
+                    for (int j = 0; j < parentNode.getChildCount(); j++) {
+                        DefaultMutableTreeNode node = (DefaultMutableTreeNode) parentNode.getChildAt(j);
+                        if (node.getUserObject() instanceof PathGroup path && path.getName().equals(leadingPaths.toString())) {
+                            parentNode = node;
+                            pathExist = true;
+                            break;
+                        }
+                    }
+                    if (!pathExist) {
+                        PathGroup pathGroup = new PathGroup(groupable.getPath(), leadingPaths.toString(), groupable.getSession());
+                        groupNode = new DefaultMutableTreeNode(pathGroup);
+                        groupNode.setAllowsChildren(true);
+                        treeModel.insertNodeInto(groupNode, parentNode, parentNode.getChildCount());
+                        parentNode = groupNode;
+                    }
+                }
+                DefaultMutableTreeNode deviceTreeNode = new DefaultMutableTreeNode(device);
+                deviceTreeNode.setAllowsChildren(false);
+                treeModel.insertNodeInto(deviceTreeNode, parentNode, parentNode.getChildCount());
+            }
+        }
+    }
+
     private void refactorTreeNodes() {
         for (int i = 0; i < rootNode.getChildCount(); i++) {
             DefaultMutableTreeNode sessionNode = (DefaultMutableTreeNode) rootNode.getChildAt(i);
@@ -569,8 +577,26 @@ public class SessionTree extends JXTree {
                 for (int j = 0; j < sessionNode.getChildCount(); j++) {
                     DefaultMutableTreeNode databaseNode = (DefaultMutableTreeNode) sessionNode.getChildAt(j);
                     if (databaseNode.getUserObject() instanceof Database database && database.isDevicesLoaded()) {
+                        Set<Device> devices = StreamUtil.of(databaseNode.depthFirstEnumeration().asIterator())
+                            .map(t -> (DefaultMutableTreeNode) t)
+                            .map(DefaultMutableTreeNode::getUserObject)
+                            .filter(o -> o instanceof Device)
+                            .map(o -> (Device) o)
+                            .sorted(Comparator.comparing(Device::getName))
+                            .collect(Collectors.toCollection(LinkedHashSet::new));
+
                         boolean expanded = this.isExpanded(new TreePath(treeModel.getPathToRoot(databaseNode)));
-                        loadDevices(databaseNode, database, expanded, true);
+                        databaseNode.removeAllChildren();
+                        treeModel.reload(databaseNode);
+                        try {
+                            appendDeviceNodes(devices, databaseNode, database);
+                            database.setDevicesLoaded(true);
+                            if (expanded) {
+                                expandNode(databaseNode);
+                            }
+                        } catch (IllegalPathException e) {
+                            log.error(e.getMessage(), e);
+                        }
                     }
                 }
             }
