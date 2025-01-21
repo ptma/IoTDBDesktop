@@ -177,7 +177,7 @@ public class DeviceData extends TabPanel {
             @Override
             protected QueryResult doInBackground() throws Exception {
                 pagingLabel.setText(LangUtil.getString("Loading"));
-                
+
                 total = device.getSession().countRows(device, true);
 
                 StringBuilder sql = new StringBuilder();
@@ -233,7 +233,7 @@ public class DeviceData extends TabPanel {
                     if (value == null) {
                         insertSql.append("null");
                     } else if (TSDataType.TEXT.equals(dataType) || TSDataType.STRING.equals(dataType)) {
-                        insertSql.append("'").append(value.toString()).append("'");
+                        insertSql.append("'").append(value.toString().replaceAll("'", "''")).append("'");
                     } else {
                         insertSql.append(value);
                     }
