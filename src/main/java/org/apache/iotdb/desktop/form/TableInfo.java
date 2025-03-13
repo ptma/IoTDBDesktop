@@ -277,34 +277,34 @@ public class TableInfo extends TabPanel {
      */
     private void $$$setupUI$$$() {
         rootPanel = new JPanel();
-        rootPanel.setLayout(new FormLayout("fill:d:noGrow,left:4dlu:noGrow,fill:d:noGrow,left:4dlu:noGrow,fill:max(d;4px):noGrow,left:50dlu:noGrow,fill:max(d;4px):noGrow,left:4dlu:noGrow,fill:100px:noGrow,left:4dlu:noGrow,fill:199px:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,top:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
+        rootPanel.setLayout(new FormLayout("fill:d:noGrow,left:4dlu:noGrow,fill:d:noGrow,fill:100px:noGrow,left:4dlu:noGrow,fill:199px:grow", "center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,top:d:grow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
         rootPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         labelName = new JLabel();
         labelName.setHorizontalAlignment(11);
-        labelName.setText("设备名称");
+        labelName.setText("表名");
         CellConstraints cc = new CellConstraints();
         rootPanel.add(labelName, cc.xy(1, 1));
         nameField = new JTextField();
         nameField.setEditable(false);
         nameField.setEnabled(true);
-        rootPanel.add(nameField, cc.xyw(3, 1, 9, CellConstraints.FILL, CellConstraints.DEFAULT));
+        rootPanel.add(nameField, cc.xyw(3, 1, 4, CellConstraints.FILL, CellConstraints.DEFAULT));
         labelColumns = new JLabel();
         labelColumns.setHorizontalAlignment(11);
-        labelColumns.setText("设备物理量");
-        rootPanel.add(labelColumns, cc.xy(1, 7));
+        labelColumns.setText("列");
+        rootPanel.add(labelColumns, cc.xy(1, 5));
         columnsScrollPanel = new JScrollPane();
-        rootPanel.add(columnsScrollPanel, cc.xyw(3, 7, 9, CellConstraints.FILL, CellConstraints.FILL));
+        rootPanel.add(columnsScrollPanel, cc.xyw(3, 5, 4, CellConstraints.FILL, CellConstraints.FILL));
         columnsTable = new JXTable();
         columnsTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
         columnsScrollPanel.setViewportView(columnsTable);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
-        rootPanel.add(panel1, cc.xyw(3, 9, 9));
+        rootPanel.add(panel1, cc.xyw(3, 7, 4));
         btnAdd = new JButton();
-        btnAdd.setText("添加物理量");
+        btnAdd.setText("添加列");
         panel1.add(btnAdd, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         btnRemove = new JButton();
-        btnRemove.setText("删除物理量");
+        btnRemove.setText("删除列");
         panel1.add(btnRemove, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         btnApply = new JButton();
         btnApply.setEnabled(false);
@@ -315,11 +315,11 @@ public class TableInfo extends TabPanel {
         labelTTL = new JLabel();
         labelTTL.setHorizontalAlignment(11);
         labelTTL.setText("TTL");
-        rootPanel.add(labelTTL, cc.xy(7, 5));
+        rootPanel.add(labelTTL, cc.xy(1, 3));
         ttlField = new JTextField();
         ttlField.setEditable(false);
         ttlField.setHorizontalAlignment(11);
-        rootPanel.add(ttlField, cc.xy(9, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
+        rootPanel.add(ttlField, cc.xy(4, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
     }
 
     /**

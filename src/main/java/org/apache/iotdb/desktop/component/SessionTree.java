@@ -232,7 +232,7 @@ public class SessionTree extends JXTree {
                 }
             } else if (selectNode.getUserObject() instanceof Device device && Configuration.instance().options().isDblclickOpenEditor()) {
                 AppEvents.instance().applyEvent(l -> l.newDeviceDataTab(device));
-            }  else if (selectNode.getUserObject() instanceof Table table && Configuration.instance().options().isDblclickOpenEditor()) {
+            } else if (selectNode.getUserObject() instanceof Table table && Configuration.instance().options().isDblclickOpenEditor()) {
                 AppEvents.instance().applyEvent(l -> l.newTableDataTab(table));
             }
         }
@@ -587,7 +587,7 @@ public class SessionTree extends JXTree {
                 } catch (Exception e) {
                     Utils.Message.error(e.getMessage(), e);
                 }
-            }  else if (selectedNode.getUserObject() instanceof Table table) {
+            } else if (selectedNode.getUserObject() instanceof Table table) {
                 try {
                     String confirmMessage = String.format(LangUtil.getString("RemoveDeviceConfirm"), table.getPath());
                     if (Utils.Message.confirm(confirmMessage) == JOptionPane.YES_OPTION) {
