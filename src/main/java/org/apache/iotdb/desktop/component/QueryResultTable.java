@@ -2,6 +2,7 @@ package org.apache.iotdb.desktop.component;
 
 import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.Getter;
 import org.apache.iotdb.desktop.config.Configuration;
 import org.apache.iotdb.desktop.config.Options;
 import org.apache.iotdb.desktop.event.AppEventListener;
@@ -27,6 +28,8 @@ import java.util.*;
 public class QueryResultTable extends JXTable {
 
     private final QueryResultTableModel tableModel;
+    @Getter
+    private final boolean tableDialect;
     private final List<DataEventListener> dataEventListeners = new ArrayList<>();
     private AppEventListener appEventListener;
 
@@ -42,9 +45,10 @@ public class QueryResultTable extends JXTable {
 
     private JMenuItem exportRows;
 
-    public QueryResultTable(QueryResultTableModel tableModel) {
+    public QueryResultTable(QueryResultTableModel tableModel, boolean tableDialect) {
         super(tableModel);
         this.tableModel = tableModel;
+        this.tableDialect = tableDialect;
         tableModel.setTable(this);
         DefaultTableRenderer cellRenderer = new DefaultTableRenderer(new QueryResultRendererProvider(tableModel));
         this.setDefaultRenderer(Object.class, cellRenderer);

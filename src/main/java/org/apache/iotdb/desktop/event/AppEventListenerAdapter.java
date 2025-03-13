@@ -5,6 +5,7 @@ import org.apache.iotdb.desktop.config.Options;
 import org.apache.iotdb.desktop.model.Device;
 import org.apache.iotdb.desktop.model.Session;
 import org.apache.iotdb.desktop.model.Sessionable;
+import org.apache.iotdb.desktop.model.Table;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -38,6 +39,11 @@ public class AppEventListenerAdapter implements AppEventListener {
 
     @Override
     public void newDeviceDataTab(Device device) {
+
+    }
+
+    @Override
+    public void newTableDataTab(Table table) {
 
     }
 

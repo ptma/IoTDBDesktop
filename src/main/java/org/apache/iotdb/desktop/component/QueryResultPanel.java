@@ -12,11 +12,11 @@ public class QueryResultPanel extends JScrollPane {
     private final QueryResultTable dataTable;
     private final QueryResultTableModel dataModel;
 
-    public QueryResultPanel() {
+    public QueryResultPanel(boolean tableDialect) {
         super();
         setBorder(new EmptyBorder(0, 0, 0, 0));
         this.dataModel = new QueryResultTableModel();
-        this.dataTable = new QueryResultTable(dataModel);
+        this.dataTable = new QueryResultTable(dataModel, tableDialect);
         setViewportView(this.dataTable);
     }
 

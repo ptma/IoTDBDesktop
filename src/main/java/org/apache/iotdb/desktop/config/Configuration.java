@@ -42,7 +42,7 @@ public final class Configuration implements Serializable {
         }
         return this.options;
     }
-    
+
     private Options loadOptions() {
         Options options = new Options();
         options.setTheme(getString(ConfKeys.THEME, Themes.LIGHT.name()));
@@ -66,7 +66,7 @@ public final class Configuration implements Serializable {
 
     public void saveOptions() {
         Options oldOptions = loadOptions();
-        
+
         Configuration.instance().setString(ConfKeys.LANGUAGE, options().getLanguage());
         Configuration.instance().setString(ConfKeys.THEME, options().getTheme());
         Configuration.instance().setString(ConfKeys.FONT_NAME, options().getFontName());
@@ -119,6 +119,7 @@ public final class Configuration implements Serializable {
         }
         nodePref.putInt("maxRetryCount", props.getMaxRetryCount());
         nodePref.putLong("retryIntervalInMs", props.getRetryIntervalInMs());
+        nodePref.put("sqlDialect", props.getSqlDialect());
     }
 
     public List<SessionProps> loadSessionProps() {
@@ -160,6 +161,7 @@ public final class Configuration implements Serializable {
                 }
                 props.setMaxRetryCount(nodePref.getInt("maxRetryCount", SessionConfig.MAX_RETRY_COUNT));
                 props.setRetryIntervalInMs(nodePref.getLong("retryIntervalInMs", SessionConfig.RETRY_INTERVAL_IN_MS));
+                props.setSqlDialect(nodePref.get("sqlDialect", "tree"));
                 sessions.add(props);
             }
         } catch (Exception e) {

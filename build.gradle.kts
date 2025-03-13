@@ -85,7 +85,7 @@ dependencies {
 
     implementation("cn.hutool:hutool-core:5.8.24")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
-    implementation("org.apache.iotdb:iotdb-session:1.3.3")
+    implementation("org.apache.iotdb:iotdb-session:2.0.1-beta")
 //    implementation("org.apache.iotdb:node-commons:1.3.3")
     implementation("org.apache.commons:commons-csv:1.12.0")
 

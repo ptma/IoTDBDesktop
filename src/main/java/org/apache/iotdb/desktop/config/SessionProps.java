@@ -37,6 +37,8 @@ public class SessionProps implements Serializable, Cloneable {
     private String trustStorePwd;
     private int maxRetryCount = SessionConfig.MAX_RETRY_COUNT;
     private long retryIntervalInMs = SessionConfig.RETRY_INTERVAL_IN_MS;
+    // tree | table
+    private String sqlDialect = "tree";
 
     @Override
     public SessionProps clone() throws CloneNotSupportedException {
@@ -64,7 +66,8 @@ public class SessionProps implements Serializable, Cloneable {
             .trustStore(trustStore)
             .trustStorePwd(trustStorePwd)
             .maxRetryCount(maxRetryCount)
-            .retryIntervalInMs(retryIntervalInMs);
+            .retryIntervalInMs(retryIntervalInMs)
+            .sqlDialect(sqlDialect);
         return builder;
     }
 }

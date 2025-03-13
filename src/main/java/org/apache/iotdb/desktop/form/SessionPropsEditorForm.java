@@ -55,13 +55,15 @@ public class SessionPropsEditorForm extends JDialog {
     private JLabel portLabel;
     private JSpinner fetchSizeField;
     private JLabel fetchSizeLabel;
+    private JLabel modelLabel;
+    private JComboBox modelField;
 
     private SessionProps editingProps;
     private final Consumer<SessionProps> consumer;
 
     public static void open(SessionProps editingProps, Consumer<SessionProps> consumer) {
         JDialog dialog = new SessionPropsEditorForm(IotdbDesktopApp.frame, editingProps, consumer);
-        dialog.setMinimumSize(new Dimension(400, 350));
+        dialog.setMinimumSize(new Dimension(400, 360));
         dialog.setResizable(false);
         dialog.pack();
         dialog.setLocationRelativeTo(IotdbDesktopApp.frame);
@@ -126,6 +128,7 @@ public class SessionPropsEditorForm extends JDialog {
         passwordField.setText(editingProps.getPassword());
         sslCheckBox.setSelected(editingProps.isUseSSL());
         fetchSizeField.setValue(editingProps.getFetchSize());
+        modelField.setSelectedItem(editingProps.getSqlDialect());
     }
 
     public void localization() {
@@ -136,6 +139,7 @@ public class SessionPropsEditorForm extends JDialog {
         passwordLabel.setText(LangUtil.getString("Password"));
         useSSL.setText(LangUtil.getString("UseSSL"));
         fetchSizeLabel.setText(LangUtil.getString("FetchSize"));
+        modelLabel.setText(LangUtil.getString("SQLModel"));
 
         LangUtil.buttonText(buttonTest, "TestConnection");
         LangUtil.buttonText(buttonOk, "&Ok");
@@ -159,6 +163,7 @@ public class SessionPropsEditorForm extends JDialog {
         props.setPassword(String.valueOf(passwordField.getPassword()));
         props.setUseSSL(sslCheckBox.isSelected());
         props.setFetchSize((Integer) fetchSizeField.getValue());
+        props.setSqlDialect(modelField.getSelectedItem().toString());
 
         return props;
     }

@@ -34,6 +34,7 @@ import org.apache.tsfile.read.common.Path;
 import org.apache.tsfile.read.common.RowRecord;
 import org.apache.tsfile.write.TsFileWriter;
 import org.apache.tsfile.write.record.Tablet;
+import org.apache.tsfile.write.schema.IMeasurementSchema;
 import org.apache.tsfile.write.schema.MeasurementSchema;
 
 import javax.swing.*;
@@ -349,7 +350,7 @@ public class DataExport extends TabPanel {
                 seriesList.remove("Device");
             } else {
                 Path path = new Path(seriesList.get(1), true);
-                deviceName = path.getDevice();
+                deviceName = path.getDeviceString();
                 seriesList.remove("Time");
                 for (int i = 0; i < seriesList.size(); i++) {
                     String series = seriesList.get(i);
@@ -475,7 +476,7 @@ public class DataExport extends TabPanel {
             // device -> column indices in columnNames
             Map<String, List<Integer>> deviceColumnIndices = new HashMap<>();
             Set<String> alignedDevices = new HashSet<>();
-            Map<String, List<MeasurementSchema>> deviceSchemaMap = new LinkedHashMap<>();
+            Map<String, List<IMeasurementSchema>> deviceSchemaMap = new LinkedHashMap<>();
 
             collectSchemas(
                 columnNames, columnTypes, deviceSchemaMap, alignedDevices, deviceColumnIndices);
@@ -489,7 +490,7 @@ public class DataExport extends TabPanel {
 
             writeWithTablets(sessionDataSet, tabletList, alignedDevices, tsFileWriter, deviceColumnIndices);
 
-            tsFileWriter.flushAllChunkGroups();
+            tsFileWriter.flush();
         }
     }
 
@@ -508,24 +509,24 @@ public class DataExport extends TabPanel {
             List<Field> fields = rowRecord.getFields();
 
             for (Tablet tablet : tabletList) {
-                String deviceId = tablet.deviceId;
+                String deviceId = tablet.getDeviceId();
                 List<Integer> columnIndices = deviceColumnIndices.get(deviceId);
-                int rowIndex = tablet.rowSize++;
+                int rowIndex = tablet.getRowSize() + 1;
                 tablet.addTimestamp(rowIndex, rowRecord.getTimestamp());
-                List<MeasurementSchema> schemas = tablet.getSchemas();
+                List<IMeasurementSchema> schemas = tablet.getSchemas();
 
                 for (int i = 0, columnIndicesSize = columnIndices.size(); i < columnIndicesSize; i++) {
                     Integer columnIndex = columnIndices.get(i);
-                    MeasurementSchema measurementSchema = schemas.get(i);
+                    IMeasurementSchema measurementSchema = schemas.get(i);
                     // -1 for time not in fields
                     Object value = fields.get(columnIndex - 1).getObjectValue(measurementSchema.getType());
                     if (value == null) {
-                        tablet.bitMaps[i].mark(rowIndex);
+                        tablet.getBitMaps()[i].mark(rowIndex);
                     }
-                    tablet.addValue(measurementSchema.getMeasurementId(), rowIndex, value);
+                    tablet.addValue(measurementSchema.getMeasurementName(), rowIndex, value);
                 }
 
-                if (tablet.rowSize == tablet.getMaxRowNumber()) {
+                if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
                     writeToTsFile(alignedDevices, tsFileWriter, tablet);
                     tablet.initBitMaps();
                     tablet.reset();
@@ -534,7 +535,7 @@ public class DataExport extends TabPanel {
         }
 
         for (Tablet tablet : tabletList) {
-            if (tablet.rowSize != 0) {
+            if (tablet.getRowSize() != 0) {
                 writeToTsFile(alignedDevices, tsFileWriter, tablet);
             }
         }
@@ -543,7 +544,7 @@ public class DataExport extends TabPanel {
     private void collectSchemas(
         List<String> columnNames,
         List<String> columnTypes,
-        Map<String, List<MeasurementSchema>> deviceSchemaMap,
+        Map<String, List<IMeasurementSchema>> deviceSchemaMap,
         Set<String> alignedDevices,
         Map<String, List<Integer>> deviceColumnIndices)
         throws IoTDBConnectionException, StatementExecutionException {
@@ -554,7 +555,7 @@ public class DataExport extends TabPanel {
             }
             TSDataType tsDataType = TSDataType.valueOf(columnTypes.get(i));
             Path path = new Path(column, true);
-            String deviceId = path.getDevice();
+            String deviceId = path.getDeviceString();
             // query whether the device is aligned or not
             try (SessionDataSet deviceDataSet =
                      session.executeQueryStatement("show devices " + deviceId, timeout)) {
@@ -570,9 +571,9 @@ public class DataExport extends TabPanel {
             List<Field> seriesList =
                 session.executeQueryStatement("show timeseries " + column, timeout).next().getFields();
             measurementSchema.setEncoding(
-                TSEncoding.valueOf(seriesList.get(4).getStringValue()).serialize());
-            measurementSchema.setCompressor(
-                CompressionType.valueOf(seriesList.get(5).getStringValue()).serialize());
+                TSEncoding.valueOf(seriesList.get(4).getStringValue()));
+            measurementSchema.setCompressionType(
+                CompressionType.valueOf(seriesList.get(5).getStringValue()));
 
             deviceSchemaMap.computeIfAbsent(deviceId, key -> new ArrayList<>()).add(measurementSchema);
             deviceColumnIndices.computeIfAbsent(deviceId, key -> new ArrayList<>()).add(i);
@@ -580,18 +581,18 @@ public class DataExport extends TabPanel {
     }
 
     private List<Tablet> constructTablets(
-        Map<String, List<MeasurementSchema>> deviceSchemaMap,
+        Map<String, List<IMeasurementSchema>> deviceSchemaMap,
         Set<String> alignedDevices,
         TsFileWriter tsFileWriter)
         throws WriteProcessException {
         List<Tablet> tabletList = new ArrayList<>(deviceSchemaMap.size());
-        for (Map.Entry<String, List<MeasurementSchema>> stringListEntry : deviceSchemaMap.entrySet()) {
+        for (Map.Entry<String, List<IMeasurementSchema>> stringListEntry : deviceSchemaMap.entrySet()) {
             String deviceId = stringListEntry.getKey();
-            List<MeasurementSchema> schemaList = stringListEntry.getValue();
+            List<IMeasurementSchema> schemaList = stringListEntry.getValue();
             Tablet tablet = new Tablet(deviceId, schemaList);
             tablet.initBitMaps();
-            Path path = new Path(tablet.deviceId);
-            if (alignedDevices.contains(tablet.deviceId)) {
+            Path path = new Path(tablet.getDeviceId());
+            if (alignedDevices.contains(tablet.getDeviceId())) {
                 tsFileWriter.registerAlignedTimeseries(path, schemaList);
             } else {
                 tsFileWriter.registerTimeseries(path, schemaList);
@@ -604,10 +605,10 @@ public class DataExport extends TabPanel {
     private void writeToTsFile(
         Set<String> deviceFilterSet, TsFileWriter tsFileWriter, Tablet tablet)
         throws IOException, WriteProcessException {
-        if (deviceFilterSet.contains(tablet.deviceId)) {
-            tsFileWriter.writeAligned(tablet);
+        if (deviceFilterSet.contains(tablet.getDeviceId())) {
+            tsFileWriter.writeTree(tablet);
         } else {
-            tsFileWriter.write(tablet);
+            tsFileWriter.writeTable(tablet);
         }
     }
 

@@ -3,10 +3,7 @@ package org.apache.iotdb.desktop.component;
 import org.apache.iotdb.commons.exception.IllegalPathException;
 import org.apache.iotdb.commons.utils.PathUtils;
 import org.apache.iotdb.desktop.config.Configuration;
-import org.apache.iotdb.desktop.model.PathGroup;
-import org.apache.iotdb.desktop.model.Session;
-import org.apache.iotdb.desktop.model.Database;
-import org.apache.iotdb.desktop.model.Device;
+import org.apache.iotdb.desktop.model.*;
 import org.apache.iotdb.desktop.util.Icons;
 
 import javax.swing.*;
@@ -36,7 +33,7 @@ public class SessionTreeCellRenderer extends DefaultTreeCellRenderer {
             if (treeNode.getUserObject() instanceof Session session) {
                 setIcon(session.isOpened() ? Icons.TREE_NODE_IOTDB_ACTIVE : Icons.TREE_NODE_IOTDB);
             } else if (treeNode.getUserObject() instanceof Database database) {
-                setIcon(database.isDevicesLoaded() ? Icons.TREE_NODE_DATABSE_OPENED : Icons.TREE_NODE_DATABSE);
+                setIcon(database.isChildrenLoaded() ? Icons.TREE_NODE_DATABSE_OPENED : Icons.TREE_NODE_DATABSE);
             } else if (treeNode.getUserObject() instanceof PathGroup) {
                 setIcon(Icons.TREE_NODE_GROUP);
                 if (!Configuration.instance().options().isFlattenDeviceNodes() && path.contains(".")) {
@@ -66,6 +63,8 @@ public class SessionTreeCellRenderer extends DefaultTreeCellRenderer {
                         setText(path);
                     }
                 }
+            } else if (treeNode.getUserObject() instanceof Table) {
+                setIcon(Icons.TREE_NODE_TABLE);
             } else {
                 setIcon(null);
             }

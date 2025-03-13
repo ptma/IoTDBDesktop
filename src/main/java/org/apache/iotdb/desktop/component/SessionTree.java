@@ -49,11 +49,13 @@ public class SessionTree extends JXTree {
     private JMenuItem menuRefresh;
 
     private JMenuItem menuDeviceData;
+    private JMenuItem menuTableData;
 
     private JMenuItem menuRemoveSession;
     private JMenuItem menuRemoveDatabase;
     private JMenuItem menuRemovePath;
     private JMenuItem menuRemoveDevice;
+    private JMenuItem menuRemoveTable;
 
     private JMenuItem menuDetail;
 
@@ -71,7 +73,10 @@ public class SessionTree extends JXTree {
         this.setModel(treeModel);
         this.setCellRenderer(new SessionTreeCellRenderer());
         this.setBorder(new EmptyBorder(0, 0, 0, 0));
-        this.addTreeSelectionListener(e -> AppEvents.instance().applyEvent(l -> l.onTreeSelectionChange(e.getPath())));
+        this.addTreeSelectionListener(e -> AppEvents.instance().applyEvent(l -> {
+            l.onTreeSelectionChange(e.getPath());
+            selectNodeChanged((DefaultMutableTreeNode) e.getPath().getLastPathComponent());
+        }));
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -136,6 +141,10 @@ public class SessionTree extends JXTree {
         menuDeviceData.setIcon(Icons.TABLE_DATA);
         popupMenu.add(menuDeviceData);
 
+        menuTableData = Utils.UI.createMenuItem(LangUtil.getString("TableData..."), (e) -> openTableData());
+        menuTableData.setIcon(Icons.TABLE_DATA);
+        popupMenu.add(menuTableData);
+
         menuRefresh = Utils.UI.createMenuItem(LangUtil.getString("Refresh"), (e) -> refreshNode());
         menuRefresh.setIcon(Icons.REFRESH);
         popupMenu.add(menuRefresh);
@@ -154,6 +163,9 @@ public class SessionTree extends JXTree {
         menuRemoveDevice = Utils.UI.createMenuItem(LangUtil.getString("RemoveDevice"), (e) -> removeSelectedObject());
         menuRemoveDevice.setIcon(Icons.DELETE);
         popupMenu.add(menuRemoveDevice);
+        menuRemoveTable = Utils.UI.createMenuItem(LangUtil.getString("RemoveTable"), (e) -> removeSelectedObject());
+        menuRemoveTable.setIcon(Icons.DELETE);
+        popupMenu.add(menuRemoveTable);
 
         popupMenu.addSeparator();
 
@@ -171,18 +183,21 @@ public class SessionTree extends JXTree {
         boolean onDatabase = node.getUserObject() instanceof Database;
         boolean onPathGroup = node.getUserObject() instanceof PathGroup;
         boolean onDevice = node.getUserObject() instanceof Device;
+        boolean onTable = node.getUserObject() instanceof Table;
+        boolean tableDialect = node.getUserObject() instanceof Sessionable sessionable && sessionable.isTableDialect();
 
         menuCloseSession.setVisible(onSession && sessionOpend);
         menuOpenSession.setVisible(onSession && !sessionOpend);
         menuEditProperties.setVisible(onSession);
         menuDeviceData.setVisible(onDevice);
+        menuTableData.setVisible(onTable);
         topMenuSeparator.setVisible(onSession);
 
-        menuNewQuery.setEnabled((onSession && sessionOpend) || onDatabase || onPathGroup || onDevice);
+        menuNewQuery.setEnabled((onSession && sessionOpend) || onDatabase || onPathGroup || onDevice || onTable);
         menuNewDatabase.setVisible(onSession);
         menuNewDatabase.setEnabled(sessionOpend);
-        menuNewDevice.setVisible(onDatabase || onPathGroup);
-        menuSetTtl.setVisible(onDatabase || onPathGroup);
+        menuNewDevice.setVisible((onDatabase || onPathGroup) && !tableDialect);
+        menuSetTtl.setVisible((onDatabase || onPathGroup) && !tableDialect);
         menuRefresh.setEnabled((onSession && sessionOpend) || onDatabase || onPathGroup);
 
         menuRemoveSession.setVisible(onSession);
@@ -190,8 +205,15 @@ public class SessionTree extends JXTree {
         menuRemoveDatabase.setVisible(onDatabase);
         menuRemovePath.setVisible(onPathGroup);
         menuRemoveDevice.setVisible(onDevice);
+        menuRemoveTable.setVisible(onTable);
 
-        menuDetail.setEnabled((onSession && sessionOpend) || onDatabase || onDevice);
+        menuDetail.setEnabled((onSession && sessionOpend) || onDatabase || onDevice || onTable);
+    }
+
+    private void selectNodeChanged(DefaultMutableTreeNode node) {
+        if (node != null && node.getUserObject() instanceof Databaseable databaseable) {
+            databaseable.changeDatabase(databaseable.getDatabase());
+        }
     }
 
     private void nodeDoubleClick(int rowIndex) {
@@ -201,11 +223,17 @@ public class SessionTree extends JXTree {
             if (selectNode.getUserObject() instanceof Session session) {
                 openSession();
             } else if (selectNode.getUserObject() instanceof Database database) {
-                if (!database.isDevicesLoaded()) {
-                    loadDevices(selectNode, database, true, false);
+                if (!database.isChildrenLoaded()) {
+                    if (database.isTableDialect()) {
+                        loadTables(selectNode, database, true, false);
+                    } else {
+                        loadDevices(selectNode, database, true, false);
+                    }
                 }
             } else if (selectNode.getUserObject() instanceof Device device && Configuration.instance().options().isDblclickOpenEditor()) {
                 AppEvents.instance().applyEvent(l -> l.newDeviceDataTab(device));
+            }  else if (selectNode.getUserObject() instanceof Table table && Configuration.instance().options().isDblclickOpenEditor()) {
+                AppEvents.instance().applyEvent(l -> l.newTableDataTab(table));
             }
         }
     }
@@ -343,6 +371,16 @@ public class SessionTree extends JXTree {
         }
     }
 
+    private void openTableData() {
+        TreePath selectedPath = getSelectionPath();
+        if (selectedPath != null) {
+            final DefaultMutableTreeNode selectNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
+            if (selectNode != null && selectNode.getUserObject() instanceof Table table) {
+                AppEvents.instance().applyEvent(l -> l.newTableDataTab(table));
+            }
+        }
+    }
+
     private void modifyTTL() {
         TreePath selectedPath = getSelectionPath();
         if (selectedPath != null) {
@@ -364,7 +402,11 @@ public class SessionTree extends JXTree {
                         if (selectNode.getUserObject() instanceof Session session) {
                             loadDatabases(selectNode, session);
                         } else if (selectNode.getUserObject() instanceof Groupable groupable) {
-                            loadDevices(selectNode, groupable, true, true);
+                            if (groupable.isTableDialect()) {
+                                loadTables(selectNode, groupable, true, false);
+                            } else {
+                                loadDevices(selectNode, groupable, true, false);
+                            }
                         }
                     }
                 }
@@ -428,7 +470,38 @@ public class SessionTree extends JXTree {
             Set<Device> devices = groupable.getSession().loadDevices(groupable.getPath());
             appendDeviceNodes(devices, groupableNode, groupable);
             if (groupable instanceof Database database) {
-                database.setDevicesLoaded(true);
+                database.setChildrenLoaded(true);
+            }
+            if (expand) {
+                expandNode(groupableNode);
+            }
+            return null;
+        };
+
+        if (!inWorker) {
+            new SwingWorker<>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    return loadTask.call();
+                }
+            }.execute();
+        } else {
+            try {
+                loadTask.call();
+            } catch (Exception e) {
+                Utils.Message.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    private void loadTables(DefaultMutableTreeNode groupableNode, Groupable groupable, boolean expand, boolean inWorker) {
+        Callable<Void> loadTask = () -> {
+            groupableNode.removeAllChildren();
+            treeModel.reload(groupableNode);
+            Set<Table> tables = groupable.getSession().loadTables(groupable.getPath());
+            appendTableNodes(tables, groupableNode, groupable);
+            if (groupable instanceof Database database) {
+                database.setChildrenLoaded(true);
             }
             if (expand) {
                 expandNode(groupableNode);
@@ -514,6 +587,16 @@ public class SessionTree extends JXTree {
                 } catch (Exception e) {
                     Utils.Message.error(e.getMessage(), e);
                 }
+            }  else if (selectedNode.getUserObject() instanceof Table table) {
+                try {
+                    String confirmMessage = String.format(LangUtil.getString("RemoveDeviceConfirm"), table.getPath());
+                    if (Utils.Message.confirm(confirmMessage) == JOptionPane.YES_OPTION) {
+                        table.getSession().removeTable(table.getPath());
+                        treeModel.removeNodeFromParent(selectedNode);
+                    }
+                } catch (Exception e) {
+                    Utils.Message.error(e.getMessage(), e);
+                }
             }
         }
     }
@@ -570,13 +653,21 @@ public class SessionTree extends JXTree {
         }
     }
 
+    private void appendTableNodes(Collection<Table> tables, DefaultMutableTreeNode groupableNode, Groupable groupable) throws IllegalPathException {
+        for (Table table : tables) {
+            DefaultMutableTreeNode deviceTreeNode = new DefaultMutableTreeNode(table);
+            deviceTreeNode.setAllowsChildren(false);
+            treeModel.insertNodeInto(deviceTreeNode, groupableNode, groupableNode.getChildCount());
+        }
+    }
+
     private void refactorTreeNodes() {
         for (int i = 0; i < rootNode.getChildCount(); i++) {
             DefaultMutableTreeNode sessionNode = (DefaultMutableTreeNode) rootNode.getChildAt(i);
             if (sessionNode.getUserObject() instanceof Session session && session.isOpened()) {
                 for (int j = 0; j < sessionNode.getChildCount(); j++) {
                     DefaultMutableTreeNode databaseNode = (DefaultMutableTreeNode) sessionNode.getChildAt(j);
-                    if (databaseNode.getUserObject() instanceof Database database && database.isDevicesLoaded()) {
+                    if (databaseNode.getUserObject() instanceof Database database && database.isChildrenLoaded()) {
                         Set<Device> devices = StreamUtil.of(databaseNode.depthFirstEnumeration().asIterator())
                             .map(t -> (DefaultMutableTreeNode) t)
                             .map(DefaultMutableTreeNode::getUserObject)
@@ -590,7 +681,7 @@ public class SessionTree extends JXTree {
                         treeModel.reload(databaseNode);
                         try {
                             appendDeviceNodes(devices, databaseNode, database);
-                            database.setDevicesLoaded(true);
+                            database.setChildrenLoaded(true);
                             if (expanded) {
                                 expandNode(databaseNode);
                             }

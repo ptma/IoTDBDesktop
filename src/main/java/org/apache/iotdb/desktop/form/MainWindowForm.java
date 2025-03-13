@@ -211,7 +211,9 @@ public class MainWindowForm {
                     sessionActived = false;
                 } else {
                     DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-                    sessionActived = treeNode.getUserObject() instanceof Sessionable sessionable && sessionable.getSession().isOpened();
+                    sessionActived = treeNode.getUserObject() instanceof Sessionable sessionable &&
+                        sessionable.getSession().isOpened() &&
+                        !sessionable.isTableDialect();
                 }
                 btnNewQuery.setEnabled(sessionActived);
                 btnImport.setEnabled(sessionActived);
@@ -267,6 +269,11 @@ public class MainWindowForm {
                     String title = LangUtil.getString("Device") + ": " + device.getName();
                     formTabPanel.addTab(title, Icons.TREE_NODE_COLUMN, infoForm, title);
                     formTabPanel.setSelectedComponent(infoForm);
+                } else if (sessionable instanceof Table table) {
+                    TableInfo infoForm = new TableInfo(table);
+                    String title = LangUtil.getString("Table") + ": " + table.getName();
+                    formTabPanel.addTab(title, Icons.TREE_NODE_COLUMN, infoForm, title);
+                    formTabPanel.setSelectedComponent(infoForm);
                 }
             }
 
@@ -284,6 +291,24 @@ public class MainWindowForm {
                 }
                 DeviceData editor = new DeviceData(device);
                 String title = LangUtil.getString("DeviceData") + " - " + device.getName() + " (" + device.getSession().getName() + ")";
+                formTabPanel.addTab(title, Icons.TABLE_DATA, editor, title);
+                formTabPanel.setSelectedComponent(editor);
+            }
+
+            @Override
+            public void newTableDataTab(Table table) {
+                String key = String.format("%s-%s", table.getKey(), "data");
+                for (int i = 0; i < formTabPanel.getTabCount(); i++) {
+                    Component tabComponent = formTabPanel.getComponentAt(i);
+                    if (tabComponent instanceof SessionablePanel sessionablePanel) {
+                        if (sessionablePanel.getTabbedKey().equals(key)) {
+                            formTabPanel.setSelectedComponent(tabComponent);
+                            return;
+                        }
+                    }
+                }
+                TableData editor = new TableData(table);
+                String title = LangUtil.getString("TableData") + " - " + table.getName() + " (" + table.getSession().getName() + ")";
                 formTabPanel.addTab(title, Icons.TABLE_DATA, editor, title);
                 formTabPanel.setSelectedComponent(editor);
             }
