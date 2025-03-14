@@ -120,12 +120,12 @@ public class TableData extends TabPanel {
         dataTable.addDataEventListener(new DataEventListener() {
             @Override
             public void dataRemove(long[] timestamps) {
-                removeDeviceDatas(timestamps);
+                removeTableDatas(timestamps);
             }
 
             @Override
             public void dataUpdate(long timestamp, String column, TSDataType dataType, Object value) {
-                updateDeviceData(timestamp, column, dataType, value);
+
             }
         });
 
@@ -200,34 +200,7 @@ public class TableData extends TabPanel {
         worker.execute();
     }
 
-    public void updateDeviceData(long timestamp, String column, TSDataType dataType, Object value) {
-        SwingWorker<Exception, Integer> worker = new SwingWorker<>() {
-            @Override
-            protected void done() {
-                try {
-                    Exception exception = get();
-                    if (exception != null) {
-                        Utils.Message.error(exception.getMessage(), exception);
-                    }
-                } catch (Exception ex) {
-                    Utils.Message.error(ex.getMessage(), ex);
-                }
-            }
-
-            @Override
-            protected Exception doInBackground() {
-                try {
-
-                    return null;
-                } catch (Exception e) {
-                    return e;
-                }
-            }
-        };
-        worker.execute();
-    }
-
-    private void removeDeviceDatas(long[] timestamps) {
+    private void removeTableDatas(long[] timestamps) {
         SwingWorker<Exception, Integer> worker = new SwingWorker<>() {
             @Override
             protected void done() {
@@ -295,7 +268,7 @@ public class TableData extends TabPanel {
     }
 
     private void createUIComponents() {
-        dataModel = new QueryResultTableModel(true);
+        dataModel = new QueryResultTableModel(false);
         dataTable = new QueryResultTable(dataModel, table.isTableDialect());
     }
 
