@@ -16,8 +16,6 @@ import org.apache.iotdb.desktop.model.*;
 import org.apache.iotdb.desktop.util.Icons;
 import org.apache.iotdb.desktop.util.LangUtil;
 import org.apache.iotdb.desktop.util.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -206,18 +204,18 @@ public class MainWindowForm {
 
             @Override
             public void onTreeSelectionChange(TreePath treePath) {
-                boolean sessionActived;
-                if (treePath == null || treePath.getLastPathComponent() == null) {
-                    sessionActived = false;
-                } else {
+                boolean sessionActived = false;
+                boolean tableDialect = false;
+                if (treePath != null && treePath.getLastPathComponent() != null) {
                     DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treePath.getLastPathComponent();
-                    sessionActived = treeNode.getUserObject() instanceof Sessionable sessionable &&
-                        sessionable.getSession().isOpened() &&
-                        !sessionable.isTableDialect();
+                    if (treeNode.getUserObject() instanceof Sessionable sessionable) {
+                        sessionActived = sessionable.getSession().isOpened();
+                        tableDialect = sessionable.isTableDialect();
+                    }
                 }
                 btnNewQuery.setEnabled(sessionActived);
-                btnImport.setEnabled(sessionActived);
-                btnExport.setEnabled(sessionActived);
+                btnImport.setEnabled(sessionActived && !tableDialect);
+                btnExport.setEnabled(sessionActived && !tableDialect);
             }
 
             @Override

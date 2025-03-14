@@ -226,7 +226,7 @@ public class TableInfo extends TabPanel {
                             // ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? columnDefinition
                             // columnDefinition
                             //    : identifier type (TAG | ATTRIBUTE | TIME | FIELD)
-                            String alertSql = "alter table if exists tablename=" + table.getName() + " add column if not exists ";
+                            String alertSql = "alter table if exists " + table.getName() + " add column if not exists ";
                             alertSql += column.getName() + " " + column.getDataType() + " " + column.getCategory();
 
                             table.getSession().execute(alertSql);
@@ -235,7 +235,7 @@ public class TableInfo extends TabPanel {
                     // 删除列,  alter table (if exists)? tablename=qualifiedname drop column (if exists)? identifier
                     if (!columnTableModel.getDroppedColumns().isEmpty()) {
                         for (Column column : columnTableModel.getDroppedColumns()) {
-                            String alertSql = "alter table if exists tablename=" + table.getName() + " drop column if exists " + column.getName();
+                            String alertSql = "alter table if exists " + table.getName() + " drop column if exists " + column.getName();
                             table.getSession().execute(alertSql);
                         }
                     }
