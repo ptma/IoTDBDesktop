@@ -2,27 +2,25 @@ package org.apache.iotdb.desktop.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
-public class Database implements Databaseable, Groupable {
+public class PathGroup implements Groupable {
+
+    private final String parent;
 
     private final String name;
-
-    @Setter
-    private boolean childrenLoaded = false;
 
     private final Session session;
 
     @Override
     public String getPath() {
-        return name;
+        return String.format("%s.%s", parent, name);
     }
 
     @Override
     public String getKey() {
-        return String.format("%s-%s", session.getId(), name);
+        return String.format("%s-%s", session.getId(), getPath());
     }
 
     @Override
@@ -30,8 +28,4 @@ public class Database implements Databaseable, Groupable {
         return getName();
     }
 
-    @Override
-    public String getDatabase() {
-        return getName();
-    }
 }

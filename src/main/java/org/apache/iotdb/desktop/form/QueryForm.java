@@ -43,10 +43,10 @@ public class QueryForm extends TabPanel {
 
     public QueryForm(Sessionable sessionable, boolean autoExecute) {
         super();
+        this.sessionable = sessionable;
         $$$setupUI$$$();
         setLayout(new BorderLayout());
         add(rootPanel, BorderLayout.CENTER);
-        this.sessionable = sessionable;
         initComponents();
 
         mainSplitPanel.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, evt -> {
@@ -77,10 +77,12 @@ public class QueryForm extends TabPanel {
 
         appEventListener = new AppEventListenerAdapter() {
             @Override
-            public void optionsChanged(Options options) {
-                sqlEditor.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, false, false, false));
-                editorPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), false, false, true, false));
-                tabbedPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, false, false, false));
+            public void optionsChanged(Options options, Options oldOptions) {
+                if (!options.getTheme().equals(oldOptions.getTheme())) {
+                    sqlEditor.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, false, false, false));
+                    editorPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), false, false, true, false));
+                    tabbedPanel.setBorder(new SingleLineBorder(UIManager.getColor("Component.borderColor"), true, false, false, false));
+                }
             }
         };
 
@@ -131,16 +133,29 @@ public class QueryForm extends TabPanel {
         } else if (sessionable instanceof Database) {
 
         } else if (sessionable instanceof Device device) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("select * from ")
+            StringBuilder sql = new StringBuilder();
+            sql.append("select * from ")
                 .append(device.getDatabase())
                 .append(".")
                 .append(device.getName())
                 .append(" order by time desc limit 100");
             if (device.isAligned()) {
-                sb.append(" align by device");
+                sql.append(" align by device");
             }
-            sqlEditor.setText(sb.toString());
+            sqlEditor.setText(sql.toString());
+            if (autoExecute) {
+                executeQuery();
+            }
+        }  else if (sessionable instanceof Table table) {
+            StringBuilder sql = new StringBuilder();
+            sql.append("select * from ")
+                .append(table.getDatabase())
+                .append(".")
+                .append(table.getName());
+            if (!"information_schema".equalsIgnoreCase(table.getDatabase())) {
+                sql.append(" order by time desc limit 100");
+            }
+            sqlEditor.setText(sql.toString());
             if (autoExecute) {
                 executeQuery();
             }
@@ -211,7 +226,7 @@ public class QueryForm extends TabPanel {
             } else {
                 info.add("-- OK");
             }
-            QueryResultPanel queryResultPanel = new QueryResultPanel();
+            QueryResultPanel queryResultPanel = new QueryResultPanel(sessionable.isTableDialect());
             queryResultPanel.setQueryResult(result);
             tabbedPanel.addTab(LangUtil.format("ResultTabbedTitle", i + 1), queryResultPanel);
             if (i == 0) {

@@ -1,6 +1,5 @@
 package org.apache.iotdb.desktop.form;
 
-import cn.hutool.core.util.NumberUtil;
 import org.apache.iotdb.desktop.component.QueryResultTable;
 import org.apache.iotdb.desktop.component.QueryResultTableModel;
 import org.apache.iotdb.desktop.component.TabPanel;
@@ -15,7 +14,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.time.Duration;
 
 public class DatabaseInfo extends TabPanel {
     private JPanel rootPanel;
@@ -27,13 +25,17 @@ public class DatabaseInfo extends TabPanel {
 
     public DatabaseInfo(Database database) {
         super();
+        this.database = database;
         $$$setupUI$$$();
         setLayout(new BorderLayout());
         add(rootPanel, BorderLayout.CENTER);
-        this.database = database;
         initComponents();
 
-        loadDevices();
+        if (database.isTableDialect()) {
+            loadTables();
+        } else {
+            loadDevices();
+        }
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentShown(ComponentEvent e) {
@@ -70,16 +72,38 @@ public class DatabaseInfo extends TabPanel {
                 result.getColumnTypes().add("INT32");
                 result.getDatas().forEach(row -> {
                     try {
-                        String ttlValue = (String) row.getOrDefault("TTL(ms)", "");
-                        if (NumberUtil.isNumber(ttlValue)) {
-                            row.put("TTL(ms)", Utils.durationToString(Duration.ofMillis(Long.parseLong(ttlValue))) + " (" + ttlValue + ")");
-                        }
                         int count = database.getSession().countOne("count timeseries " + row.get("Device") + ".**");
                         row.put("MetricCount", count);
                     } catch (Exception e) {
                         row.put("MetricCount", 0);
                     }
                 });
+                return result.columnNamesLocalization();
+            }
+        };
+        worker.execute();
+    }
+
+    private void loadTables() {
+        deviceTableModel.clear();
+
+        SwingWorker<QueryResult, Integer> worker = new SwingWorker<>() {
+            @Override
+            protected void done() {
+                try {
+                    deviceTableModel.setResult(get());
+                    deviceTable.setSortOrder(1, SortOrder.ASCENDING);
+                    Utils.autoResizeTableColumns(deviceTable, 0);
+                } catch (Exception ex) {
+                    Utils.Message.error(ex.getMessage(), ex);
+                }
+            }
+
+            @Override
+            protected QueryResult doInBackground() throws Exception {
+                QueryResult result = database.getSession().query("show tables details from " + database.getName(),
+                    Configuration.instance().options().isLogInternalSql()
+                );
                 return result.columnNamesLocalization();
             }
         };
@@ -103,7 +127,11 @@ public class DatabaseInfo extends TabPanel {
 
     @Override
     public void refresh() {
-        loadDevices();
+        if (database.isTableDialect()) {
+            loadTables();
+        } else {
+            loadDevices();
+        }
     }
 
     @Override
@@ -139,7 +167,7 @@ public class DatabaseInfo extends TabPanel {
 
     private void createUIComponents() {
         deviceTableModel = new QueryResultTableModel();
-        deviceTable = new QueryResultTable(deviceTableModel);
+        deviceTable = new QueryResultTable(deviceTableModel, database.isTableDialect());
         deviceTable.setEditable(false);
     }
 }

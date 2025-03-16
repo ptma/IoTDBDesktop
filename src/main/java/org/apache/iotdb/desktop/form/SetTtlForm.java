@@ -8,6 +8,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import org.apache.iotdb.desktop.IotdbDesktopApp;
 import org.apache.iotdb.desktop.model.Database;
+import org.apache.iotdb.desktop.model.Groupable;
 import org.apache.iotdb.desktop.util.Icons;
 import org.apache.iotdb.desktop.util.LangUtil;
 import org.apache.iotdb.desktop.util.Utils;
@@ -25,11 +26,11 @@ public class SetTtlForm extends JDialog {
     private JButton buttonCancel;
     private JLabel ttlLabel;
     private JTextField ttlField;
-    private Database database;
+    private final Groupable groupable;
     private String originalTtl;
 
-    public static void open(Database database) {
-        JDialog dialog = new SetTtlForm(IotdbDesktopApp.frame, database);
+    public static void open(Groupable groupable) {
+        JDialog dialog = new SetTtlForm(IotdbDesktopApp.frame, groupable);
         dialog.setMinimumSize(new Dimension(300, 140));
         dialog.setResizable(false);
         dialog.pack();
@@ -37,9 +38,9 @@ public class SetTtlForm extends JDialog {
         dialog.setVisible(true);
     }
 
-    public SetTtlForm(Frame owner, Database database) {
+    public SetTtlForm(Frame owner, Groupable groupable) {
         super(owner);
-        this.database = database;
+        this.groupable = groupable;
         $$$setupUI$$$();
         setContentPane(contentPane);
         setModal(true);
@@ -76,7 +77,7 @@ public class SetTtlForm extends JDialog {
         ttlLabel.setToolTipText("<html>" + LangUtil.getString("TTLToolTip") + "</html>");
         ttlLabel.setIcon(Icons.TIPS);
         ttlLabel.setHorizontalTextPosition(SwingConstants.LEADING);
-        setTitle(LangUtil.getString("DatabaseTTL"));
+        setTitle(LangUtil.getString("TTLSetting"));
         LangUtil.buttonText(buttonOK, "&Ok");
         LangUtil.buttonText(buttonCancel, "&Cancel");
     }
@@ -98,7 +99,12 @@ public class SetTtlForm extends JDialog {
             @Override
             protected Exception doInBackground() throws Exception {
                 try {
-                    String ttl = database.getSession().queryTtl(database.getName());
+                    String ttl;
+                    if (groupable instanceof Database) {
+                        ttl = groupable.getSession().queryDatabaseTtl(groupable.getPath());
+                    } else {
+                        ttl = groupable.getSession().queryTtl(groupable.getPath());
+                    }
                     if (!ttl.equals("INF")) {
                         originalTtl = Utils.durationToString(Duration.ofMillis(Long.parseLong(ttl)));
                     } else {
@@ -132,7 +138,7 @@ public class SetTtlForm extends JDialog {
                 try {
                     Exception e = get();
                     if (e == null) {
-                        Utils.Toast.success(LangUtil.getString("SetDatabaseTTLSuccess"));
+                        Utils.Toast.success(LangUtil.getString("SetTTLSuccess"));
                         dispose();
                     } else {
                         Utils.Message.error(e.getMessage(), e);
@@ -150,9 +156,17 @@ public class SetTtlForm extends JDialog {
                         if (!ttlString.equals("INF")) {
                             ttlString = String.valueOf(Utils.parseDuration(ttlString).toMillis());
                         }
-                        database.getSession().ttlToPath(database.getName(), ttlString);
+                        if (groupable instanceof Database) {
+                            groupable.getSession().ttlToDatabase(groupable.getPath(), ttlString);
+                        } else {
+                            groupable.getSession().ttlToPath(groupable.getPath(), ttlString);
+                        }
                     } else {
-                        database.getSession().ttlToPath(database.getName(), null);
+                        if (groupable instanceof Database) {
+                            groupable.getSession().ttlToDatabase(groupable.getPath(), null);
+                        } else {
+                            groupable.getSession().ttlToPath(groupable.getPath(), null);
+                        }
                     }
                     return null;
                 } catch (Exception e) {

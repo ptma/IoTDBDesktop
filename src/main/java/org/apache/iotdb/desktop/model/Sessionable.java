@@ -8,6 +8,13 @@ public interface Sessionable {
 
     String getKey();
 
+    default void changeDatabase(String database) {
+        getSession().changeDatabase(database);
+    }
+
+    default boolean isTableDialect() {
+        return getSession().isTableDialect();
+    }
     default SessionProps getProps() {
         return getSession().getProps();
     }

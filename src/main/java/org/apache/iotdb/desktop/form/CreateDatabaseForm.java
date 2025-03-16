@@ -10,7 +10,6 @@ import org.apache.iotdb.desktop.IotdbDesktopApp;
 import org.apache.iotdb.desktop.exception.VerificationException;
 import org.apache.iotdb.desktop.model.Database;
 import org.apache.iotdb.desktop.model.Session;
-import org.apache.iotdb.desktop.util.Icons;
 import org.apache.iotdb.desktop.util.LangUtil;
 import org.apache.iotdb.desktop.util.Utils;
 import org.apache.iotdb.desktop.util.Validator;
@@ -117,8 +116,8 @@ public class CreateDatabaseForm extends JDialog {
             @Override
             protected Exception doInBackground() throws Exception {
                 try {
-                    session.createDatabase(databaseField.getText());
                     String ttlString = StrUtil.trim(ttlField.getText());
+                    boolean ttlSpecified = false;
                     if (StrUtil.isNotBlank(ttlString)) {
                         if (!ttlString.equals("INF")) {
                             Duration duration = Utils.parseDuration(ttlString);
@@ -126,8 +125,17 @@ public class CreateDatabaseForm extends JDialog {
                                 return null;
                             }
                             ttlString = String.valueOf(duration.toMillis());
+                            ttlSpecified = true;
                         }
-                        session.ttlToPath(databaseField.getText(), ttlString);
+                    }
+
+                    if (session.isTableDialect()) {
+                        session.createTableModeDatabase(databaseField.getText(), ttlString);
+                    } else {
+                        session.createTreeModeDatabase(databaseField.getText());
+                        if (ttlSpecified) {
+                            session.ttlToPath(databaseField.getText(), ttlString);
+                        }
                     }
                     return null;
                 } catch (Exception e) {

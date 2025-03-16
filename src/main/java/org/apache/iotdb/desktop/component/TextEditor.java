@@ -78,8 +78,13 @@ public class TextEditor extends RTextScrollPane {
 
         appEventListener = new AppEventListenerAdapter() {
             @Override
-            public void optionsChanged(Options options) {
-                loadOptions(options);
+            public void optionsChanged(Options options, Options oldOptions) {
+                if (!options.getTheme().equals(oldOptions.getTheme()) ||
+                    !options.getFontName().equals(oldOptions.getFontName()) ||
+                    options.getFontSize() != oldOptions.getFontSize()
+                ) {
+                    loadOptions(options);
+                }
             }
         };
 

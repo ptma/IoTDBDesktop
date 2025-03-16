@@ -29,9 +29,28 @@ public class Session implements Sessionable {
     @Setter
     private boolean databasesLoaded = false;
 
+    private String activeDatabase;
+
     public Session(SessionProps props) {
         this.props = props;
         this.iotdbSession = new org.apache.iotdb.session.Session(props.toBuilder());
+    }
+
+    @Override
+    public boolean isTableDialect() {
+        return props.getSqlDialect().equalsIgnoreCase("table");
+    }
+
+    @Override
+    public void changeDatabase(String database) {
+        if (activeDatabase == null || !activeDatabase.equals(database)) {
+            activeDatabase = database;
+            try {
+                executeNonQueryStatement("use " + database);
+            } catch (Exception e) {
+                Utils.Message.error(e.getMessage(), e);
+            }
+        }
     }
 
     public String getName() {
@@ -109,6 +128,33 @@ public class Session implements Sessionable {
         }
     }
 
+    public Set<Table> loadTables(String database) throws Exception {
+        QueryResult result = query("show tables from " + database,
+            Configuration.instance().options().isLogInternalSql()
+        );
+        if (result.hasException()) {
+            throw result.getException();
+        } else {
+            return result.getDatas().stream()
+                .map(row -> {
+                    String tableName = row.get("TableName").toString();
+                    String ttl = Optional.ofNullable(row.get("TTL(ms)"))
+                        .map(Object::toString)
+                        .map(s -> {
+                            if (NumberUtil.isNumber(s)) {
+                                return Utils.durationToString(Duration.ofMillis(Long.parseLong(s)));
+                            } else {
+                                return s;
+                            }
+                        })
+                        .orElse("");
+                    return new Table(database, tableName, ttl, this);
+                })
+                .sorted(Comparator.comparing(Table::getName))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+    }
+
     public List<Metric> loadTimeseries(String devicePath) throws IoTDBConnectionException, StatementExecutionException {
         if (!opened) {
             open();
@@ -151,9 +197,46 @@ public class Session implements Sessionable {
         }
     }
 
-    public void createDatabase(String database) throws IoTDBConnectionException, StatementExecutionException {
+    public List<Column> loadTableColumns(String tableName) throws IoTDBConnectionException, StatementExecutionException {
+        if (!opened) {
+            open();
+        }
+        SessionDataSet dataSet = null;
+        try {
+
+            String querySql = "desc " + tableName + " details";
+            if (Configuration.instance().options().isLogInternalSql()) {
+                AppEvents.instance().applyEvent(l -> l.appendSqlLog(querySql));
+            }
+
+            dataSet = iotdbSession.executeQueryStatement(querySql);
+
+            List<Column> columns = new ArrayList<>();
+            SessionDataSet.DataIterator iterator = dataSet.iterator();
+            Column column;
+            while (iterator.next()) {
+                column = new Column();
+                column.setName(iterator.getString("ColumnName"));
+                column.setDataType(iterator.getString("DataType"));
+                column.setCategory(iterator.getString("Category"));
+                column.setExisting(true);
+                columns.add(column);
+            }
+            return columns;
+        } finally {
+            closeDataSet(dataSet);
+        }
+    }
+
+    public void createTreeModeDatabase(String database) throws IoTDBConnectionException, StatementExecutionException {
         execute("create database " + database);
     }
+
+    public void createTableModeDatabase(String database, String ttl) throws IoTDBConnectionException, StatementExecutionException {
+        String properties = StrUtil.isBlank(ttl) ? "" : " with(ttl=" + ttl + ")";
+        execute("create database if not exists " + database + properties);
+    }
+
 
     public void removeDatabase(String database) throws IoTDBConnectionException, StatementExecutionException {
         execute("drop database " + database);
@@ -163,18 +246,48 @@ public class Session implements Sessionable {
         execute("delete timeseries " + devicePath + (devicePath.endsWith(".**") ? "" : ".**"));
     }
 
+    public void removeTable(String table) throws IoTDBConnectionException, StatementExecutionException {
+        execute("drop table " + table);
+    }
+
+    public void ttlToDatabase(String database, String ttl) throws IoTDBConnectionException, StatementExecutionException {
+        if (ttl != null) {
+            execute(String.format("set ttl to %s %s", database, ttl));
+        } else {
+            execute(String.format("unset ttl from %s", database));
+        }
+    }
+
     public void ttlToPath(String path, String ttl) throws IoTDBConnectionException, StatementExecutionException {
         if (ttl != null) {
-            execute(String.format("set ttl to %s %s", path, ttl));
+            execute(String.format("set ttl to %s %s", path.endsWith(".**") ? path : path + ".**", ttl));
         } else {
-            execute(String.format("unset ttl from %s", path));
+            execute(String.format("unset ttl from %s", path.endsWith(".**") ? path : path + ".**"));
+        }
+    }
+
+    public String queryDatabaseTtl(String database) throws IoTDBConnectionException, StatementExecutionException {
+        SessionDataSet dataSet = null;
+        try {
+            String sql = String.format("show ttl on %s", database);
+            if (Configuration.instance().options().isLogInternalSql()) {
+                AppEvents.instance().applyEvent(l -> l.appendSqlLog(sql));
+            }
+            dataSet = iotdbSession.executeQueryStatement(sql);
+            if (dataSet.iterator().next()) {
+                return dataSet.iterator().getString("TTL(ms)");
+            } else {
+                return "0";
+            }
+        } finally {
+            closeDataSet(dataSet);
         }
     }
 
     public String queryTtl(String path) throws IoTDBConnectionException, StatementExecutionException {
         SessionDataSet dataSet = null;
         try {
-            String sql = String.format("show ttl on %s", path);
+            String sql = String.format("show ttl on %s", path.endsWith(".**") ? path : path + ".**");
             if (Configuration.instance().options().isLogInternalSql()) {
                 AppEvents.instance().applyEvent(l -> l.appendSqlLog(sql));
             }
@@ -233,11 +346,12 @@ public class Session implements Sessionable {
             String lowerCaseSql = querySql.toLowerCase();
             if (
                 !lowerCaseSql.startsWith("explain") &&
-                !lowerCaseSql.startsWith("show") &&
-                !lowerCaseSql.startsWith("list") &&
-                !lowerCaseSql.startsWith("select") &&
-                !lowerCaseSql.startsWith("count") &&
-                !lowerCaseSql.startsWith("tracing")) {
+                    !lowerCaseSql.startsWith("show") &&
+                    !lowerCaseSql.startsWith("list") &&
+                    !lowerCaseSql.startsWith("select") &&
+                    !lowerCaseSql.startsWith("count") &&
+                    !lowerCaseSql.startsWith("tracing") &&
+                    !lowerCaseSql.startsWith("desc")) {
                 iotdbSession.executeNonQueryStatement(querySql);
                 result.success();
             } else {
@@ -288,6 +402,29 @@ public class Session implements Sessionable {
             if (aligned) {
                 countSql.append(" align by device");
             }
+
+            if (Configuration.instance().options().isLogInternalSql()) {
+                AppEvents.instance().applyEvent(l -> l.appendSqlLog(countSql.toString()));
+            }
+            dataSet = iotdbSession.executeQueryStatement(countSql.toString());
+            if (dataSet.iterator().next()) {
+                return dataSet.iterator().getLong("total_rows");
+            } else {
+                return 0;
+            }
+        } finally {
+            closeDataSet(dataSet);
+        }
+    }
+
+    public long countRows(Table table) throws IoTDBConnectionException, StatementExecutionException {
+        SessionDataSet dataSet = null;
+        try {
+            StringBuilder countSql = new StringBuilder();
+            countSql.append("select count(*) as total_rows from ")
+                .append(table.getDatabase())
+                .append(".")
+                .append(table.getName());
 
             if (Configuration.instance().options().isLogInternalSql()) {
                 AppEvents.instance().applyEvent(l -> l.appendSqlLog(countSql.toString()));

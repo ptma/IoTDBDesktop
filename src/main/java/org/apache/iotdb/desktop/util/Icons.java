@@ -22,6 +22,7 @@ public final class Icons {
     public static final Icon TREE_NODE_DATABSE_OPENED = new FlatSVGIcon("svg/icons/db_opened.svg", 16, 16);
     public static final Icon TREE_NODE_COLUMN = new FlatSVGIcon("svg/icons/column.svg");
     public static final Icon TREE_NODE_TABLE = new FlatSVGIcon("svg/icons/table.svg", 16, 16);
+    public static final Icon TREE_NODE_GROUP = new FlatSVGIcon("svg/icons/folder.svg", 16, 16);
 
     public static final Icon TOOLBAR_SESSION = new FlatSVGIcon("svg/icons/toolbar_session.svg", 24, 24);
     public static final Icon TOOLBAR_QUERY = new FlatSVGIcon("svg/icons/toolbar_query.svg", 24, 24);

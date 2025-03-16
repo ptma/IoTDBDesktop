@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.iotdb.desktop.IotdbDesktopApp;
 import org.apache.iotdb.desktop.config.Configuration;
 import org.apache.iotdb.desktop.config.Languages;
@@ -65,10 +66,11 @@ public class OptionsForm extends JDialog {
     private JLabel rowsPerPageLabel;
     private JLabel orderByTimeLabel;
     private JCheckBox alwaysAlignByDeviceCheckBox;
+    private JCheckBox flattenDeviceNodesCheckBox;
 
     public static void open() {
         JDialog dialog = new OptionsForm(IotdbDesktopApp.frame);
-        dialog.setMinimumSize(new Dimension(350, 380));
+        dialog.setMinimumSize(new Dimension(350, 400));
         dialog.setResizable(false);
         dialog.pack();
         dialog.setLocationRelativeTo(IotdbDesktopApp.frame);
@@ -116,6 +118,7 @@ public class OptionsForm extends JDialog {
         tabbedPane.setTitleAt(2, LangUtil.getString("Other"));
         sessionTreeLabel.setText(LangUtil.getString("SessionTree"));
         autoLoadDeviceNodesCheckBox.setText(LangUtil.getString("AutoLoadDeviceNodes"));
+        flattenDeviceNodesCheckBox.setText(LangUtil.getString("FlattenDeviceNodes"));
         sqlLogLabel.setText(LangUtil.getString("SQLLog"));
         logInternalSQLCheckBox.setText(LangUtil.getString("LogInternalSQL"));
         addTimestampToLogsCheckBox.setText(LangUtil.getString("AddTimestampToLogs"));
@@ -200,6 +203,10 @@ public class OptionsForm extends JDialog {
         dblClickOpenDeviceDataCheckBox.setSelected(dblclickOpenEditor);
         dblClickOpenDeviceDataCheckBox.addActionListener(e -> optionsChanged = true);
 
+        boolean flattenDeviceNodes = Configuration.instance().options().isFlattenDeviceNodes();
+        flattenDeviceNodesCheckBox.setSelected(flattenDeviceNodes);
+        flattenDeviceNodesCheckBox.addActionListener(e -> optionsChanged = true);
+
         int editorPageSize = Configuration.instance().options().getEditorPageSize();
         pageSizeField.setModel(new SpinnerNumberModel(editorPageSize, 100, 10000, 1));
         pageSizeField.setEditor(new JSpinner.NumberEditor(pageSizeField, "####"));
@@ -221,9 +228,9 @@ public class OptionsForm extends JDialog {
 
     private Set<String> loadMonospaceFonts() {
         Set<String> monospacedFonts = new HashSet<>(Arrays.asList(
-                "Consolas", "Courier New", "DejaVu Sans Mono", "Droid Sans Mono",
-                "Inconsolata", "JetBrains Mono", "Lucida Console", "Monaco",
-                "Roboto Mono", "Source Code Pro", "Ubuntu Mono"));
+            "Consolas", "Courier New", "DejaVu Sans Mono", "Droid Sans Mono",
+            "Inconsolata", "JetBrains Mono", "Lucida Console", "Monaco",
+            "Roboto Mono", "Source Code Pro", "Ubuntu Mono"));
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         List<String> availableFontFamilys = Arrays.asList(graphicsEnvironment.getAvailableFontFamilyNames());
         return monospacedFonts.stream().filter(availableFontFamilys::contains).collect(Collectors.toSet());
@@ -232,12 +239,12 @@ public class OptionsForm extends JDialog {
     private void onOK() {
         if (optionsChanged) {
             Configuration.instance().options().setLanguage(
-                    Optional.ofNullable(languageComboBox.getSelectedItem())
-                            .orElse(Locale.getDefault().toLanguageTag()).toString()
+                Optional.ofNullable(languageComboBox.getSelectedItem())
+                    .orElse(Locale.getDefault().toLanguageTag()).toString()
             );
             Configuration.instance().options().setTheme(
-                    Optional.ofNullable(themeComboBox.getSelectedItem())
-                            .orElse(Themes.LIGHT).toString()
+                Optional.ofNullable(themeComboBox.getSelectedItem())
+                    .orElse(Themes.LIGHT).toString()
             );
             Configuration.instance().options().setFontName((String) fontComboBox.getSelectedItem());
             Configuration.instance().options().setFontSize((int) fontSizeField.getValue());
@@ -249,6 +256,7 @@ public class OptionsForm extends JDialog {
             Configuration.instance().options().setTimeFormat((String) timeFormatField.getSelectedItem());
 
             Configuration.instance().options().setDblclickOpenEditor(dblClickOpenDeviceDataCheckBox.isSelected());
+            Configuration.instance().options().setFlattenDeviceNodes(flattenDeviceNodesCheckBox.isSelected());
             Configuration.instance().options().setEditorPageSize((int) pageSizeField.getValue());
             Configuration.instance().options().setEditorSortOrder(descRadioButton.isSelected() ? "desc" : "asc");
             Configuration.instance().options().setEditorAligned(alwaysAlignByDeviceCheckBox.isSelected());
@@ -344,13 +352,13 @@ public class OptionsForm extends JDialog {
         label1.setText("ms");
         panel2.add(label1, cc.xy(7, 7));
         final JPanel panel3 = new JPanel();
-        panel3.setLayout(new FormLayout("fill:max(p;60dlu):noGrow,left:4dlu:noGrow,fill:p:noGrow,left:p:noGrow,fill:p:noGrow,left:4dlu:noGrow,fill:p:noGrow,left:4dlu:noGrow,fill:p:grow", "center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:noGrow"));
+        panel3.setLayout(new FormLayout("fill:max(p;60dlu):noGrow,left:4dlu:noGrow,fill:p:noGrow,left:p:noGrow,fill:p:noGrow,left:4dlu:noGrow,fill:p:noGrow,left:4dlu:noGrow,fill:p:grow", "center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:noGrow"));
         tabbedPane.addTab("Other", panel3);
         panel3.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         timeFormatLabel = new JLabel();
         timeFormatLabel.setHorizontalAlignment(11);
         timeFormatLabel.setText("Time Format");
-        panel3.add(timeFormatLabel, cc.xy(1, 15));
+        panel3.add(timeFormatLabel, cc.xy(1, 17));
         timeFormatField = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         defaultComboBoxModel1.addElement("yyyy-MM-dd HH:mm:ss.SSS");
@@ -367,7 +375,7 @@ public class OptionsForm extends JDialog {
         defaultComboBoxModel1.addElement("yyyy/MM/dd HH:mm:ssz");
         defaultComboBoxModel1.addElement("timestamp");
         timeFormatField.setModel(defaultComboBoxModel1);
-        panel3.add(timeFormatField, cc.xyw(3, 15, 7));
+        panel3.add(timeFormatField, cc.xyw(3, 17, 7));
         autoLoadDeviceNodesCheckBox = new JCheckBox();
         autoLoadDeviceNodesCheckBox.setText("Auto Load Device Nodes");
         panel3.add(autoLoadDeviceNodesCheckBox, cc.xyw(3, 1, 7));
@@ -378,37 +386,40 @@ public class OptionsForm extends JDialog {
         sqlLogLabel = new JLabel();
         sqlLogLabel.setHorizontalAlignment(11);
         sqlLogLabel.setText("SQL Log");
-        panel3.add(sqlLogLabel, cc.xy(1, 11));
+        panel3.add(sqlLogLabel, cc.xy(1, 13));
         logInternalSQLCheckBox = new JCheckBox();
         logInternalSQLCheckBox.setText("Log Internal SQL");
-        panel3.add(logInternalSQLCheckBox, cc.xyw(3, 11, 7));
+        panel3.add(logInternalSQLCheckBox, cc.xyw(3, 13, 7));
         addTimestampToLogsCheckBox = new JCheckBox();
         addTimestampToLogsCheckBox.setText("Add Timestamp to All Log Messages");
-        panel3.add(addTimestampToLogsCheckBox, cc.xyw(3, 13, 7));
+        panel3.add(addTimestampToLogsCheckBox, cc.xyw(3, 15, 7));
         dblClickOpenDeviceDataCheckBox = new JCheckBox();
         dblClickOpenDeviceDataCheckBox.setText("Double Click The Device Node To Open The Data Editor");
         panel3.add(dblClickOpenDeviceDataCheckBox, cc.xyw(3, 3, 7));
         ascRadioButton = new JRadioButton();
         ascRadioButton.setText("Asc");
-        panel3.add(ascRadioButton, cc.xy(9, 7));
+        panel3.add(ascRadioButton, cc.xy(9, 9));
         descRadioButton = new JRadioButton();
         descRadioButton.setText("Desc");
-        panel3.add(descRadioButton, cc.xy(7, 7));
+        panel3.add(descRadioButton, cc.xy(7, 9));
         pageSizeField = new JSpinner();
-        panel3.add(pageSizeField, cc.xyw(7, 9, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
+        panel3.add(pageSizeField, cc.xyw(7, 11, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
         rowsPerPageLabel = new JLabel();
         rowsPerPageLabel.setText("Rows Per Page");
-        panel3.add(rowsPerPageLabel, cc.xy(5, 9));
+        panel3.add(rowsPerPageLabel, cc.xy(5, 11));
         orderByTimeLabel = new JLabel();
         orderByTimeLabel.setText("Order by Time");
-        panel3.add(orderByTimeLabel, cc.xy(5, 7));
+        panel3.add(orderByTimeLabel, cc.xy(5, 9));
         alwaysAlignByDeviceCheckBox = new JCheckBox();
         alwaysAlignByDeviceCheckBox.setText("Always Align By Device");
-        panel3.add(alwaysAlignByDeviceCheckBox, cc.xyw(5, 5, 5));
+        panel3.add(alwaysAlignByDeviceCheckBox, cc.xyw(5, 7, 5));
         deviceDataLabel = new JLabel();
         deviceDataLabel.setHorizontalAlignment(11);
         deviceDataLabel.setText("Device Data");
-        panel3.add(deviceDataLabel, cc.xy(1, 5));
+        panel3.add(deviceDataLabel, cc.xy(1, 7));
+        flattenDeviceNodesCheckBox = new JCheckBox();
+        flattenDeviceNodesCheckBox.setText("Flatten Device Nodes");
+        panel3.add(flattenDeviceNodesCheckBox, cc.xyw(5, 5, 5));
         ButtonGroup buttonGroup;
         buttonGroup = new ButtonGroup();
         buttonGroup.add(descRadioButton);

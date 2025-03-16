@@ -5,13 +5,14 @@ import org.apache.iotdb.desktop.config.Options;
 import org.apache.iotdb.desktop.model.Device;
 import org.apache.iotdb.desktop.model.Session;
 import org.apache.iotdb.desktop.model.Sessionable;
+import org.apache.iotdb.desktop.model.Table;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
 
 public interface AppEventListener {
 
-    void optionsChanged(Options options);
+    void optionsChanged(Options options, Options oldOptions);
 
     void appendSqlLog(String sql, boolean isComment);
 
@@ -26,6 +27,8 @@ public interface AppEventListener {
     void newInfoTab(Sessionable sessionable);
 
     void newDeviceDataTab(Device device);
+
+    void newTableDataTab(Table table);
 
     void openDataExport(Session session);
 

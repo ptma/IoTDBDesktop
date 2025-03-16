@@ -36,18 +36,22 @@ public class SessionInfo extends TabPanel {
 
     public SessionInfo(Session session) {
         super();
+        this.session = session;
         $$$setupUI$$$();
         setLayout(new BorderLayout());
         add(rootPanel, BorderLayout.CENTER);
-        this.session = session;
         initComponents();
 
-        loadBasicInfo();
+        localization();
+
+        if (session.isTableDialect()) {
+            tabbedPanel.removeTabAt(0);
+        } else {
+            loadBasicInfo();
+        }
         loadStorageGroup();
         loadVariables();
         loadClusterNodes();
-
-        localization();
     }
 
     private void initComponents() {
@@ -158,17 +162,22 @@ public class SessionInfo extends TabPanel {
 
             @Override
             protected QueryResult doInBackground() throws Exception {
-                QueryResult result = session.query("show storage group", Configuration.instance().options().isLogInternalSql());
-                result.getColumns().add("DeviceCount");
-                result.getColumnTypes().add("INT32");
-                result.getDatas().forEach(row -> {
-                    try {
-                        int count = session.countOne("count devices " + row.get("Database") + ".**");
-                        row.put("DeviceCount", count);
-                    } catch (Exception e) {
-                        row.put("DeviceCount", 0);
-                    }
-                });
+                QueryResult result;
+                if (session.isTableDialect()) {
+                    result = session.query("show databases details", Configuration.instance().options().isLogInternalSql());
+                } else {
+                    result = session.query("show storage group", Configuration.instance().options().isLogInternalSql());
+                    result.getColumns().add("DeviceCount");
+                    result.getColumnTypes().add("INT32");
+                    result.getDatas().forEach(row -> {
+                        try {
+                            int count = session.countOne("count devices " + row.get("Database") + ".**");
+                            row.put("DeviceCount", count);
+                        } catch (Exception e) {
+                            row.put("DeviceCount", 0);
+                        }
+                    });
+                }
 
                 return result.columnNamesLocalization();
             }
@@ -216,7 +225,9 @@ public class SessionInfo extends TabPanel {
 
     @Override
     public void refresh() {
-        loadBasicInfo();
+        if (!session.isTableDialect()) {
+            loadBasicInfo();
+        }
         loadStorageGroup();
         loadVariables();
         loadClusterNodes();
@@ -275,15 +286,15 @@ public class SessionInfo extends TabPanel {
 
     private void createUIComponents() {
         variablesTableModel = new QueryResultTableModel();
-        variablesTable = new QueryResultTable(variablesTableModel);
+        variablesTable = new QueryResultTable(variablesTableModel, session.isTableDialect());
         variablesTable.setEditable(false);
 
         storageGroupTableModel = new QueryResultTableModel();
-        storageGroupTable = new QueryResultTable(storageGroupTableModel);
+        storageGroupTable = new QueryResultTable(storageGroupTableModel, session.isTableDialect());
         storageGroupTable.setEditable(false);
 
         clusterNodesTableModel = new QueryResultTableModel();
-        clusterNodesTable = new QueryResultTable(clusterNodesTableModel);
+        clusterNodesTable = new QueryResultTable(clusterNodesTableModel, session.isTableDialect());
         clusterNodesTable.setEditable(false);
     }
 }

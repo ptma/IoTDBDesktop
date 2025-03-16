@@ -55,13 +55,15 @@ public class SessionPropsEditorForm extends JDialog {
     private JLabel portLabel;
     private JSpinner fetchSizeField;
     private JLabel fetchSizeLabel;
+    private JLabel modelLabel;
+    private JComboBox modelField;
 
     private SessionProps editingProps;
     private final Consumer<SessionProps> consumer;
 
     public static void open(SessionProps editingProps, Consumer<SessionProps> consumer) {
         JDialog dialog = new SessionPropsEditorForm(IotdbDesktopApp.frame, editingProps, consumer);
-        dialog.setMinimumSize(new Dimension(400, 350));
+        dialog.setMinimumSize(new Dimension(400, 360));
         dialog.setResizable(false);
         dialog.pack();
         dialog.setLocationRelativeTo(IotdbDesktopApp.frame);
@@ -126,6 +128,7 @@ public class SessionPropsEditorForm extends JDialog {
         passwordField.setText(editingProps.getPassword());
         sslCheckBox.setSelected(editingProps.isUseSSL());
         fetchSizeField.setValue(editingProps.getFetchSize());
+        modelField.setSelectedItem(editingProps.getSqlDialect());
     }
 
     public void localization() {
@@ -136,6 +139,7 @@ public class SessionPropsEditorForm extends JDialog {
         passwordLabel.setText(LangUtil.getString("Password"));
         useSSL.setText(LangUtil.getString("UseSSL"));
         fetchSizeLabel.setText(LangUtil.getString("FetchSize"));
+        modelLabel.setText(LangUtil.getString("SQLModel"));
 
         LangUtil.buttonText(buttonTest, "TestConnection");
         LangUtil.buttonText(buttonOk, "&Ok");
@@ -159,6 +163,7 @@ public class SessionPropsEditorForm extends JDialog {
         props.setPassword(String.valueOf(passwordField.getPassword()));
         props.setUseSSL(sslCheckBox.isSelected());
         props.setFetchSize((Integer) fetchSizeField.getValue());
+        props.setSqlDialect(modelField.getSelectedItem().toString());
 
         return props;
     }
@@ -241,7 +246,7 @@ public class SessionPropsEditorForm extends JDialog {
         contentPanel = new JPanel();
         contentPanel.setLayout(new GridLayoutManager(2, 1, new Insets(10, 10, 10, 10), -1, -1));
         generalPanel = new JPanel();
-        generalPanel.setLayout(new FormLayout("fill:p:noGrow,left:4dlu:noGrow,fill:p:noGrow,left:4dlu:noGrow,fill:p:noGrow,left:4dlu:noGrow,fill:60px:grow(0.7)", "center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
+        generalPanel.setLayout(new FormLayout("fill:p:noGrow,left:4dlu:noGrow,fill:p:noGrow,left:4dlu:noGrow,fill:p:noGrow,fill:max(d;4px):noGrow,left:4dlu:noGrow,fill:60px:grow(0.7)", "center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow"));
         contentPanel.add(generalPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         generalPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         hostLabel = new JLabel();
@@ -250,13 +255,13 @@ public class SessionPropsEditorForm extends JDialog {
         CellConstraints cc = new CellConstraints();
         generalPanel.add(hostLabel, cc.xy(1, 3));
         hostField = new JTextField();
-        generalPanel.add(hostField, cc.xyw(3, 3, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
+        generalPanel.add(hostField, cc.xyw(3, 3, 6, CellConstraints.FILL, CellConstraints.DEFAULT));
         nameLabel = new JLabel();
         nameLabel.setHorizontalAlignment(11);
         nameLabel.setText("Name");
         generalPanel.add(nameLabel, cc.xy(1, 1));
         nameField = new JTextField();
-        generalPanel.add(nameField, cc.xyw(3, 1, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
+        generalPanel.add(nameField, cc.xyw(3, 1, 6, CellConstraints.FILL, CellConstraints.DEFAULT));
         usernameLabel = new JLabel();
         usernameLabel.setHorizontalAlignment(11);
         usernameLabel.setText("Username");
@@ -288,6 +293,15 @@ public class SessionPropsEditorForm extends JDialog {
         generalPanel.add(fetchSizeLabel, cc.xy(1, 13));
         fetchSizeField = new JSpinner();
         generalPanel.add(fetchSizeField, cc.xy(3, 13, CellConstraints.FILL, CellConstraints.DEFAULT));
+        modelLabel = new JLabel();
+        modelLabel.setText("Model");
+        generalPanel.add(modelLabel, cc.xy(1, 15));
+        modelField = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        defaultComboBoxModel1.addElement("Tree");
+        defaultComboBoxModel1.addElement("Table");
+        modelField.setModel(defaultComboBoxModel1);
+        generalPanel.add(modelField, cc.xy(3, 15));
         bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.add(bottomPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, null, null, 0, false));

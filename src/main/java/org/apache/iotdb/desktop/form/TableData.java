@@ -13,9 +13,9 @@ import org.apache.iotdb.desktop.event.AppEventListener;
 import org.apache.iotdb.desktop.event.AppEventListenerAdapter;
 import org.apache.iotdb.desktop.event.AppEvents;
 import org.apache.iotdb.desktop.event.DataEventListener;
-import org.apache.iotdb.desktop.model.Device;
 import org.apache.iotdb.desktop.model.QueryResult;
 import org.apache.iotdb.desktop.model.Session;
+import org.apache.iotdb.desktop.model.Table;
 import org.apache.iotdb.desktop.util.Icons;
 import org.apache.iotdb.desktop.util.LangUtil;
 import org.apache.iotdb.desktop.util.Utils;
@@ -29,7 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class DeviceData extends TabPanel {
+public class TableData extends TabPanel {
 
     private JPanel rootPanel;
     private JPanel topPanel;
@@ -42,10 +42,9 @@ public class DeviceData extends TabPanel {
     private QueryResultTableModel dataModel;
     private AppEventListener appEventListener;
 
-    private final Device device;
+    private final Table table;
 
     private final int defaultPageSize;
-    private final boolean defaultAligned;
 
     private long limit;
     private long offset = 0;
@@ -53,9 +52,9 @@ public class DeviceData extends TabPanel {
     private String sortColumn;
     private String sortOrder;
 
-    public DeviceData(Device device) {
+    public TableData(Table table) {
         super();
-        this.device = device;
+        this.table = table;
         $$$setupUI$$$();
         setLayout(new BorderLayout());
         add(rootPanel, BorderLayout.CENTER);
@@ -63,15 +62,14 @@ public class DeviceData extends TabPanel {
         initComponents();
 
         defaultPageSize = Configuration.instance().options().getEditorPageSize();
-        defaultAligned = Configuration.instance().options().isEditorAligned();
         limit = defaultPageSize;
-        sortColumn = "Time";
+        sortColumn = "time";
         sortOrder = Configuration.instance().options().getEditorSortOrder();
 
         Utils.UI.buttonText(nextPageButton, LangUtil.getString("NextPage"));
         Utils.UI.buttonText(showAllButton, LangUtil.getString("ShowAll"));
 
-        loadDeviceData(false);
+        loadTableData(false);
     }
 
     private void initComponents() {
@@ -83,7 +81,7 @@ public class DeviceData extends TabPanel {
         nextPageButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 offset += defaultPageSize;
-                loadDeviceData(false);
+                loadTableData(false);
             }
         });
 
@@ -92,7 +90,7 @@ public class DeviceData extends TabPanel {
             public void actionPerformed(ActionEvent e) {
                 offset = 0;
                 limit = 0;
-                loadDeviceData(true);
+                loadTableData(true);
             }
         });
 
@@ -113,7 +111,7 @@ public class DeviceData extends TabPanel {
                         }
                         offset = 0;
                         limit = defaultPageSize;
-                        loadDeviceData(true);
+                        loadTableData(true);
                     }
                 }
             }
@@ -122,12 +120,12 @@ public class DeviceData extends TabPanel {
         dataTable.addDataEventListener(new DataEventListener() {
             @Override
             public void dataRemove(long[] timestamps) {
-                removeDeviceDatas(timestamps);
+                removeTableDatas(timestamps);
             }
 
             @Override
             public void dataUpdate(long timestamp, String column, TSDataType dataType, Object value) {
-                updateDeviceData(timestamp, column, dataType, value);
+
             }
         });
 
@@ -154,7 +152,7 @@ public class DeviceData extends TabPanel {
         }
     }
 
-    private void loadDeviceData(final boolean clearPreviousResult) {
+    private void loadTableData(final boolean clearPreviousResult) {
         SwingWorker<QueryResult, Integer> worker = new SwingWorker<>() {
             @Override
             protected void done() {
@@ -178,77 +176,31 @@ public class DeviceData extends TabPanel {
             protected QueryResult doInBackground() throws Exception {
                 pagingLabel.setText(LangUtil.getString("Loading"));
 
-                total = device.getSession().countRows(device, true);
+                total = table.getSession().countRows(table);
 
                 StringBuilder sql = new StringBuilder();
                 sql.append("select * from ")
-                    .append(device.getDatabase())
+                    .append(table.getDatabase())
                     .append(".")
-                    .append(device.getName());
+                    .append(table.getName());
 
-                if (sortOrder != null) {
-                    sql.append(" order by ").append(sortColumn).append(" ").append(sortOrder);
-                }
-                if (limit > 0) {
-                    sql.append(" limit ").append(defaultPageSize)
-                        .append(" offset ").append(offset);
-                }
-                if (defaultAligned) {
-                    sql.append(" align by device");
+                if (!"information_schema".equalsIgnoreCase(table.getDatabase())) {
+                    if (sortOrder != null) {
+                        sql.append(" order by ").append(sortColumn).append(" ").append(sortOrder);
+                    }
+                    if (limit > 0) {
+                        sql.append(" limit ").append(defaultPageSize)
+                            .append(" offset ").append(offset);
+                    }
                 }
 
-                return device.getSession().query(sql.toString(), true);
+                return table.getSession().query(sql.toString(), true);
             }
         };
         worker.execute();
     }
 
-    public void updateDeviceData(long timestamp, String column, TSDataType dataType, Object value) {
-        SwingWorker<Exception, Integer> worker = new SwingWorker<>() {
-            @Override
-            protected void done() {
-                try {
-                    Exception exception = get();
-                    if (exception != null) {
-                        Utils.Message.error(exception.getMessage(), exception);
-                    }
-                } catch (Exception ex) {
-                    Utils.Message.error(ex.getMessage(), ex);
-                }
-            }
-
-            @Override
-            protected Exception doInBackground() {
-                try {
-                    StringBuilder insertSql = new StringBuilder();
-                    String devicePath = device.getDatabase() + "." + device.getName();
-                    String metricName = StrUtil.startWith(column, devicePath + ".") ? StrUtil.removePrefix(column, devicePath + ".") : column;
-                    insertSql.append("insert into ")
-                        .append(devicePath)
-                        .append("(timestamp, ")
-                        .append(metricName)
-                        .append(") values(")
-                        .append(timestamp)
-                        .append(", ");
-                    if (value == null) {
-                        insertSql.append("null");
-                    } else if (TSDataType.TEXT.equals(dataType) || TSDataType.STRING.equals(dataType)) {
-                        insertSql.append("'").append(value.toString().replaceAll("'", "''")).append("'");
-                    } else {
-                        insertSql.append(value);
-                    }
-                    insertSql.append(")");
-                    device.getSession().execute(insertSql.toString());
-                    return null;
-                } catch (Exception e) {
-                    return e;
-                }
-            }
-        };
-        worker.execute();
-    }
-
-    private void removeDeviceDatas(long[] timestamps) {
+    private void removeTableDatas(long[] timestamps) {
         SwingWorker<Exception, Integer> worker = new SwingWorker<>() {
             @Override
             protected void done() {
@@ -269,12 +221,12 @@ public class DeviceData extends TabPanel {
                     for (long timestamp : timestamps) {
                         StringBuilder deleteSql = new StringBuilder();
                         deleteSql.append("delete from ")
-                            .append(device.getDatabase())
+                            .append(table.getDatabase())
                             .append(".")
-                            .append(device.getName())
-                            .append(".* where time = ")
+                            .append(table.getName())
+                            .append(" where time = ")
                             .append(timestamp);
-                        device.getSession().execute(deleteSql.toString());
+                        table.getSession().execute(deleteSql.toString());
                         total--;
                         offset--;
                     }
@@ -289,12 +241,12 @@ public class DeviceData extends TabPanel {
 
     @Override
     public Session getSession() {
-        return device.getSession();
+        return table.getSession();
     }
 
     @Override
     public String getTabbedKey() {
-        return String.format("%s-%s", device.getKey(), "data");
+        return String.format("%s-%s", table.getKey(), "data");
     }
 
     @Override
@@ -305,7 +257,7 @@ public class DeviceData extends TabPanel {
     @Override
     public void refresh() {
         offset = 0;
-        loadDeviceData(true);
+        loadTableData(true);
     }
 
     @Override
@@ -316,8 +268,8 @@ public class DeviceData extends TabPanel {
     }
 
     private void createUIComponents() {
-        dataModel = new QueryResultTableModel(true);
-        dataTable = new QueryResultTable(dataModel, device.isTableDialect());
+        dataModel = new QueryResultTableModel(false);
+        dataTable = new QueryResultTable(dataModel, table.isTableDialect());
     }
 
     /**

@@ -71,7 +71,11 @@ public class QueryResultTableModel extends AbstractTableModel {
 
     public long getTimestamp(int row) {
         if (result != null && row < result.getDatas().size()) {
-            return (long) result.getDatas().get(row).getOrDefault("Time", -1L);
+            if (table.isTableDialect()) {
+                return (long) result.getDatas().get(row).getOrDefault("time", -1L);
+            } else {
+                return (long) result.getDatas().get(row).getOrDefault("Time", -1L);
+            }
         } else {
             return -1L;
         }
@@ -230,7 +234,7 @@ public class QueryResultTableModel extends AbstractTableModel {
     public boolean isCellEditable(int row, int column) {
         if (column != 0 && result != null && !result.hasException()) {
             String colName = result.getColumns().get(column - 1);
-            return !colName.equalsIgnoreCase("Time");
+            return !colName.equalsIgnoreCase("Time") && !colName.equalsIgnoreCase("Device");
         } else {
             return false;
         }

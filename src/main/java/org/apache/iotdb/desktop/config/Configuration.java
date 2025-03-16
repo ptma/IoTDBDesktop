@@ -37,28 +37,36 @@ public final class Configuration implements Serializable {
     }
 
     public Options options() {
-        if (options == null) {
-            options = new Options();
-            options.setTheme(getString(ConfKeys.THEME, Themes.LIGHT.name()));
-            options.setLanguage(getString(ConfKeys.LANGUAGE, LangUtil.getBundle().getLocale().getLanguage()));
-            options.setFontName(getString(ConfKeys.FONT_NAME, Const.EDITOR_FONT_NAME));
-            options.setFontSize(getInt(ConfKeys.FONT_SIZE, Const.EDITOR_FONT_SIZE));
-            options.setAutoCompletion(getBoolean(ConfKeys.AUTO_COMPLETION, true));
-            options.setAutoCompletionDelay(getInt(ConfKeys.AUTO_COMPLETION_DELAY, 200));
-            options.setAutoLoadDeviceNodes(getBoolean(ConfKeys.AUTO_LOAD_DEVICE_NODES, false));
-            options.setLogInternalSql(getBoolean(ConfKeys.LOG_INTERNAL_SQL, false));
-            options.setLogTimestamp(getBoolean(ConfKeys.LOG_TIMESTAMP, false));
-            options.setTimeFormat(getString(ConfKeys.TIME_FORMAT, "yyyy-MM-dd HH:mm:ss.SSS"));
-            
-            options.setDblclickOpenEditor(getBoolean(ConfKeys.DBLCLICK_OPEN_EDITOR, false));
-            options.setEditorSortOrder(getString(ConfKeys.EDITOR_SORT_ORDER, "desc"));
-            options.setEditorPageSize(getInt(ConfKeys.EDITOR_PAGE_SIZE, 500));
-            options.setEditorAligned(getBoolean(ConfKeys.EDITOR_ALIGNED, true));
+        if (this.options == null) {
+            this.options = loadOptions();
         }
         return this.options;
     }
 
+    private Options loadOptions() {
+        Options options = new Options();
+        options.setTheme(getString(ConfKeys.THEME, Themes.LIGHT.name()));
+        options.setLanguage(getString(ConfKeys.LANGUAGE, LangUtil.getBundle().getLocale().getLanguage()));
+        options.setFontName(getString(ConfKeys.FONT_NAME, Const.EDITOR_FONT_NAME));
+        options.setFontSize(getInt(ConfKeys.FONT_SIZE, Const.EDITOR_FONT_SIZE));
+        options.setAutoCompletion(getBoolean(ConfKeys.AUTO_COMPLETION, true));
+        options.setAutoCompletionDelay(getInt(ConfKeys.AUTO_COMPLETION_DELAY, 200));
+        options.setAutoLoadDeviceNodes(getBoolean(ConfKeys.AUTO_LOAD_DEVICE_NODES, false));
+        options.setLogInternalSql(getBoolean(ConfKeys.LOG_INTERNAL_SQL, false));
+        options.setLogTimestamp(getBoolean(ConfKeys.LOG_TIMESTAMP, false));
+        options.setTimeFormat(getString(ConfKeys.TIME_FORMAT, "yyyy-MM-dd HH:mm:ss.SSS"));
+
+        options.setDblclickOpenEditor(getBoolean(ConfKeys.DBLCLICK_OPEN_EDITOR, false));
+        options.setFlattenDeviceNodes(getBoolean(ConfKeys.FLATTEN_DEVICE_NODES, true));
+        options.setEditorSortOrder(getString(ConfKeys.EDITOR_SORT_ORDER, "desc"));
+        options.setEditorPageSize(getInt(ConfKeys.EDITOR_PAGE_SIZE, 500));
+        options.setEditorAligned(getBoolean(ConfKeys.EDITOR_ALIGNED, true));
+        return options;
+    }
+
     public void saveOptions() {
+        Options oldOptions = loadOptions();
+
         Configuration.instance().setString(ConfKeys.LANGUAGE, options().getLanguage());
         Configuration.instance().setString(ConfKeys.THEME, options().getTheme());
         Configuration.instance().setString(ConfKeys.FONT_NAME, options().getFontName());
@@ -71,11 +79,12 @@ public final class Configuration implements Serializable {
         Configuration.instance().setString(ConfKeys.TIME_FORMAT, options().getTimeFormat());
 
         Configuration.instance().setBoolean(ConfKeys.DBLCLICK_OPEN_EDITOR, options.isDblclickOpenEditor());
+        Configuration.instance().setBoolean(ConfKeys.FLATTEN_DEVICE_NODES, options.isFlattenDeviceNodes());
         Configuration.instance().setString(ConfKeys.EDITOR_SORT_ORDER, options.getEditorSortOrder());
         Configuration.instance().setInt(ConfKeys.EDITOR_PAGE_SIZE, options.getEditorPageSize());
         Configuration.instance().setBoolean(ConfKeys.EDITOR_ALIGNED, options.isEditorAligned());
-        
-        AppEvents.instance().applyEvent(l -> l.optionsChanged(options()));
+
+        AppEvents.instance().applyEvent(l -> l.optionsChanged(options(), oldOptions));
     }
 
     public void saveSession(SessionProps props) {
@@ -110,6 +119,7 @@ public final class Configuration implements Serializable {
         }
         nodePref.putInt("maxRetryCount", props.getMaxRetryCount());
         nodePref.putLong("retryIntervalInMs", props.getRetryIntervalInMs());
+        nodePref.put("sqlDialect", props.getSqlDialect());
     }
 
     public List<SessionProps> loadSessionProps() {
@@ -151,6 +161,7 @@ public final class Configuration implements Serializable {
                 }
                 props.setMaxRetryCount(nodePref.getInt("maxRetryCount", SessionConfig.MAX_RETRY_COUNT));
                 props.setRetryIntervalInMs(nodePref.getLong("retryIntervalInMs", SessionConfig.RETRY_INTERVAL_IN_MS));
+                props.setSqlDialect(nodePref.get("sqlDialect", "tree"));
                 sessions.add(props);
             }
         } catch (Exception e) {

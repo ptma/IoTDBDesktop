@@ -234,6 +234,8 @@
                 <rowspec value="top:4dlu:noGrow"/>
                 <rowspec value="center:max(d;4px):noGrow"/>
                 <rowspec value="top:4dlu:noGrow"/>
+                <rowspec value="center:max(d;4px):noGrow"/>
+                <rowspec value="top:4dlu:noGrow"/>
                 <rowspec value="center:d:noGrow"/>
                 <colspec value="fill:max(p;60dlu):noGrow"/>
                 <colspec value="left:4dlu:noGrow"/>
@@ -254,7 +256,7 @@
                 <children>
                   <component id="2ee25" class="javax.swing.JLabel" binding="timeFormatLabel">
                     <constraints>
-                      <grid row="14" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="16" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -264,7 +266,7 @@
                   </component>
                   <component id="ae01" class="javax.swing.JComboBox" binding="timeFormatField">
                     <constraints>
-                      <grid row="14" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="16" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -306,7 +308,7 @@
                   </component>
                   <component id="9db03" class="javax.swing.JLabel" binding="sqlLogLabel">
                     <constraints>
-                      <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -316,7 +318,7 @@
                   </component>
                   <component id="18ac7" class="javax.swing.JCheckBox" binding="logInternalSQLCheckBox">
                     <constraints>
-                      <grid row="10" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="12" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -325,7 +327,7 @@
                   </component>
                   <component id="aa931" class="javax.swing.JCheckBox" binding="addTimestampToLogsCheckBox">
                     <constraints>
-                      <grid row="12" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="14" column="2" row-span="1" col-span="7" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -343,7 +345,7 @@
                   </component>
                   <component id="d04be" class="javax.swing.JRadioButton" binding="ascRadioButton" default-binding="true">
                     <constraints>
-                      <grid row="6" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="8" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -352,7 +354,7 @@
                   </component>
                   <component id="f4172" class="javax.swing.JRadioButton" binding="descRadioButton" default-binding="true">
                     <constraints>
-                      <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -361,14 +363,14 @@
                   </component>
                   <component id="a8dd3" class="javax.swing.JSpinner" binding="pageSizeField">
                     <constraints>
-                      <grid row="8" column="6" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="10" column="6" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <forms defaultalign-horz="false"/>
                     </constraints>
                     <properties/>
                   </component>
                   <component id="c18da" class="javax.swing.JLabel" binding="rowsPerPageLabel">
                     <constraints>
-                      <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="10" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -377,7 +379,7 @@
                   </component>
                   <component id="eb907" class="javax.swing.JLabel" binding="orderByTimeLabel">
                     <constraints>
-                      <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -386,7 +388,7 @@
                   </component>
                   <component id="ee369" class="javax.swing.JCheckBox" binding="alwaysAlignByDeviceCheckBox" default-binding="true">
                     <constraints>
-                      <grid row="4" column="4" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="6" column="4" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
@@ -395,12 +397,21 @@
                   </component>
                   <component id="b93ae" class="javax.swing.JLabel" binding="deviceDataLabel">
                     <constraints>
-                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <forms/>
                     </constraints>
                     <properties>
                       <horizontalAlignment value="11"/>
                       <text value="Device Data"/>
+                    </properties>
+                  </component>
+                  <component id="415bd" class="javax.swing.JCheckBox" binding="flattenDeviceNodesCheckBox">
+                    <constraints>
+                      <grid row="4" column="4" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <forms/>
+                    </constraints>
+                    <properties>
+                      <text value="Flatten Device Nodes"/>
                     </properties>
                   </component>
                 </children>

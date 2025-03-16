@@ -2,6 +2,7 @@ package org.apache.iotdb.desktop.component;
 
 import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.Getter;
 import org.apache.iotdb.desktop.config.Configuration;
 import org.apache.iotdb.desktop.config.Options;
 import org.apache.iotdb.desktop.event.AppEventListener;
@@ -27,6 +28,8 @@ import java.util.*;
 public class QueryResultTable extends JXTable {
 
     private final QueryResultTableModel tableModel;
+    @Getter
+    private final boolean tableDialect;
     private final List<DataEventListener> dataEventListeners = new ArrayList<>();
     private AppEventListener appEventListener;
 
@@ -42,9 +45,10 @@ public class QueryResultTable extends JXTable {
 
     private JMenuItem exportRows;
 
-    public QueryResultTable(QueryResultTableModel tableModel) {
+    public QueryResultTable(QueryResultTableModel tableModel, boolean tableDialect) {
         super(tableModel);
         this.tableModel = tableModel;
+        this.tableDialect = tableDialect;
         tableModel.setTable(this);
         DefaultTableRenderer cellRenderer = new DefaultTableRenderer(new QueryResultRendererProvider(tableModel));
         this.setDefaultRenderer(Object.class, cellRenderer);
@@ -65,7 +69,9 @@ public class QueryResultTable extends JXTable {
         this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.setIntercellSpacing(new Dimension(1, 1));
         this.setDefaultEditor(String.class, new DetailedTextCellEditor(new JTextField()));
-        this.setDefaultEditor(Boolean.class, new DefaultCellEditor(new JCheckBox()));
+        JCheckBox editorCheckbox = new JCheckBox();
+        editorCheckbox.setHorizontalAlignment(JLabel.CENTER);
+        this.setDefaultEditor(Boolean.class, new DefaultCellEditor(editorCheckbox));
         this.setSortOrderCycle(SortOrder.DESCENDING, SortOrder.ASCENDING, SortOrder.UNSORTED);
         this.setColumnModel(new QueryResultColumnModel(this));
         tableModel.addTableModelListener(e -> {
@@ -154,8 +160,10 @@ public class QueryResultTable extends JXTable {
 
         appEventListener = new AppEventListenerAdapter() {
             @Override
-            public void optionsChanged(Options options) {
-                SwingUtilities.updateComponentTreeUI(popupMenu);
+            public void optionsChanged(Options options, Options oldOptions) {
+                if (!options.getTheme().equals(oldOptions.getTheme())) {
+                    SwingUtilities.updateComponentTreeUI(popupMenu);
+                }
             }
         };
         AppEvents.instance().addEventListener(appEventListener);
