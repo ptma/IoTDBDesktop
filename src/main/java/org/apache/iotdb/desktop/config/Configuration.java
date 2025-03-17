@@ -46,7 +46,7 @@ public final class Configuration implements Serializable {
     private Options loadOptions() {
         Options options = new Options();
         options.setTheme(getString(ConfKeys.THEME, Themes.LIGHT.name()));
-        options.setLanguage(getString(ConfKeys.LANGUAGE, LangUtil.getBundle().getLocale().getLanguage()));
+        options.setLanguage(getString(ConfKeys.LANGUAGE, LangUtil.getBundle().getLocale().toLanguageTag()));
         options.setFontName(getString(ConfKeys.FONT_NAME, Const.EDITOR_FONT_NAME));
         options.setFontSize(getInt(ConfKeys.FONT_SIZE, Const.EDITOR_FONT_SIZE));
         options.setAutoCompletion(getBoolean(ConfKeys.AUTO_COMPLETION, true));
