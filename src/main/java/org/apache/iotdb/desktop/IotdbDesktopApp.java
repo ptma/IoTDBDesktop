@@ -5,6 +5,7 @@ import com.formdev.flatlaf.extras.FlatInspector;
 import com.formdev.flatlaf.extras.FlatUIDefaultsInspector;
 import com.formdev.flatlaf.fonts.jetbrains_mono.FlatJetBrainsMonoFont;
 import com.formdev.flatlaf.util.SystemInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.iotdb.desktop.frame.MainFrame;
 import org.apache.iotdb.desktop.util.Const;
 import org.apache.iotdb.desktop.util.LangUtil;
@@ -17,6 +18,7 @@ import javax.swing.*;
 /**
  * @author ptma
  */
+@Slf4j
 public class IotdbDesktopApp {
 
     public static MainFrame frame;
@@ -64,6 +66,7 @@ public class IotdbDesktopApp {
             });
         } catch (Exception e) {
             Utils.Message.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 
