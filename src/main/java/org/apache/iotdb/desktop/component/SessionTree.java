@@ -211,7 +211,7 @@ public class SessionTree extends JXTree {
     }
 
     private void selectNodeChanged(DefaultMutableTreeNode node) {
-        if (node != null && node.getUserObject() instanceof Databaseable databaseable) {
+        if (node != null && node.getUserObject() instanceof Databaseable databaseable && databaseable.isTableDialect()) {
             databaseable.changeDatabase(databaseable.getDatabase());
         }
     }
